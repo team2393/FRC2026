@@ -26,3 +26,7 @@ Timeline
  * March 18 - 21: Smoky Mountains Regional
    - Sevierville Convention Center, 202 Gists Creek Rd, Sevierville
    - https://www.firstinspires.org/team-event-search/event?id=76272
+  
+ * April 8 - 11: Rocket City Regional
+   - Von Braun Center, 700 Monroe Street SW, Huntsville, AL USA
+   - https://frc-events.firstinspires.org/2026/alhu
