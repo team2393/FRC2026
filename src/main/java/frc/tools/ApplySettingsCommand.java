@@ -12,8 +12,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 /** Command that applies a bunch of settings */
 public class ApplySettingsCommand extends Command
 {
-  private final List<String> settings = new ArrayList<>();
-  private final List<Double> values = new ArrayList<>();
+  // Record that holds name and value of a setting
+  record Setting(String name, double value)
+  {
+    public void apply()
+    { // Write the value to SmartDashboard
+      SmartDashboard.putNumber(name, value);
+    }
+  }
+
+  private final List<Setting> settings = new ArrayList<>();
 
   /** @param name Name of the command */
   public ApplySettingsCommand(final String name)
@@ -26,27 +34,26 @@ public class ApplySettingsCommand extends Command
    *  @param value Value to write to that setting
    */
   public void add(final String name, final double value)
-  {
-    settings.add(name);
-    values.add(value);
+  { // Add a setting to the list
+    settings.add(new Setting(name, value));
   }
 
   @Override
   public boolean runsWhenDisabled()
-  {
+  { // Allow this command to run when disabled
     return true;
   }
 
   @Override
   public void initialize()
-  {
-    for (int i=0; i<settings.size(); ++i)
-      SmartDashboard.putNumber(settings.get(i), values.get(i));
+  { // Apply all the settings
+    for (Setting setting : settings)
+      setting.apply();
   }
 
   @Override
   public boolean isFinished()
-  {
+  { // This command is immediately finished
     return true;
   }
 }
