@@ -15,6 +15,18 @@ Software manual: https://docs.wpilib.org/en/latest/
  * See "Basic Programming", "Git Version Control" for installing `git`
 
 
+Get robot code
+--------------
+ * Start "WPILib VS Code". Invoke "View", "Command Palette...", "Git clone".
+   Enter the URL `https://github.com/team2393/FRC2026.git`.
+   For a target location, create a folder "git" in your home directory
+   and place the git clone there. Select "Open" when then asked to open
+   what you just fetched from git.
+ * "View", "Command Palette", "WPILib: Simulate Robot Code"
+
+![servebot](swervebot.jpg)
+
+
 
 Timeline
 --------
