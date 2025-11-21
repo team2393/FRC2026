@@ -15,6 +15,7 @@ Software manual: https://docs.wpilib.org/en/latest/
  * See "Basic Programming", "Git Version Control" for installing `git`
 
 2026 beta:
+ * https://github.com/wpilibsuite/2026Beta
  * https://github.com/wpilibsuite/allwpilib/releases
  * https://github.com/CrossTheRoadElec/Phoenix-Releases/releases
 
