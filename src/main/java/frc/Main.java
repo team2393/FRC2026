@@ -13,7 +13,8 @@ public final class Main
   {
     // System.out.println("Hello, robot!");
     // RobotBase.startRobot(frc.robot.Robot::new);
-    RobotBase.startRobot(frc.led.LEDRingDemoRobot::new);
+    // RobotBase.startRobot(frc.led.LEDRingDemoRobot::new);
     // RobotBase.startRobot(frc.demo.MotorSparkMiniDemoRobot::new);
+    RobotBase.startRobot(frc.swervebot.SwerveBot::new);
   }
 }
