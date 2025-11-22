@@ -381,14 +381,14 @@ abstract public class SwerveDrivetrain extends SubsystemBase
                                                                     desiredRotation, module_setter);
     if (require_drivetrain)
       follower.addRequirements(this);
-    Command print_last_states = new InstantCommand(() ->
-    {
-      System.out.println("Last swerve states vs. actual heading:");
-      for (int i=0; i<last_states.get().size(); ++i)
-        System.out.println(last_states.get().get(i) + " vs. " + modules[i].getAngle().getDegrees());
-      var pose = getPose();
-      System.out.println("Position: X=" + pose.getX() + ", Y=" + pose.getY());
-    });
+    // Command print_last_states = new InstantCommand(() ->
+    // {
+    //   System.out.println("Last swerve states vs. actual heading:");
+    //   for (int i=0; i<last_states.get().size(); ++i)
+    //     System.out.println(last_states.get().get(i) + " vs. " + modules[i].getAngle().getDegrees());
+    //   var pose = getPose();
+    //   System.out.println("Position: X=" + pose.getX() + ", Y=" + pose.getY());
+    // });
     Command do_stop = new InstantCommand(this::stop);
     return follower.andThen(do_stop);
                   //  .andThen(print_last_states);
