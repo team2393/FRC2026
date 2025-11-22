@@ -5,7 +5,7 @@ package frc.led;
 
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -64,10 +64,11 @@ public class LEDRingDemoRobot extends CommandRobotBase
     //   .andThen(new SetToRGB(ring, 0, 255, 0))
     //   .andThen(Commands.waitSeconds(0.5));
 
-    // Keep doing those patterns, one after the other    
-    new RepeatCommand(new SequentialCommandGroup(roll, roll2, blink)).schedule();
+    // Keep doing those patterns, one after the other
+    CommandScheduler.getInstance()
+                    .schedule(new RepeatCommand(new SequentialCommandGroup(roll, roll2, blink)));
     // .. or ...
-    // roll.andThen(roll2).andThen(blink).repeatedly().schedule();
+    // roll.andThen(roll2).andThen(blink).repeatedly()
   }
 
   @Override
@@ -76,8 +77,9 @@ public class LEDRingDemoRobot extends CommandRobotBase
     Command fill = new Fill(ring);
     Command rainbow = new Rainbow(ring);
 
-    fill.withTimeout(3.0)
-        .andThen(rainbow.withTimeout(5.0))
-        .repeatedly().schedule();
+    CommandScheduler.getInstance()
+                    .schedule(fill.withTimeout(3.0)
+                                  .andThen(rainbow.withTimeout(5.0))
+                                  .repeatedly());
   }
 }

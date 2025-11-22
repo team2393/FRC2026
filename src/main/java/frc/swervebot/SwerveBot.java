@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
@@ -39,7 +40,7 @@ public class SwerveBot extends CommandRobotBase
   private final Command relswerve = new RelativeSwerveCommand(drivetrain);
   private final Command absswerve = new AbsoluteSwerveCommand(drivetrain);
   // private final Command center_on_tag = new CenterOnAprilTag(drivetrain);
-  
+
   private final LEDRing ring = new LEDRing();
 
   private final DemoMechanism mechanism = new DemoMechanism();
@@ -67,7 +68,7 @@ public class SwerveBot extends CommandRobotBase
         new WaitCommand(5)
       )
     );
-  
+
   private final SendableChooser<Command> autos = new SendableChooser<>();
 
   public SwerveBot()
@@ -92,19 +93,19 @@ public class SwerveBot extends CommandRobotBase
           new ColorPair(ring, Color.kDarkGreen, Color.kDarkGoldenrod).withTimeout(5),
           new Rainbow(ring).withTimeout(5)
         )));
-          
+
     autos.setDefaultOption("Nothing", new PrintCommand("Do nothing"));
 
     for (Command auto : AutoNoMouse.createAutoCommands(drivetrain))
       autos.addOption(auto.getName(), auto);
     SmartDashboard.putData(autos);
   }
-  
+
   @Override
   public void disabledPeriodic()
   {
     AutoTools.indicateStart(drivetrain, autos.getSelected());
-  }  
+  }
 
   @Override
   public void teleopInit()
@@ -116,12 +117,12 @@ public class SwerveBot extends CommandRobotBase
     SwerveOI.resetDrivetrain().onTrue(new ResetHeadingCommand(drivetrain));
     // SwerveOI.joystick.a().whileTrue(center_on_tag);
 
-    mechanism_demo.schedule();
+    CommandScheduler.getInstance().schedule(mechanism_demo);
   }
 
   @Override
   public void autonomousInit()
   {
-    autos.getSelected().schedule();
+    CommandScheduler.getInstance().schedule(autos.getSelected());
   }
 }
