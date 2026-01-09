@@ -10,11 +10,6 @@ Software manual: https://docs.wpilib.org/en/latest/
  * See "Step 2: Installing Software", "WPILib Installation Guide".
  * See "Basic Programming", "Git Version Control" for installing `git`
 
-2026 beta:
- * https://github.com/wpilibsuite/2026Beta
- * https://github.com/wpilibsuite/allwpilib/releases
- * https://github.com/CrossTheRoadElec/Phoenix-Releases/releases
-
 Game manual: https://www.firstinspires.org/resource-library/frc/competition-manual-qa-system
 
 Get robot code
@@ -24,7 +19,9 @@ Get robot code
    For a target location, create a folder "git" in your home directory
    and place the git clone there. Select "Open" when then asked to open
    what you just fetched from git.
- * "View", "Command Palette", "WPILib: Simulate Robot Code"
+ * "View", "Command Palette", "WPILib: Simulate Robot Code".
+   After a short while, a "Pick extension to run" prompt will appear.
+   Select "Sim GUI", press "OK".
 
 ![servebot](swervebot.jpg)
 
