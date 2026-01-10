@@ -32,6 +32,15 @@ Timeline
    - Hardin Valley Academy,11345 Hardin Valley Rd., Knoxville
    - https://www.firstinspires.org/event-detail?eventId=76547
 
+ * Setup roboRIO with current firmware
+ * Setup laptop with current tools
+ * Program drivetrain
+ * Find camera (limelight? Pi?)
+ * Use camera to rotate on target and estimate distance (2D)
+ * Calibrate camera, use to locate robot on field,
+   then rotate onto nearest target using that information
+ * Gamepiece handling
+
  * March 18 - 21: Smoky Mountains Regional
    - Sevierville Convention Center, 202 Gists Creek Rd, Sevierville
    - https://www.firstinspires.org/event-detail?eventId=76272
@@ -40,3 +49,31 @@ Timeline
    - Von Braun Center, 700 Monroe Street SW, Huntsville, AL USA
    - https://www.firstinspires.org/event-detail?eventId=76307
    - https://frc-events.firstinspires.org/2026/alhu
+
+
+Camera (Photon Vision, Pi)
+--------------------------
+
+See https://docs.photonvision.org/en/latest/docs/quick-start/index.html
+
+ * Get `photonvision-...-linuxarm64_RaspberryPi.img.xz`
+   from https://github.com/PhotonVision/photonvision/releases
+ * Use etcher or raspberry tool to write memory card
+ * Connect Pi to robot network
+ * Access from laptop as http://photonvision.local:5800
+ * Under "Settings", set Team Number to 2393
+ * Change IP Assignment Mode from DHCP to Static, set address to `10.23.93.12`.
+   (Static `10.TE.AM.6-19` are general purpose.
+    `10.TE.AM.11` is also often used for camera, leave that for Limelight)
+ * Leave "Hostname" as `photonvision`
+ * Press SAVE, restart Pi
+
+From now on, access photonvision via http://10.23.93.12:5800
+
+ * Setup a camera for first test:
+   * "activate" detected USB camera
+   * Select "Driver mode"
+   * Find settings that "work"  (disable auto-exposure, select )
+
+ * Create "Tag"pipeline for April Tags.
+   Should recognize tags in 2D

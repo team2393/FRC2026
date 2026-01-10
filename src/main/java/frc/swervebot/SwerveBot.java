@@ -39,7 +39,8 @@ public class SwerveBot extends CommandRobotBase
   private final SwervebotDrivetrain drivetrain = new SwervebotDrivetrain();
   private final Command relswerve = new RelativeSwerveCommand(drivetrain);
   private final Command absswerve = new AbsoluteSwerveCommand(drivetrain);
-  // private final Command center_on_tag = new CenterOnAprilTag(drivetrain);
+
+  private final Camera2D camera = new Camera2D();
 
   private final LEDRing ring = new LEDRing();
 
@@ -99,6 +100,8 @@ public class SwerveBot extends CommandRobotBase
     for (Command auto : AutoNoMouse.createAutoCommands(drivetrain))
       autos.addOption(auto.getName(), auto);
     SmartDashboard.putData(autos);
+
+    SwerveOI.joystick.y().whileTrue(new RotateToTarget(camera, drivetrain));
   }
 
   @Override
