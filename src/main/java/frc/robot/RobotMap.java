@@ -7,5 +7,9 @@ package frc.robot;
 public class RobotMap
 {
     // Falcon CAN IDs
+    public static final int STOREAGE_MOVER = 19;
     public static final int SPINNER = 20;
+
+    // DIO channels
+    public static final int STORAGE_SENSOR = 5;
 }
