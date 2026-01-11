@@ -3,12 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
-import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -28,7 +23,7 @@ public class Spinner extends SubsystemBase
     /** Which RPM error do we consider 'close enough' to the setpoint? */
     private static final double ACCEPTED_RPM_ERROR = 10;
 
-    private final TalonFX motor = new TalonFX(RobotMap.SPINNER);
+    private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.SPINNER, false, false, 0.3);
 
     /** How much voltage do we need for desired RPM? */
     private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0, 0);
@@ -56,13 +51,6 @@ public class Spinner extends SubsystemBase
 
     public Spinner()
     {
-        TalonFXConfiguration config = new TalonFXConfiguration()
-            .withMotorOutput(new MotorOutputConfigs().withInverted(InvertedValue.Clockwise_Positive)
-                                                        .withNeutralMode(NeutralModeValue.Coast))
-            .withOpenLoopRamps(new OpenLoopRampsConfigs().withVoltageOpenLoopRampPeriod(0.3));
-        motor.getConfigurator().apply(config);
-        motor.clearStickyFaults();
-
         // PID can simply be placed on dashboard
         SmartDashboard.putData("SpinnerPID", pid);
         // For FF, we need to publish and read desired parameters
