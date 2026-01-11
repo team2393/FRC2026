@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -13,6 +12,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,22 +20,45 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /** Spinner that ejects "fuel" balls */
 public class Spinner extends SubsystemBase
 {
+    /** How much does the spinner rotate for one motor turn?
+     *  To calibrate, start with 1.0
+     */
     private static final double SPINNER_ROTATIONS_PER_MOTOR_TURN = 1.0;
+
+    /** Which RPM error do we consider 'close enough' to the setpoint? */
+    private static final double ACCEPTED_RPM_ERROR = 10;
 
     private final TalonFX motor = new TalonFX(RobotMap.SPINNER);
 
+    /** How much voltage do we need for desired RPM? */
     private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0, 0);
+
+    /** React to disturbances */
     private final PIDController pid = new PIDController(0, 0, 0);
 
+    /** Feed-forward kv */
     private NetworkTableEntry nt_kv = SmartDashboard.getEntry("SpinnerKV");
+
+    /** Current spinner speed */
     private NetworkTableEntry nt_rpm = SmartDashboard.getEntry("SpinnerRPM");
+
+    /** Desired spinner speed */
     private NetworkTableEntry nt_setpoint = SmartDashboard.getEntry("SpinnerSetpoint");
+
+    /** Is speed close enough to desired speed? */
+    private NetworkTableEntry nt_at_setpoint = SmartDashboard.getEntry("SpinnerAtSetpoint");
+
+    /** De-bounce "at setpoint" */
+    private final Debouncer debouncer = new Debouncer(0.5);
+
+    /** Is speed close enough to desired speed? */
+    private boolean is_at_setpoint;
 
     public Spinner()
     {
         TalonFXConfiguration config = new TalonFXConfiguration()
             .withMotorOutput(new MotorOutputConfigs().withInverted(InvertedValue.Clockwise_Positive)
-                                                     .withNeutralMode(NeutralModeValue.Coast))
+                                                        .withNeutralMode(NeutralModeValue.Coast))
             .withOpenLoopRamps(new OpenLoopRampsConfigs().withVoltageOpenLoopRampPeriod(0.3));
         motor.getConfigurator().apply(config);
         motor.clearStickyFaults();
@@ -50,7 +73,14 @@ public class Spinner extends SubsystemBase
     @Override
     public void periodic()
     {
-        nt_rpm.setNumber(getRPM());
+        double rpm = getRPM();
+        nt_rpm.setNumber(rpm);
+
+        // Are we close enough to desired speed?
+        boolean close_to_setpoint = Math.abs(nt_setpoint.getDouble(0.0) - rpm) <= ACCEPTED_RPM_ERROR;
+        // .. for a certain time?
+        is_at_setpoint = debouncer.calculate(close_to_setpoint);
+        nt_at_setpoint.setBoolean(is_at_setpoint);
     }
 
     /** @return Position of spinner in turns of spinner wheel */
@@ -67,6 +97,12 @@ public class Spinner extends SubsystemBase
                * 60.0;
     }
 
+    /** @return Has spinner been at setpoint for a little while? */
+    public boolean isAtSetpoint()
+    {
+        return is_at_setpoint;
+    }
+
     /** @param voltage Voltage, should be positive to eject */
     public void setVoltage(double voltage)
     {
@@ -80,6 +116,8 @@ public class Spinner extends SubsystemBase
 
         double desired_rpm = nt_setpoint.getDouble(0.0);
         double current_rpm = getRPM();
+        // Feed forward should get us close to the desired speed,
+        // and PID then corrects disturbances
         double voltage = feedforward.calculateWithVelocities(current_rpm, desired_rpm)
                        + pid.calculate(current_rpm, desired_rpm);
         setVoltage(voltage);

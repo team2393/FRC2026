@@ -19,6 +19,7 @@ import frc.tools.CommandRobotBase;
  *  Find a useful "SpinnerRPM" and make that the default "SpinnerSetpoint".
  *
  *  In auto, configure "SpinnerKV", "SpinnerPID" to reach "SpinnerSetpoint".
+ *  Adjust Spinner.ACCEPTED_RPM_ERROR and debouncer to get reliable at-setpoint indication.
  */
 public class SpinnerTestRobot extends CommandRobotBase
 {
