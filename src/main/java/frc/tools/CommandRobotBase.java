@@ -38,13 +38,13 @@ public class CommandRobotBase extends TimedRobot
   public void disabledInit()
   {
     // Code that would run when robot gets disabled
-  }  
+  }
 
   @Override
   public void disabledPeriodic()
   {
     // Code that would run while robot is disabled
-  }  
+  }
 
   @Override
   public void autonomousInit()
@@ -52,7 +52,7 @@ public class CommandRobotBase extends TimedRobot
     // What to do when starting auto-no-mouse operation.
     // Tends to 'schedule' some auto command
   }
-  
+
   /** Periodic code for autonomous mode should go here. */
   @Override
   public void autonomousPeriodic()
@@ -72,5 +72,11 @@ public class CommandRobotBase extends TimedRobot
   public void teleopPeriodic()
   {
     // What to do while in teleop
+  }
+
+  @Override
+  public void simulationPeriodic()
+  {
+    // What to do during simulation
   }
 }
