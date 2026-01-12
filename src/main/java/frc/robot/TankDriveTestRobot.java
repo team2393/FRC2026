@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-import frc.swervelib.SwerveOI;
 import frc.tools.CommandRobotBase;
 
 /** Tank test robot */
@@ -14,6 +13,6 @@ public class TankDriveTestRobot extends CommandRobotBase
     @Override
     public void teleopPeriodic()
     {
-        drivetrain.drive(SwerveOI.getForwardSpeed(), SwerveOI.getRotationSpeed());
+        drivetrain.drive(RobotOI.getForwardSpeed(), RobotOI.getRotationSpeed());
     }
 }

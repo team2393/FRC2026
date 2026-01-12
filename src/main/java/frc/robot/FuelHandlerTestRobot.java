@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-import frc.swervelib.SwerveOI;
 import frc.tools.CommandRobotBase;
 
 /** Fuel handler test */
@@ -13,7 +12,7 @@ public class FuelHandlerTestRobot extends CommandRobotBase
 
     public FuelHandlerTestRobot()
     {
-        SwerveOI.joystick.y().onTrue(fuel_handler.take_in());
-        SwerveOI.joystick.a().onTrue(fuel_handler.shoot());
+        RobotOI.joystick.y().onTrue(fuel_handler.take_in());
+        RobotOI.joystick.a().onTrue(fuel_handler.shoot());
     }
 }

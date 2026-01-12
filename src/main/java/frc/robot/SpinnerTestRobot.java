@@ -4,7 +4,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.swervelib.SwerveOI;
 import frc.tools.CommandRobotBase;
 
 /** Spinner test
@@ -36,7 +35,7 @@ public class SpinnerTestRobot extends CommandRobotBase
     public void teleopPeriodic()
     {
         // Send 0-12V, positive when stick is pushed forward
-        double voltage = -12.0 * SwerveOI.joystick.getRightY();
+        double voltage = -12.0 * RobotOI.joystick.getRightY();
         SmartDashboard.putNumber("SpinnerVoltage", voltage);
         spinner.setVoltage(voltage);
     }
