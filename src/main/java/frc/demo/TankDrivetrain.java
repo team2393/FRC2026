@@ -57,10 +57,10 @@ public class TankDrivetrain extends SubsystemBase
         }
         else
         {
-            // TODO Control motors to desired wheel speeds with feed forward and PID
+            // XXX Control motors to desired wheel speeds with feed forward and PID
             left_motor.setVoltage(wheel_speeds.leftMetersPerSecond);
             right_motor.setVoltage(wheel_speeds.rightMetersPerSecond);
-            // TODO Update odometry from wheel distance sensors and gyro
+            // XXX Update odometry from wheel distance sensors and gyro
         }
     }
 }

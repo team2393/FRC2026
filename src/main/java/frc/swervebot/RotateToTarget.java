@@ -8,15 +8,17 @@ import org.photonvision.PhotonCamera;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** Command for rotating to target using 2D info from camera */
 public class RotateToTarget extends Command
 {
-    PhotonCamera camera = new PhotonCamera("HD_Pro_Webcam_C920");
+    private final PhotonCamera camera = new PhotonCamera("HD_Pro_Webcam_C920");
     private final SwervebotDrivetrain drivetrain;
     private final PIDController pid = new PIDController(2.0, 1.0, 0);
+    private final Timer timeout = new Timer();
 
     public RotateToTarget(SwervebotDrivetrain drivetrain)
     {
@@ -34,17 +36,25 @@ public class RotateToTarget extends Command
             if (result.hasTargets())
                 for (var target : result.getTargets())
                 {
-                    // XXX Check target ID, use only 'centered' targets?
+                    // Check target ID, use only 'centered' targets
+                    int id = target.getFiducialId();
+                    if (id != 4)
+                        continue;
                     // XXX Also use target.getArea() to estimate distance?
                     target_angle = target.getYaw();
                     // System.out.println("Tag " + target.getFiducialId() + ": yaw " + target_angle);
+                    timeout.stop();
+                    break;
                 }
 
         if (Double.isNaN(target_angle))
         {
-            // No camera reading.
-            // Stop drivetrain? That results in stutter.
-            // Keep going? Should have a timer to stop when no update for 1-2 seconds...
+            // No useful camera reading. Keep going with last 'drive',
+            // but time out and then stop if there's no updates
+            if (!timeout.isRunning())
+                timeout.start();
+            else if (timeout.hasElapsed(1.0))
+                drivetrain.stop();
             return;
         }
 
