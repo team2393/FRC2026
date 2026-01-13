@@ -13,10 +13,14 @@ public class Robot extends CommandRobotBase
 {
     private final RobotDrivetrain drivetrain = new RobotDrivetrain();
     private final Command joydrive = new RelativeSwerveCommand(drivetrain);
+    private final Command aim = new AimToHub(drivetrain);
 
     @Override
     public void teleopInit()
     {
+        RobotOI.joystick.x().onTrue(aim);
+        RobotOI.joystick.x().onFalse(joydrive);
         CommandScheduler.getInstance().schedule(joydrive);
     }
+
 }
