@@ -32,15 +32,17 @@ Timeline
    - Hardin Valley Academy,11345 Hardin Valley Rd., Knoxville
    - https://www.firstinspires.org/event-detail?eventId=76547
 
- * Locate roboRIO, power panel, radio, laptop
+ * Use chassis, roboRIO, power panel, radio from last year's robot
  * Setup roboRIO with current firmware
- * Setup laptop with current tools
- * Configure radio for usage similar to original radio:
+ * Setup own laptops with current tools
+ * Configure radio for 2.4 GHz usage with laptop:
    - Connect via DS port and see http://radio.local
    - Upgrade firmware https://frc-radio.vivid-hosting.net/overview/upgrading-firmware
    - Configure SSID and 2.4 GHz password, enable 2.4 GHz wifi via DIP #3
- * Program drivetrain (tank drive? swerve?)
- * Find camera (limelight? Pi?)
+   - Check other DIPs to disable power-over-ethernet which could destroy vision processors
+ * Tune swerve drivetrain
+ * Find team/drive laptop, set up
+ * Find camera (limelight, maybe later Pi)
  * Use camera to rotate on target and estimate distance (2D)
  * Calibrate camera, use to locate robot on field,
    then rotate onto nearest target using that information

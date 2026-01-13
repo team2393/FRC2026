@@ -14,6 +14,8 @@ public class Robot extends CommandRobotBase
     private final Command joydrive = new RelativeSwerveCommand(drivetrain);
     private final Command aim = new AimToHub(drivetrain);
 
+    private final FuelHandler fuel_handler = new FuelHandler();
+
     public Robot()
     {
         // Configure speeds
@@ -21,6 +23,9 @@ public class Robot extends CommandRobotBase
         RobotOI.MAX_ROTATION_DEG_PER_SEC = 360.0;
 
         RobotOI.joystick.x().onTrue(aim);
+
+        RobotOI.joystick.a().onTrue(fuel_handler.take_in());
+        RobotOI.joystick.y().onTrue(fuel_handler.shoot());
     }
 
     @Override
