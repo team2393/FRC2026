@@ -11,14 +11,21 @@ public final class Main
 {
   public static void main(String... args)
   {
-    // System.out.println("Hello, robot!");
-    // RobotBase.startRobot(frc.demo.BlinkDemoRobot::new);
-    // RobotBase.startRobot(frc.led.LEDRingDemoRobot::new);
-    // RobotBase.startRobot(frc.demo.MotorSparkMiniDemoRobot::new);
-    RobotBase.startRobot(frc.swervebot.SwerveBot::new);
-    // RobotBase.startRobot(frc.demo.TankDriveTestRobot::new);
-    // RobotBase.startRobot(frc.robot.SpinnerTestRobot::new);
+      // System.out.println("Hello, robot!");
+      // RobotBase.startRobot(frc.demo.BlinkDemoRobot::new);
+      // RobotBase.startRobot(frc.led.LEDRingDemoRobot::new);
+      // RobotBase.startRobot(frc.demo.MotorSparkMiniDemoRobot::new);
+      // RobotBase.startRobot(frc.swervebot.SwerveBot::new);
 
-    // RobotBase.startRobot(frc.robot.Robot::new);
+      // Robot drivetrain
+      // RobotBase.startRobot(() -> new frc.swervelib.DriverDemoRobot(new frc.robot.Driver(0, frc.robot.RobotMap.FRONT_LEFT_DRIVE)));
+      // RobotBase.startRobot(() -> new frc.swervelib.RotatorDemoRobot(new frc.robot.Rotator(0, frc.robot.RobotMap.FRONT_LEFT_ROTATE,
+                                                                                            //  frc.robot.RobotMap.FRONT_LEFT_ANGLE,
+                                                                                            //  0.0)));
+
+      // RobotBase.startRobot(frc.demo.TankDriveTestRobot::new);
+      // RobotBase.startRobot(frc.robot.SpinnerTestRobot::new);
+
+      RobotBase.startRobot(frc.robot.Robot::new);
   }
 }

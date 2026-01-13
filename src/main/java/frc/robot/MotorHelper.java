@@ -15,7 +15,7 @@ public class MotorHelper
 {
     /** Create motor
      *  @param can_id CAN ID
-     *  @param invert Invert direction?
+     *  @param invert Invert direction (clockwise), or use the default (CCW)?
      *  @param brake Brake, or coast?
      *  @param ramp_up_secs How long to delay ramp-up
      *  @return TalonFX

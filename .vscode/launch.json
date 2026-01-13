@@ -4,18 +4,38 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-
+    {
+      "type": "java",
+      "name": "KarmaDemo",
+      "request": "launch",
+      "mainClass": "tutorial.karma.KarmaDemo",
+      "projectName": "FRC2026"
+    },
+    {
+      "type": "java",
+      "name": "MyFirst",
+      "request": "launch",
+      "mainClass": "tutorial.MyFirst",
+      "projectName": "FRC2026"
+    },
+    {
+      "type": "java",
+      "name": "Hello",
+      "request": "launch",
+      "mainClass": "tutorial.Hello",
+      "projectName": "FRC2026"
+    },
     {
       "type": "wpilib",
       "name": "WPILib Desktop Debug",
       "request": "launch",
-      "desktop": true,
+      "desktop": true
     },
     {
       "type": "wpilib",
       "name": "WPILib roboRIO Debug",
       "request": "launch",
-      "desktop": false,
+      "desktop": false
     }
   ]
 }
