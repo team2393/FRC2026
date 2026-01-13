@@ -15,12 +15,18 @@ public class Robot extends CommandRobotBase
     private final Command joydrive = new RelativeSwerveCommand(drivetrain);
     private final Command aim = new AimToHub(drivetrain);
 
+    public Robot()
+    {
+        // Configure speeds
+        RobotOI.MAX_METERS_PER_SEC = 3.0;
+        RobotOI.MAX_ROTATION_DEG_PER_SEC = 360.0;
+
+        RobotOI.joystick.x().onTrue(aim);
+    }
+
     @Override
     public void teleopInit()
     {
-        RobotOI.joystick.x().onTrue(aim);
-        RobotOI.joystick.x().onFalse(joydrive);
-        CommandScheduler.getInstance().schedule(joydrive);
+        drivetrain.setDefaultCommand(joydrive);
     }
-
 }

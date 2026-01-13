@@ -25,6 +25,7 @@ public class AimToHub extends Command
 
     private final SwerveDrivetrain drivetrain;
     private Translation2d hub = null;
+    private double angle_error = 0.0;
 
     public AimToHub(SwerveDrivetrain drivetrain)
     {
@@ -54,12 +55,19 @@ public class AimToHub extends Command
         // double distance = direction.getNorm();
 
         // Proportional control of robot heading with limit
-        double error = angle.minus(robot_pose.getRotation()).getDegrees();
-        // System.out.println("Direction " + direction + ", angle " + angle + ", error " + error);
-        double vr = 6.0 * error;
+        angle_error = angle.minus(robot_pose.getRotation()).getDegrees();
+        // System.out.println("Direction " + direction + ", angle " + angle + ", error " + angle_error);
+        double vr = 6.0 * angle_error;
         vr = MathUtil.clamp(vr, -180, +180);
         drivetrain.swerve(0, 0, Math.toRadians(vr));
 
         // XXX Could use distance to control spinner speed
+    }
+
+    @Override
+    public boolean isFinished()
+    {
+        // We're done once the error is small enough
+        return Math.abs(angle_error) < 1.0;
     }
 }
