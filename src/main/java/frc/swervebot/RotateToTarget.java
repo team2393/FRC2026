@@ -4,35 +4,47 @@
 
 package frc.swervebot;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
-/** Command for rotating to target */
+/** Command for rotating to target using 2D info from camera */
 public class RotateToTarget extends Command
 {
-    private final Camera2D camera;
+    PhotonCamera camera = new PhotonCamera("HD_Pro_Webcam_C920");
     private final SwervebotDrivetrain drivetrain;
     private final PIDController pid = new PIDController(2.0, 1.0, 0);
-        
-    public RotateToTarget(Camera2D camera, SwervebotDrivetrain drivetrain)
+
+    public RotateToTarget(SwervebotDrivetrain drivetrain)
     {
-        this.camera = camera;
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
 
         SmartDashboard.putData("rotate_to_target", pid);
     }
-    
+
     @Override
     public void execute()
     {
-        double target_angle = camera.getAngleToTarget();
+        double target_angle = Double.NaN;
+        for (var result : camera.getAllUnreadResults())
+            if (result.hasTargets())
+                for (var target : result.getTargets())
+                {
+                    // XXX Check target ID, use only 'centered' targets?
+                    // XXX Also use target.getArea() to estimate distance?
+                    target_angle = target.getYaw();
+                    // System.out.println("Tag " + target.getFiducialId() + ": yaw " + target_angle);
+                }
+
         if (Double.isNaN(target_angle))
         {
-            drivetrain.stop();
-            System.out.println("No camera reading!");
+            // No camera reading.
+            // Stop drivetrain? That results in stutter.
+            // Keep going? Should have a timer to stop when no update for 1-2 seconds...
             return;
         }
 
