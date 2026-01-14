@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+// import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -31,6 +32,16 @@ public class AimToHub extends Command
     {
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
+
+        // // Center of blue hub is between tags 19 and 25, red 9 and 3
+        // AprilTagFieldLayout tags = null;
+        // var a = tags.getTagPose(19).get().getTranslation();
+        // var b = tags.getTagPose(25).get().getTranslation();
+        // BLUE_HUB = a.interpolate(b, 0.5).toTranslation2d();
+
+        // a = tags.getTagPose(19).get().getTranslation();
+        // b = tags.getTagPose(25).get().getTranslation();
+        // RED_HUB = a.interpolate(b, 0.5).toTranslation2d();
     }
 
     @Override
