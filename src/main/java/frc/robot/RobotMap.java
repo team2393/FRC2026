@@ -31,9 +31,11 @@ public class RobotMap
     public static final int BACK_LEFT_ANGLE   = 24;    // Port 15
 
     // Falcon CAN IDs
+    public static final int INTAKE_MOVER = 18;
     public static final int STOREAGE_MOVER = 19;
     public static final int SPINNER = 20;
 
     // DIO channels
+    public static final int INTAKE_OPENER = 4;
     public static final int STORAGE_SENSOR = 5;
 }

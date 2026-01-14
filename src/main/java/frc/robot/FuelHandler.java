@@ -7,6 +7,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -21,32 +22,36 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  *
  *  Basic idea:
  *
- *  intake/storage            Spinner
- *  X X X X X X X X X X X X
- *  --->--->--->--->--->--S>  >>>>>>>>
+ *  Intake    Storage          Spinner
+ *  O O O O   O O O O O O O O
+ *  --->--->  --->--->--->--S  >>>>>>>>
  *
- *  'intake' or 'storage' motor moves grabber wheels or belt
- *  to move items X in.
- *  A sensor S detects when game item X reaches end/top of storage.
- *  Moving the 'storage' motor any further would feed a game item
+ *  Intake can open/close.
+ *  Intake and storage have motors for grabber wheels or belt
+ *  to move balls/fuel 'O' in.
+ *  Sensor 'S' detects when game item O reaches end/top of storage.
+ *  Moving the storage motor any further would feed a game item
  *  into the shooter.
  *  In shooter, a spinner motor ejects game pieces.
  */
 public class FuelHandler extends SubsystemBase
 {
+    // XXX For now DO, will turn into solenoid or motor
+    private final DigitalOutput open_intake = new DigitalOutput(RobotMap.INTAKE_OPENER);
+    private final TalonFX intake_mover = MotorHelper.createTalonFX(RobotMap.INTAKE_MOVER, false, true, 0.3);
     private final TalonFX storage_mover = MotorHelper.createTalonFX(RobotMap.STOREAGE_MOVER, false, true, 0.3);
     private final DigitalInput storage_sensor = new DigitalInput(RobotMap.STORAGE_SENSOR);
     private final Spinner spinner = new Spinner();
-    private final NetworkTableEntry nt_storage_voltage = SmartDashboard.getEntry("StorageVoltage");
+    private final NetworkTableEntry nt_belt_voltage = SmartDashboard.getEntry("BeltVoltage");
     private final NetworkTableEntry nt_storage_full = SmartDashboard.getEntry("StorageFull");
 
     enum States
     {
-        /** All motors off */
+        /** All motors off, intake closed */
         Idle,
-        /** Move intake/storage until storage is full */
+        /** Open intake, move intake & storage until storage is full */
         TakeIn,
-        /** Run spinner up to speed */
+        /** Close intake, run spinner up to speed */
         PrepShooting,
         /** Shoot until storage is empty */
         Shoot
@@ -56,11 +61,16 @@ public class FuelHandler extends SubsystemBase
     /** Timer used to keep spinner running after last game piece */
     private final Timer after_shot_timer = new Timer();
 
-    private final MechanismLigament2d intake, storage;
+    /** Visualization */
+    private final static Color8Bit BELT_OFF = new Color8Bit(100, 100, 0);
+    private final static Color8Bit BELT_ON = new Color8Bit(255, 255, 0);
+    private final static Color8Bit SPINNER_OFF = new Color8Bit(100, 0, 0);
+    private final static Color8Bit SPINNER_ON = new Color8Bit(255, 0, 0);
+    private final MechanismLigament2d intake, storage, shooter;
 
     public FuelHandler()
     {
-        nt_storage_voltage.setDefaultDouble(3.0);
+        nt_belt_voltage.setDefaultDouble(3.0);
 
         // Visualization
         Mechanism2d mech = new Mechanism2d(1.0, 1.0);
@@ -68,8 +78,10 @@ public class FuelHandler extends SubsystemBase
         mech.getRoot("left", 0, 0.2).append(new MechanismLigament2d("base", 0.8, 0, 10, new Color8Bit(100, 100, 100)));
 
         MechanismRoot2d right = mech.getRoot("right", 0.8, 0.2);
-        right.append(intake  = new MechanismLigament2d("intake",  0.2,  90, 10, new Color8Bit(255, 255, 0)));
-        right.append(storage = new MechanismLigament2d("storage", 0.6, 170, 10, new Color8Bit(255, 255, 0)));
+        right.append(intake  = new MechanismLigament2d("intake",  0.2,  90, 10, BELT_OFF));
+        right.append(storage = new MechanismLigament2d("storage", 0.6, 170, 10, BELT_OFF));
+
+        storage.append(shooter = new MechanismLigament2d("shooter", 0.2, -70, 10, SPINNER_OFF));
 
         SmartDashboard.putData("FuelHandler", mech);
     }
@@ -89,26 +101,30 @@ public class FuelHandler extends SubsystemBase
     @Override
     public void periodic()
     {
-        boolean run_mover = false;
+        boolean run_intake = false;
+        boolean run_storage = false;
         boolean run_spinner = false;
         boolean storage_full = storage_sensor.get();
         nt_storage_full.setBoolean(storage_full);
 
         if (state == States.Idle)
         {
-            run_mover = false;
+            run_intake = false;
+            run_storage = false;
             run_spinner = false;
         }
         else if (state == States.TakeIn)
         {
-            run_mover = true;
+            run_intake = true;
+            run_storage = true;
             run_spinner = false;
             if (storage_full)
                 state = States.Idle;
         }
         else if (state == States.PrepShooting)
         {
-            run_mover = false;
+            run_intake = false;
+            run_storage = false;
             run_spinner = true;
             if (spinner.isAtSetpoint())
             {
@@ -118,7 +134,8 @@ public class FuelHandler extends SubsystemBase
         }
         else if (state == States.Shoot)
         {
-            run_mover = true;
+            run_intake = false;
+            run_storage = true;
             run_spinner = true;
             if (!storage_full)
             {
@@ -132,31 +149,43 @@ public class FuelHandler extends SubsystemBase
             }
         }
 
-        if (run_spinner)
-            spinner.runAtSpeedSetpoint();
-        else
-            spinner.setVoltage(0);
+        boolean blink_on_off = (System.currentTimeMillis()/200) % 2 == 0;
 
-        Color8Bit color;
-        if (run_mover)
+        if (run_intake)
         {
-            storage_mover.setVoltage(nt_storage_voltage.getDouble(0));
-            color = (System.currentTimeMillis()/200) % 2 == 0
-                  ? new Color8Bit(255, 255, 0)
-                  : new Color8Bit(100, 100, 0);
+            open_intake.set(true);
+            intake_mover.setVoltage(nt_belt_voltage.getDouble(0));
+            intake.setAngle(-20);
+            intake.setColor(blink_on_off ? BELT_ON : BELT_OFF);
+        }
+        else
+        {
+            open_intake.set(false);
+            intake_mover.setVoltage(0);
+            intake.setAngle(90);
+            intake.setColor(BELT_OFF);
+        }
+
+        if (run_storage)
+        {
+            storage_mover.setVoltage(nt_belt_voltage.getDouble(0));
+            storage.setColor(blink_on_off ? BELT_ON : BELT_OFF);
         }
         else
         {
             storage_mover.setVoltage(0);
-            color = new Color8Bit(100, 100, 0);
+            storage.setColor(BELT_OFF);
         }
 
-        if (run_mover && !run_spinner)
-            intake.setAngle(-20);
+        if (run_spinner)
+        {
+            spinner.runAtSpeedSetpoint();
+            shooter.setColor(blink_on_off ? SPINNER_ON : SPINNER_OFF);
+        }
         else
-            intake.setAngle(90);
-
-        storage.setColor(color);
-        intake.setColor(color);
+        {
+            spinner.setVoltage(0);
+            shooter.setColor(SPINNER_OFF);
+        }
     }
 }
