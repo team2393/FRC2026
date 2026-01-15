@@ -5,10 +5,10 @@ package frc.robot;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-/** Fuel hander
+/** Fuel hander state machine
  *
  *  Basic idea:
  *
@@ -33,6 +33,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  *  Moving the storage motor any further would feed a game item
  *  into the shooter.
  *  In shooter, a spinner motor ejects game pieces.
+ *
+ *  For now shoots all game pieces.
+ *  To stop shooing after one has been ejected and thus allow
+ *  shooting one-by-one, we'd ideally have another sensor
+ *  that detects game piece in shooter, so we stop
+ *  feeding from storage.
  */
 public class FuelHandler extends SubsystemBase
 {
@@ -58,8 +64,8 @@ public class FuelHandler extends SubsystemBase
     }
     private States state = States.Idle;
 
-    /** Timer used to keep spinner running after last game piece */
-    private final Timer after_shot_timer = new Timer();
+    /** Keep spinner running a little longer after last game piece has been detected */
+    private final Debouncer after_shot_delay = new Debouncer(1.0);
 
     /** Visualization */
     private final static Color8Bit BELT_OFF = new Color8Bit(100, 100, 0);
@@ -109,44 +115,34 @@ public class FuelHandler extends SubsystemBase
 
         if (state == States.Idle)
         {
-            run_intake = false;
-            run_storage = false;
-            run_spinner = false;
+            // Leave all off
         }
         else if (state == States.TakeIn)
         {
             run_intake = true;
             run_storage = true;
-            run_spinner = false;
             if (storage_full)
                 state = States.Idle;
         }
         else if (state == States.PrepShooting)
         {
-            run_intake = false;
-            run_storage = false;
             run_spinner = true;
             if (spinner.isAtSetpoint())
             {
-                after_shot_timer.stop();
+                // Reset debouncer
+                after_shot_delay.calculate(false);
                 state = States.Shoot;
             }
         }
         else if (state == States.Shoot)
         {
-            run_intake = false;
             run_storage = true;
             run_spinner = true;
-            if (!storage_full)
-            {
-                // All game items gone? Keep spinner running to make sure
-                // all items are really shot.
-                // Start timer and let it run for a little
-                if (!after_shot_timer.isRunning())
-                    after_shot_timer.start();
-                else if (after_shot_timer.hasElapsed(1.0))
-                    state = States.Idle;
-            }
+
+            // All game items gone? Keep spinner running to make sure
+            // all items are really shot.
+            if (after_shot_delay.calculate(!storage_full))
+                state = States.Idle;
         }
 
         boolean blink_on_off = (System.currentTimeMillis()/200) % 2 == 0;
