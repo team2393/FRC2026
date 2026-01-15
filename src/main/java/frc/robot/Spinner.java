@@ -8,7 +8,9 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -91,10 +93,26 @@ public class Spinner extends SubsystemBase
         return is_at_setpoint;
     }
 
+    // High pass filter shows change in value, any change slower than 0.1 seconds are ignored.
+    // This filters out small changes, but rapid drop in current as ball is ejected
+    // gets detected.
+    private final LinearFilter highpass = LinearFilter.highPass(0.1, TimedRobot.kDefaultPeriod);
+    private final NetworkTableEntry nt_current = SmartDashboard.getEntry("SpinnerCurrent");
+    private final NetworkTableEntry nt_change = SmartDashboard.getEntry("SpinnerCurrentChange");
+
     /** @param voltage Voltage, should be positive to eject */
     public void setVoltage(double voltage)
     {
         motor.setVoltage(voltage);
+
+        // XXX Try to detect when a game item is ejected
+        double current = motor.getTorqueCurrent().getValueAsDouble();
+        double change = highpass.calculate(current);
+        nt_current.setNumber(current);
+        nt_change.setNumber(change);
+
+        // See https://github.com/team2393/FRC2022/blob/main/src/main/java/frc/robot/cargo/Spinner.java
+        // ejected = delay.compute(remember_shot.compute(Math.abs(change) > 10.0));
     }
 
     /** Run spinner at setpoint rev per minute */
