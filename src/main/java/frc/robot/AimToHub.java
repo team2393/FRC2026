@@ -72,7 +72,7 @@ public class AimToHub extends Command
         vr = MathUtil.clamp(vr, -180, +180);
         drivetrain.swerve(0, 0, Math.toRadians(vr));
 
-        // XXX Could use distance to control spinner speed
+        // XXX Set spinner speed, hood angle, .. based on distance using LookupTable
     }
 
     @Override
