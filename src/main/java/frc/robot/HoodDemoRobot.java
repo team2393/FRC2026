@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.tools.CommandRobotBase;
 
@@ -33,6 +34,9 @@ public class HoodDemoRobot extends CommandRobotBase
     @Override
     public void autonomousPeriodic()
     {
+        double setpoint = ((System.currentTimeMillis() / (int)(SmartDashboard.getNumber("Period", 5.0)*1000)) % 2 == 1)
+                        ? 20.0 : 80.0;
+        SmartDashboard.putNumber("Hood", setpoint);
         hood.holdPosition();
     }
 }
