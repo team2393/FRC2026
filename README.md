@@ -41,11 +41,12 @@ Timeline
    - Configure Robot Radio mode, team number, SSID and 2.4 GHz password, enable 2.4 GHz wifi via DIP #3
    - Check other DIPs to disable power-over-ethernet which could destroy vision processors
  * Tune swerve drivetrain
- * Find team/drive laptop, set up
- * Find camera (limelight, maybe later Pi)
- * Use camera to rotate on target and estimate distance (2D)
+ * Find camera (limelight 2, maybe later Pi)
+ * Jan. 16: Use camera to rotate on target and estimate distance (2D, RotateToTarget).
+   Works OK as long as stream resolution is small.
  * Calibrate camera, use to locate robot on field,
    then rotate onto nearest target using that information
+ * Find team/drive laptop, set up
  * Gamepiece handling
 
  * March 18 - 21: Smoky Mountains Regional
