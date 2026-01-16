@@ -6,6 +6,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.tools.CommandRobotBase;
+import frc.camera.RotateToTarget;
 import frc.swervelib.RelativeSwerveCommand;
 
 /** FRC2026 robot */
@@ -14,7 +15,7 @@ public class Robot extends CommandRobotBase
     private final RobotDrivetrain drivetrain = new RobotDrivetrain();
     private final Command joydrive = new RelativeSwerveCommand(drivetrain);
     // private final Command aim = new AimToHub(drivetrain);
-    private final Command aim = new RotateToTarget(drivetrain);
+    private final Command aim = new RotateToTarget("Front", drivetrain);
 
     // private final FuelHandler fuel_handler = new FuelHandler();
 
@@ -24,7 +25,7 @@ public class Robot extends CommandRobotBase
     {
         // Configure speeds
         RobotOI.MAX_METERS_PER_SEC = 1.0;
-        RobotOI.MAX_ROTATION_DEG_PER_SEC = 90.0;
+        RobotOI.MAX_ROTATION_DEG_PER_SEC = 180.0;
 
         RobotOI.joystick.x().whileTrue(aim);
 

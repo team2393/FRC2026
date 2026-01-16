@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "LookupTable",
+      "request": "launch",
+      "mainClass": "frc.tools.LookupTable",
+      "projectName": "FRC2026"
+    },
+    {
+      "type": "java",
       "name": "KarmaDemo",
       "request": "launch",
       "mainClass": "tutorial.karma.KarmaDemo",

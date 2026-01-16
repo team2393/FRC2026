@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.camera.RotateToTarget;
 import frc.demo.DemoMechanism;
 import frc.demo.DemoMechanismArmCommand;
 import frc.demo.DemoMechanismLiftCommand;
@@ -109,7 +110,7 @@ public class SwerveBot extends CommandRobotBase
       autos.addOption(auto.getName(), auto);
     SmartDashboard.putData(autos);
 
-    SwerveOI.joystick.y().whileTrue(new RotateToTarget(drivetrain));
+    SwerveOI.joystick.y().whileTrue(new RotateToTarget("Front", drivetrain));
   }
 
   @Override

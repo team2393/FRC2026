@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.swervebot;
+package frc.camera;
 
 import org.photonvision.PhotonCamera;
 
@@ -11,17 +11,19 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.swervelib.SwerveDrivetrain;
 
 /** Command for rotating to target using 2D info from camera */
 public class RotateToTarget extends Command
 {
-    private final PhotonCamera camera = new PhotonCamera("HD_Pro_Webcam_C920");
-    private final SwervebotDrivetrain drivetrain;
-    private final PIDController pid = new PIDController(2.0, 1.0, 0);
+    private final PhotonCamera camera;
+    private final SwerveDrivetrain drivetrain;
+    private final PIDController pid = new PIDController(4.0, 1.0, 0);
     private final Timer timeout = new Timer();
 
-    public RotateToTarget(SwervebotDrivetrain drivetrain)
+    public RotateToTarget(String camera_name, SwerveDrivetrain drivetrain)
     {
+        this.camera = new PhotonCamera(camera_name);
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
 
@@ -38,7 +40,7 @@ public class RotateToTarget extends Command
                 {
                     // Check target ID, use only 'centered' targets
                     int id = target.getFiducialId();
-                    if (id != 4)
+                    if (id != 17)
                         continue;
                     // XXX Also use target.getArea() to estimate distance?
                     target_angle = target.getYaw();
@@ -60,8 +62,8 @@ public class RotateToTarget extends Command
 
         // Rotation in deg/sec, limited
         double rotate = pid.calculate(target_angle);
-        rotate = MathUtil.clamp(rotate, -SwervebotDrivetrain.MAX_ROTATION_DEG_PER_SEC,
-                                        +SwervebotDrivetrain.MAX_ROTATION_DEG_PER_SEC);
+        rotate = MathUtil.clamp(rotate, -SwerveDrivetrain.MAX_ROTATION_DEG_PER_SEC,
+                                        +SwerveDrivetrain.MAX_ROTATION_DEG_PER_SEC);
         // Convert to rad/sec
         drivetrain.swerve(0, 0, Math.toRadians(rotate));
     }
