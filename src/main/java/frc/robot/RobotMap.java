@@ -24,6 +24,8 @@ public class RobotMap
     public static final int BACK_RIGHT_ROTATE  = 8;   // Port 8
     public static final int BACK_LEFT_ROTATE   = 4;   // Port 5
 
+    public static final int HOOD               = 10;   // Port ??
+
     // CANCoder angle sensors: 10 Amp Fuse
     public static final int FRONT_LEFT_ANGLE  = 17;    // Port 15
     public static final int FRONT_RIGHT_ANGLE = 57;    // Port 15
@@ -36,6 +38,7 @@ public class RobotMap
     public static final int SPINNER = 20;
 
     // DIO channels
+    public static final int HOOD_HOME = 2;
     public static final int INTAKE_OPENER = 4;
     public static final int STORAGE_SENSOR = 5;
 }
