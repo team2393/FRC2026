@@ -36,9 +36,9 @@ Timeline
  * Setup roboRIO with current firmware
  * Setup own laptops with current tools
  * Configure radio for 2.4 GHz usage with laptop:
-   - Connect via DS port and see http://radio.local
+   - Connect via DS port and see http://radio.local or http://192.168.69.1
    - Upgrade firmware https://frc-radio.vivid-hosting.net/overview/upgrading-firmware
-   - Configure SSID and 2.4 GHz password, enable 2.4 GHz wifi via DIP #3
+   - Configure Robot Radio mode, team number, SSID and 2.4 GHz password, enable 2.4 GHz wifi via DIP #3
    - Check other DIPs to disable power-over-ethernet which could destroy vision processors
  * Tune swerve drivetrain
  * Find team/drive laptop, set up
