@@ -4,6 +4,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.tools.CommandRobotBase;
 import frc.swervelib.RelativeSwerveCommand;
 
@@ -12,9 +13,11 @@ public class Robot extends CommandRobotBase
 {
     private final RobotDrivetrain drivetrain = new RobotDrivetrain();
     private final Command joydrive = new RelativeSwerveCommand(drivetrain);
-    private final Command aim = new AimToHub(drivetrain);
+    // private final Command aim = new AimToHub(drivetrain);
 
-    private final FuelHandler fuel_handler = new FuelHandler();
+    // private final FuelHandler fuel_handler = new FuelHandler();
+
+    private final HubTimer hub_timer = new HubTimer();
 
     public Robot()
     {
@@ -22,15 +25,16 @@ public class Robot extends CommandRobotBase
         RobotOI.MAX_METERS_PER_SEC = 3.0;
         RobotOI.MAX_ROTATION_DEG_PER_SEC = 360.0;
 
-        RobotOI.joystick.x().onTrue(aim);
+        // RobotOI.joystick.x().onTrue(aim);
 
-        RobotOI.joystick.a().onTrue(fuel_handler.take_in());
-        RobotOI.joystick.y().onTrue(fuel_handler.shoot());
+        // RobotOI.joystick.a().onTrue(fuel_handler.take_in());
+        // RobotOI.joystick.y().onTrue(fuel_handler.shoot());
     }
 
     @Override
     public void teleopInit()
     {
+        CommandScheduler.getInstance().schedule(hub_timer);
         drivetrain.setDefaultCommand(joydrive);
     }
 }
