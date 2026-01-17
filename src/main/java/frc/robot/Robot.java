@@ -8,6 +8,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.tools.CommandRobotBase;
+import frc.camera.CameraHelper;
 import frc.camera.RotateToTarget;
 import frc.swervelib.RelativeSwerveCommand;
 
@@ -19,7 +20,10 @@ public class Robot extends CommandRobotBase
     private final Command joydrive = new RelativeSwerveCommand(drivetrain);
     private final Command aim = new AimToHub(tags, drivetrain);
     // private final Command aim = new RotateToTarget("Front", drivetrain);
-
+    // private final CameraHelper camera = new CameraHelper(tags, "Front", "FrontCamera",
+    //                                                      0.5, -0.2, 0.2,
+    //                                                      0.0,
+    //                                                      10.0);
     // private final FuelHandler fuel_handler = new FuelHandler();
 
     private final HubTimer hub_timer = new HubTimer();
@@ -34,6 +38,14 @@ public class Robot extends CommandRobotBase
 
         // RobotOI.joystick.a().onTrue(fuel_handler.take_in());
         // RobotOI.joystick.y().onTrue(fuel_handler.shoot());
+    }
+
+    @Override
+    public void robotPeriodic()
+    {
+        super.robotPeriodic();
+
+        // camera.updatePosition(drivetrain);
     }
 
     @Override
