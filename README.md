@@ -45,7 +45,10 @@ Timeline
  * Jan. 16: Use camera to rotate on target and estimate distance (2D, RotateToTarget).
    Works OK as long as stream resolution is small.
  * Jan. 17: Calibrate camera, use to locate robot on field.
-   Mostly works, but X distance off by 10 or 20 cm
+   Mostly works, but X distance off by 10 or 20 cm.
+   Mean error 0.27px, FOV 71.2, 56.0, 83.0.
+   Calibrated again, and X distance appears good to 1..2 cm!
+   Mean error 0.34px, FOV 62.57, 48.92, 74.40.
  * Rotate onto nearest target using that information
  * Find team/drive laptop, set up
  * Gamepiece handling

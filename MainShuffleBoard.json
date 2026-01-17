@@ -131,7 +131,7 @@
               }
             }
           },
-          "10,0": {
+          "15,0": {
             "size": [
               2,
               3
@@ -140,6 +140,34 @@
               "_type": "PID Controller",
               "_source0": "network_table:///SmartDashboard/rotate_to_target",
               "_title": "/SmartDashboard/rotate_to_target",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "11,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/FrontCamera",
+              "_title": "SmartDashboard/FrontCamera",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "11,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/HubDistance",
+              "_title": "SmartDashboard/HubDistance",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -407,9 +435,9 @@
     }
   ],
   "windowGeometry": {
-    "x": 77.5,
-    "y": 41.5,
-    "width": 867.5,
-    "height": 717.0
+    "x": 3.5,
+    "y": 159.0,
+    "width": 1338.0,
+    "height": 698.0
   }
 }
