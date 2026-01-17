@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 // import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -20,28 +21,25 @@ import frc.swervelib.SwerveDrivetrain;
  */
 public class AimToHub extends Command
 {
-    // TODO Update with actual hub positions
-    private static final Translation2d BLUE_HUB = new Translation2d(4.49, 4.041);
-    private static final Translation2d RED_HUB = new Translation2d(13.04, 4.041);
-
+    private final Translation2d BLUE_HUB;
+    private final Translation2d RED_HUB;
     private final SwerveDrivetrain drivetrain;
     private Translation2d hub = null;
     private double angle_error = 0.0;
 
-    public AimToHub(SwerveDrivetrain drivetrain)
+    public AimToHub(AprilTagFieldLayout tags, SwerveDrivetrain drivetrain)
     {
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
 
-        // // Center of blue hub is between tags 19 and 25, red 9 and 3
-        // AprilTagFieldLayout tags = null;
-        // var a = tags.getTagPose(19).get().getTranslation();
-        // var b = tags.getTagPose(25).get().getTranslation();
-        // BLUE_HUB = a.interpolate(b, 0.5).toTranslation2d();
+        // Center of blue hub is between tags 19 and 25, red 9 and 3
+        var a = tags.getTagPose(19).get().getTranslation();
+        var b = tags.getTagPose(25).get().getTranslation();
+        BLUE_HUB = a.interpolate(b, 0.5).toTranslation2d();
 
-        // a = tags.getTagPose(19).get().getTranslation();
-        // b = tags.getTagPose(25).get().getTranslation();
-        // RED_HUB = a.interpolate(b, 0.5).toTranslation2d();
+        a = tags.getTagPose(9).get().getTranslation();
+        b = tags.getTagPose(3).get().getTranslation();
+        RED_HUB = a.interpolate(b, 0.5).toTranslation2d();
     }
 
     @Override

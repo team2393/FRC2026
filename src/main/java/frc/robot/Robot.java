@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.tools.CommandRobotBase;
@@ -12,10 +14,11 @@ import frc.swervelib.RelativeSwerveCommand;
 /** FRC2026 robot */
 public class Robot extends CommandRobotBase
 {
+    private final AprilTagFieldLayout tags = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
     private final RobotDrivetrain drivetrain = new RobotDrivetrain();
     private final Command joydrive = new RelativeSwerveCommand(drivetrain);
-    // private final Command aim = new AimToHub(drivetrain);
-    private final Command aim = new RotateToTarget("Front", drivetrain);
+    private final Command aim = new AimToHub(tags, drivetrain);
+    // private final Command aim = new RotateToTarget("Front", drivetrain);
 
     // private final FuelHandler fuel_handler = new FuelHandler();
 
