@@ -20,10 +20,10 @@ public class Robot extends CommandRobotBase
     private final Command joydrive = new RelativeSwerveCommand(drivetrain);
     private final Command aim = new AimToHub(tags, drivetrain);
     // private final Command aim = new RotateToTarget("Front", drivetrain);
-    // private final CameraHelper camera = new CameraHelper(tags, "Front", "FrontCamera",
-    //                                                      0.5, -0.2, 0.2,
-    //                                                      0.0,
-    //                                                      10.0);
+    private final CameraHelper camera = new CameraHelper(tags, "Front", "FrontCamera",
+                                                         0.34, -0.1, 0.16,
+                                                         0.0,
+                                                         -10.0);
     // private final FuelHandler fuel_handler = new FuelHandler();
 
     private final HubTimer hub_timer = new HubTimer();
@@ -45,7 +45,7 @@ public class Robot extends CommandRobotBase
     {
         super.robotPeriodic();
 
-        // camera.updatePosition(drivetrain);
+        camera.updatePosition(drivetrain);
     }
 
     @Override

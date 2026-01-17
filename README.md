@@ -44,8 +44,9 @@ Timeline
  * Find camera (limelight 2, maybe later Pi)
  * Jan. 16: Use camera to rotate on target and estimate distance (2D, RotateToTarget).
    Works OK as long as stream resolution is small.
- * Calibrate camera, use to locate robot on field,
-   then rotate onto nearest target using that information
+ * Jan. 17: Calibrate camera, use to locate robot on field.
+   Mostly works, but X distance off by 10 or 20 cm
+ * Rotate onto nearest target using that information
  * Find team/drive laptop, set up
  * Gamepiece handling
 
@@ -76,7 +77,7 @@ See https://docs.photonvision.org/en/latest/docs/quick-start/index.html
  * Leave "Hostname" as `photonvision`
  * Press SAVE, restart Pi
 
-From now on, access photonvision via http://10.23.93.12:5800
+From now on, access photonvision via http://10.23.93.12:5800 !
 
  * Setup a camera for first test:
    * "activate" detected USB camera
