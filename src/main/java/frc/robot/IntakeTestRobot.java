@@ -14,31 +14,17 @@ import frc.tools.CommandRobotBase;
 public class IntakeTestRobot extends CommandRobotBase
 {
     private final PowerDistribution power_dist = new PowerDistribution();
-    private final TalonFX intake_mover = MotorHelper.createTalonFX(RobotMap.INTAKE_MOVER, false, true, 0.3);
-    private final NetworkTableEntry nt_volt_set = SmartDashboard.getEntry("IntakeVoltageSet");
+    private final Intake intake = new Intake();
 
     public IntakeTestRobot()
     {
         power_dist.clearStickyFaults();
         SmartDashboard.putData("Power", power_dist);
-        nt_volt_set.setDefaultDouble(10);
-    }
-
-    void setVoltage(double voltage)
-    {
-        intake_mover.setVoltage(voltage);
-        SmartDashboard.putNumber("IntakeVoltage", voltage);
-    }
-
-    @Override
-    public void teleopPeriodic()
-    {
-        setVoltage(-12*RobotOI.joystick.getRightY());
     }
 
     @Override
     public void autonomousPeriodic()
     {
-        setVoltage(nt_volt_set.getDouble(0));
+        intake.open(true);
     }
 }
