@@ -10,7 +10,7 @@ import frc.tools.CommandRobotBase;
 /** Hood test robot
  *
  *  [ ] In teleop, calibrate STEPS_PER_PERC,
- *      check direction (forward == out)
+ *      check direction (right stick forward == up)
  *
  *  [ ] In auto, configure Hood PID
  */
@@ -23,12 +23,14 @@ public class HoodDemoRobot extends CommandRobotBase
     public void teleopInit()
     {
         hood.reset();
+        SmartDashboard.putNumber("Hood", -1);
     }
 
     @Override
     public void teleopPeriodic()
     {
-        hood.setVoltage(0.1*joystick.getRightY());
+        // Pushing forward/up sends positive voltage
+        hood.setVoltage(-0.1*joystick.getRightY());
     }
 
     @Override
@@ -37,6 +39,5 @@ public class HoodDemoRobot extends CommandRobotBase
         double setpoint = ((System.currentTimeMillis() / (int)(SmartDashboard.getNumber("Period", 5.0)*1000)) % 2 == 1)
                         ? 20.0 : 80.0;
         SmartDashboard.putNumber("Hood", setpoint);
-        hood.holdPosition();
     }
 }

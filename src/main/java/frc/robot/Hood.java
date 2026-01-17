@@ -43,7 +43,7 @@ public class Hood extends SubsystemBase
 
     public Hood()
     {
-        nt_setpoint.setDefaultDouble(5.0);
+        nt_setpoint.setDefaultDouble(-1.0);
         SmartDashboard.putData("HoodPID", pid);
     }
 
@@ -51,11 +51,6 @@ public class Hood extends SubsystemBase
     public void reset()
     {
         hood.setPosition(0.0);
-    }
-
-    public void home()
-    {
-        // TODO
     }
 
     /** @return Position in mm */
@@ -83,16 +78,24 @@ public class Hood extends SubsystemBase
         hood.setVoltage(voltage);
     }
 
-    public void holdPosition()
+    private void holdPosition()
     {
-        double voltage = pid.calculate(getPosition(), MathUtil.clamp(nt_setpoint.getDouble(0.0), 0, MAX_POS_PERC));
-        voltage = MathUtil.clamp(voltage, -6, 6);
-        setVoltage(voltage);
+        double setpoint = nt_setpoint.getDouble(0.0);
+        if (setpoint > 0)
+        {
+            double voltage = pid.calculate(getPosition(), MathUtil.clamp(setpoint, 0, MAX_POS_PERC));
+            voltage = MathUtil.clamp(voltage, -6, 6);
+            setVoltage(voltage);
+        }
+        else if (setpoint == 0)
+            setVoltage(0);
+        // Negative setpoint disables control, do nothing
     }
 
     @Override
     public void periodic()
     {
+        holdPosition();
         nt_position.setDouble(getPosition());
         nt_at_home.setBoolean(atHome());
     }
