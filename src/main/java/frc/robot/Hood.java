@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.MathUtil;
@@ -14,7 +13,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotMap;
 
 /** Hood that controls ball ejection angle */
 public class Hood extends SubsystemBase
@@ -23,10 +21,13 @@ public class Hood extends SubsystemBase
     private final double STEPS_PER_PERC = 2048 * 14.0 / 100.0;
 
     /** Position is limited to 0 .. max [percent] */
-    private final double MAX_POS_PERC = 100.0;
-
+    private final double MIN_POS = 0, MAX_POS = 100.0;
 
     private final TalonFX hood = MotorHelper.createTalonFX(RobotMap.HOOD, true, true, 0.3);
+
+    // TODO If there is homing switch, use it:
+    // Defines states "homing" vs. "holding", ...
+    // Otherwise remove homing and rely on reset() at startup
     private final DigitalInput home = new DigitalInput(RobotMap.HOOD_HOME);
 
     private final NetworkTableEntry nt_setpoint = SmartDashboard.getEntry("HoodSetpoint");
@@ -47,13 +48,17 @@ public class Hood extends SubsystemBase
         SmartDashboard.putData("HoodPID", pid);
     }
 
-    /** Reset position encoder */
+    /** Reset position encoder
+     *
+     *  Must be called when robot starts up,
+     *  assuming hood is at bottom position
+     */
     public void reset()
     {
         hood.setPosition(0.0);
     }
 
-    /** @return Position in mm */
+    /** @return Position in 0-100 percent */
     public double getPosition()
     {
         return hood.getPosition().getValueAsDouble() / STEPS_PER_PERC;
@@ -83,7 +88,7 @@ public class Hood extends SubsystemBase
         double setpoint = nt_setpoint.getDouble(0.0);
         if (setpoint > 0)
         {
-            double voltage = pid.calculate(getPosition(), MathUtil.clamp(setpoint, 0, MAX_POS_PERC));
+            double voltage = pid.calculate(getPosition(), MathUtil.clamp(setpoint, MIN_POS, MAX_POS));
             voltage = MathUtil.clamp(voltage, -6, 6);
             setVoltage(voltage);
         }
