@@ -12,7 +12,7 @@ public class FuelHandlerTestRobot extends CommandRobotBase
 
     public FuelHandlerTestRobot()
     {
-        RobotOI.joystick.y().onTrue(fuel_handler.take_in());
-        RobotOI.joystick.a().onTrue(fuel_handler.shoot());
+        RobotOI.joystick.a().onTrue(fuel_handler.take_in());
+        RobotOI.joystick.y().onTrue(fuel_handler.shoot());
     }
 }

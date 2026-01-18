@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.tools.KeepOnFilter;
 
 /** Fuel hander state machine
  *
@@ -44,9 +45,11 @@ public class FuelHandler extends SubsystemBase
     private final Intake intake = new Intake();
     private final TalonFX storage_mover = MotorHelper.createTalonFX(RobotMap.STOREAGE_MOVER, false, true, 0.3);
     private final DigitalInput storage_sensor = new DigitalInput(RobotMap.STORAGE_SENSOR);
+    private final KeepOnFilter keep_storarge = new KeepOnFilter(1.0);
     private final Spinner spinner = new Spinner();
     private final NetworkTableEntry nt_belt_voltage = SmartDashboard.getEntry("BeltVoltage");
     private final NetworkTableEntry nt_storage_full = SmartDashboard.getEntry("StorageFull");
+    private final NetworkTableEntry nt_always_spin  = SmartDashboard.getEntry("AlwaysSpin");
 
     enum States
     {
@@ -74,6 +77,7 @@ public class FuelHandler extends SubsystemBase
     public FuelHandler()
     {
         nt_belt_voltage.setDefaultDouble(3.0);
+        nt_always_spin.setDefaultBoolean(false);
 
         // Visualization
         Mechanism2d mech = new Mechanism2d(1.0, 1.0);
@@ -107,7 +111,10 @@ public class FuelHandler extends SubsystemBase
         boolean run_intake = false;
         boolean run_storage = false;
         boolean run_spinner = false;
-        boolean storage_full = storage_sensor.get();
+        // As we push balls out, gaps between balls suggest
+        // there's nothing in storage, so if we detect a ball,
+        // keep 'storage_full' on for a little longer
+        boolean storage_full = keep_storarge.calculate(storage_sensor.get());
         nt_storage_full.setBoolean(storage_full);
 
         if (state == States.Idle)
@@ -168,7 +175,7 @@ public class FuelHandler extends SubsystemBase
             vis_storage.setColor(BELT_OFF);
         }
 
-        if (run_spinner)
+        if (run_spinner  ||  nt_always_spin.getBoolean(false))
         {
             spinner.runAtSpeedSetpoint();
             vis_shooter.setColor(blink_on_off ? SPINNER_ON : SPINNER_OFF);
