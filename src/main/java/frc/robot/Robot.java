@@ -6,9 +6,12 @@ package frc.robot;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
+import frc.tools.AutoTools;
 import frc.tools.CommandRobotBase;
 import frc.camera.CameraHelper;
 import frc.swervelib.RelativeSwerveCommand;
@@ -39,6 +42,9 @@ public class Robot extends CommandRobotBase
                                                          0.0,
                                                          -10.0);
 
+    /** Auto-no-mouse options */
+    private final SendableChooser<Command> autos = new SendableChooser<>();
+
     public Robot()
     {
         // Configure speeds
@@ -50,9 +56,23 @@ public class Robot extends CommandRobotBase
         // RobotOI.joystick.a().onTrue(fuel_handler.take_in());
         // RobotOI.joystick.y().onTrue(fuel_handler.shoot());
 
+        // By default, drive, and allow bound buttons to select other modes
+        drivetrain.setDefaultCommand(joydrive);
+
         // Power dist. info
         power_dist.clearStickyFaults();
         SmartDashboard.putData("Power", power_dist);
+
+        autos.setDefaultOption("Nothing", new PrintCommand("Do nothing"));
+        for (Command auto : AutoNoMouse.createAutoCommands(tags, drivetrain))
+             autos.addOption(auto.getName(), auto);
+        SmartDashboard.putData(autos);
+    }
+
+    @Override
+    public void disabledPeriodic()
+    {
+        AutoTools.indicateStart(drivetrain, autos.getSelected());
     }
 
     @Override
@@ -67,8 +87,11 @@ public class Robot extends CommandRobotBase
     {
         // Start tracking the hub state
         CommandScheduler.getInstance().schedule(hub_timer);
+    }
 
-        // By default, drive, and allow bound buttons to select other modes
-        drivetrain.setDefaultCommand(joydrive);
+    @Override
+    public void autonomousInit()
+    {
+        CommandScheduler.getInstance().schedule(autos.getSelected());
     }
 }
