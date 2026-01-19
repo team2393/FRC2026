@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.tools.AutoTools;
 import frc.tools.CommandRobotBase;
@@ -55,6 +56,16 @@ public class Robot extends CommandRobotBase
         RobotOI.joystick.x().whileTrue(aim);
         // RobotOI.joystick.a().onTrue(fuel_handler.take_in());
         // RobotOI.joystick.y().onTrue(fuel_handler.shoot());
+        // Helper for creating auto paths: Print X, Y, Heading on button press
+        RobotOI.joystick.b().onTrue(new InstantCommand(() ->
+        {
+            var pose = drivetrain.getPose();
+            System.out.format("%.2f, %.2f, %.0f,\n",
+                         pose.getTranslation().getX(),
+                         pose.getTranslation().getY(),
+                         pose.getRotation().getDegrees());
+        }
+        ));
 
         // By default, drive, and allow bound buttons to select other modes
         drivetrain.setDefaultCommand(joydrive);
