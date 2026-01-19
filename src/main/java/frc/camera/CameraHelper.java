@@ -4,25 +4,18 @@
 
 package frc.camera;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-// import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-// import edu.wpi.first.apriltag.AprilTagPoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
-// import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.swervelib.SwerveDrivetrain;
@@ -62,7 +55,7 @@ public class CameraHelper
         // Where is the camera mounted relative to the center of the robot?
         // Example: mounted facing forward, 30cm forward of center, 10cm up from floor.
         robotToCam = new Transform3d(new Translation3d(pos_x, pos_y, pos_z),
-                                    new Rotation3d(0,
+                                     new Rotation3d(0,
                                                     Math.toRadians(pitch),
                                                     Math.toRadians(heading)));
     }
