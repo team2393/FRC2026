@@ -123,6 +123,41 @@ public class AutoNoMouse
       autos.add(auto);
     }
 
+    {
+      // Red Top: Shoot, Pickup, Shoot
+      SequentialCommandGroup auto = new SequenceWithStart("RTSPS", 13.00, 6.37, 0);
+      auto.addCommands(new VariableWaitCommand());
+      auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain, 13.00, 6.37, 0));
+      // Move out (back), then over to front of target
+      Trajectory path = createTrajectory(true, 13.00, 6.37, 0,
+                                          13.48, 5.40, -90,
+                                          13.52, 3.99, -96
+                                          );
+      auto.addCommands(drivetrain.followTrajectory(path, 180).asProxy());
+      auto.addCommands(new AimToHub(tags, drivetrain).asProxy());
+      auto.addCommands(new PrintCommand("Shoot!"));
+      auto.addCommands(new WaitCommand(2));
+      // Pickup another ring from right behind
+      auto.addCommands(new PrintCommand("Open intake"));
+      path = createTrajectory(true,
+                              13.52, 3.99, -96,
+                            13.21, 0.94, -147,
+                            11.87, 0.62, -179,
+                            9.51, 1.12, 153,
+                            8.86, 1.96, 90,
+                            8.96, 2.43, 55,
+                            12.00, 2.45, -1,
+                            13.88, 3.29, 53);
+      auto.addCommands(drivetrain.followTrajectory(path, 90).asProxy());
+      auto.addCommands(new PrintCommand("Close intake"));
+      // Aim and shoot
+      auto.addCommands(new AimToHub(tags, drivetrain).asProxy());
+      auto.addCommands(new PrintCommand("Shoot!"));
+      auto.addCommands(new WaitCommand(2));
+      auto.addCommands(new PrintCommand("Done."));
+      autos.add(auto);
+    }
+
     return autos;
   }
 }

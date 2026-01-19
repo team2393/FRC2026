@@ -5,6 +5,7 @@ package frc.robot;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -51,6 +52,8 @@ public class Robot extends CommandRobotBase
         // Configure speeds
         RobotOI.MAX_METERS_PER_SEC = 1.0;
         RobotOI.MAX_ROTATION_DEG_PER_SEC = 180.0;
+        AutoTools.config = new TrajectoryConfig(1.5, 1.0);
+        // AutoTools.config = new TrajectoryConfig(2.5, 1.5);
 
         // Bind controller buttons
         RobotOI.joystick.x().whileTrue(aim);
