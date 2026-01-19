@@ -36,8 +36,9 @@ public class AimToHub extends Command
         addRequirements(drivetrain);
 
         // Center of blue, red hub is between tags ... and ...
+        // TODO Which tags are center-mounted?
         var a = tags.getTagPose(19).get().getTranslation();
-        var b = tags.getTagPose(25).get().getTranslation();
+        var b = tags.getTagPose(26).get().getTranslation();
         BLUE_HUB = a.interpolate(b, 0.5).toTranslation2d();
 
         a = tags.getTagPose(9).get().getTranslation();
