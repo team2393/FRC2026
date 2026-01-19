@@ -36,7 +36,9 @@ public class Robot extends CommandRobotBase
     private final Command aim = new AimToHub(tags, drivetrain);
     // private final Command aim = new RotateToTarget("Front", drivetrain);
 
+    // TODO Eventually, use FuelHandler. For now preliminary Intake
     // private final FuelHandler fuel_handler = new FuelHandler();
+    private final Intake intake = new Intake();
 
     /** Handle cameras */
     private final CameraHelper camera = new CameraHelper(tags, "Front", "FrontCamera",
@@ -69,6 +71,9 @@ public class Robot extends CommandRobotBase
                          pose.getRotation().getDegrees());
         }
         ));
+
+        RobotOI.joystick.a().whileTrue(new InstantCommand(() -> intake.open(true)));
+        RobotOI.joystick.a().whileFalse(new InstantCommand(() -> intake.open(false)));
 
         // By default, drive, and allow bound buttons to select other modes
         drivetrain.setDefaultCommand(joydrive);
