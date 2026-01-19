@@ -36,13 +36,18 @@ public class AimToHub extends Command
         addRequirements(drivetrain);
 
         // Center of blue, red hub is between tags ... and ...
-        // TODO Which tags are center-mounted?
-        var a = tags.getTagPose(19).get().getTranslation();
+        // ID,X,Y,Z,Z-Rotation,X-Rotation
+        // 20,205.873,158.844,44.25,  0,0
+        // 26,158.341,158.844,44.25,180,0
+        var a = tags.getTagPose(20).get().getTranslation();
         var b = tags.getTagPose(26).get().getTranslation();
         BLUE_HUB = a.interpolate(b, 0.5).toTranslation2d();
 
-        a = tags.getTagPose(9).get().getTranslation();
-        b = tags.getTagPose(3).get().getTranslation();
+        // ID,X,Y,Z,Z-Rotation,X-Rotation
+        //  4,445.349,158.844,44.25,180,0
+        // 10,492.881,158.844,44.25,  0,0
+        a = tags.getTagPose(4).get().getTranslation();
+        b = tags.getTagPose(10).get().getTranslation();
         RED_HUB = a.interpolate(b, 0.5).toTranslation2d();
 
         // Use PID with -180..180 degrees, enable I below 2 deg error, done when within 1 deg
