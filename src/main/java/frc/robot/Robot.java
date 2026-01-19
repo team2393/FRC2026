@@ -59,7 +59,8 @@ public class Robot extends CommandRobotBase
     public Robot()
     {
         // Configure speeds
-        RobotOI.MAX_METERS_PER_SEC = 1.0;
+        // Robot needs >1m/s to run over the bump
+        RobotOI.MAX_METERS_PER_SEC = 2.0;
         RobotOI.MAX_ROTATION_DEG_PER_SEC = 180.0;
         AutoTools.config = new TrajectoryConfig(1.5, 1.0);
         // AutoTools.config = new TrajectoryConfig(2.5, 1.5);
