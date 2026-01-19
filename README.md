@@ -74,10 +74,13 @@ See https://docs.photonvision.org/en/latest/docs/quick-start/index.html
  * Connect Pi to robot network
  * Access from laptop as http://photonvision.local:5800
  * Under "Settings", set Team Number to 2393
- * Change IP Assignment Mode from DHCP to Static, set address to `10.23.93.12`.
+ * Change IP Assignment Mode from DHCP to Static,
+   set address to `10.23.93.12` and cameran name to `Front`
+   respectively   `10.23.93.13` and `Back`.
    (Static `10.TE.AM.6-19` are general purpose.
     `10.TE.AM.11` is also often used for camera, leave that for Limelight)
- * Leave "Hostname" as `photonvision`
+ * Leave "Hostname" as `photonvision` for Front,
+   change to `photonvision2` for Back camera
  * Press SAVE, restart Pi
 
 From now on, access photonvision via http://10.23.93.12:5800 !

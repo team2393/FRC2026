@@ -33,12 +33,12 @@ public class CameraHelper
     private final AprilTagFieldLayout tags;
     private final PhotonCamera camera;
     private final Transform3d robotToCam;
-    private final NetworkTableEntry nt_flag;
+    private final NetworkTableEntry nt_camera, nt_distance;
     private int successes = 0;
 
     /** @param tags Field info
-     *  @param camera_name Camera name ("front") in photonvision network tablee ntries
-     *  @param status_name Name used to show status on dashboard
+     *  @param camera_name Camera name ("Front", "Back") in photonvision network tablee ntries
+     *                     Will create tags "FrontCamera" for status, "FrontDist" for distance
      *  @param pos_x Camera pos. relative to center of robot, X
      *  @param pos_y Y
      *  @param pos_z Z
@@ -46,7 +46,6 @@ public class CameraHelper
      *  @param pitch Camera down/up tilt
      */
     public CameraHelper(AprilTagFieldLayout tags, String camera_name,
-                        String status_name,
                         double pos_x, double pos_y, double pos_z,
                         double heading,
                         double pitch)
@@ -54,7 +53,8 @@ public class CameraHelper
         this.tags = tags;
         camera = new PhotonCamera(camera_name);
 
-        nt_flag = SmartDashboard.getEntry(status_name);
+        nt_camera = SmartDashboard.getEntry(camera_name + "Camera");
+        nt_distance = SmartDashboard.getEntry(camera_name + "Dist");
 
         // TODO: Allow access to the camera from a computer when tethered to the USB port on the roboRIO
         // PortForwarder.add(5800, "photonvision.local", 5800);
@@ -76,7 +76,7 @@ public class CameraHelper
         if (! camera.isConnected())
         {
             // System.out.println("Camera " + camera.getName() + " is disconnected!!!");
-            nt_flag.setBoolean(successes > 0);
+            nt_camera.setBoolean(successes > 0);
             return;
         }
 
@@ -85,7 +85,9 @@ public class CameraHelper
                 for (PhotonTrackedTarget target : result.getTargets())
                 {
                     // Traget too far away?
-                    if (target.bestCameraToTarget.getTranslation().getNorm() > 3.0)
+                    double distance = target.bestCameraToTarget.getTranslation().getNorm();
+                    nt_distance.setNumber(distance);
+                    if (distance > 2.5)
                     {
                         // System.out.println("No best target");
                         continue;
@@ -111,6 +113,6 @@ public class CameraHelper
                     drivetrain.updateLocationFromCamera(position, result.getTimestampSeconds());
                     successes = 50; // 1 second
                 }
-        nt_flag.setBoolean(successes > 0);
+        nt_camera.setBoolean(successes > 0);
     }
 }

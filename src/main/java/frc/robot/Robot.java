@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import java.util.List;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
@@ -41,10 +43,15 @@ public class Robot extends CommandRobotBase
     private final Intake intake = new Intake();
 
     /** Handle cameras */
-    private final CameraHelper camera = new CameraHelper(tags, "Front", "FrontCamera",
-                                                         0.34, -0.1, 0.16,
-                                                         0.0,
-                                                         -10.0);
+    private final List<CameraHelper> cameras = List.of(
+        new CameraHelper(tags, "Front",
+                         0.34, -0.1, 0.16,
+                        0.0,
+                        -10.0),
+        new CameraHelper(tags, "Back",
+                        -0.34, -0.07, 0.16,
+                        180.0,
+                        -10.0));
 
     /** Auto-no-mouse options */
     private final SendableChooser<Command> autos = new SendableChooser<>();
@@ -98,7 +105,8 @@ public class Robot extends CommandRobotBase
     public void robotPeriodic()
     {
         super.robotPeriodic();
-        camera.updatePosition(drivetrain);
+        for (var camera : cameras)
+            camera.updatePosition(drivetrain);
     }
 
     @Override
