@@ -34,7 +34,8 @@ public class RobotMap
 
     // Falcon CAN IDs
     public static final int INTAKE_MOVER = 18;
-    public static final int STOREAGE_MOVER = 19;
+    public static final int INTAKE_ARM = 19;
+    public static final int STOREAGE_MOVER = 20;
     public static final int SPINNER = 20;
 
     // DIO channels
