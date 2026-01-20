@@ -37,6 +37,7 @@ public class RobotMap
     public static final int INTAKE_ARM = 19;
     public static final int STOREAGE_MOVER = 20;
     public static final int SPINNER = 20;
+    public static final int SPINNER2 = 21;
 
     // DIO channels
     public static final int HOOD_HOME = 2;

@@ -59,13 +59,24 @@ public class HubTimer extends Command
         double elapsed = timer.get();
 
         // See https://firstfrc.blob.core.windows.net/frc2026/Manual/2026GameManual.pdf 6.4.1
-        // TODO In which match timeframe are we?
+        // In which match timeframe are we?
         // 10 sec transition
+        if (elapsed < 10)
+            nt_active.setBoolean(true);
         // 25 sec shift 1
+        else if (elapsed < 10 + 25)
+            nt_active.setBoolean(alliance != inactive_first);
         // 25 sec shift 2
+        else if (elapsed < 10 + 25 + 25)
+            nt_active.setBoolean(alliance == inactive_first);
         // 25 sec shift 3
+        else if (elapsed < 10 + 25 + 25 + 25)
+            nt_active.setBoolean(alliance != inactive_first);
         // 25 sec shift 4
+        else if (elapsed < 10 + 25 + 25 + 25 + 25)
+            nt_active.setBoolean(alliance == inactive_first);
         // then end game
-        // TODO Is our hub active or not?
+        else
+            nt_active.setBoolean(true);
     }
 }

@@ -3,7 +3,9 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -25,7 +27,11 @@ public class Spinner extends SubsystemBase
     /** Which RPM error do we consider 'close enough' to the setpoint? */
     private static final double ACCEPTED_RPM_ERROR = 10;
 
+    /** Motor that's controlled */
     private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.SPINNER, false, false, 0.3);
+
+    /** Motor that follows the primary motor*/
+    private final TalonFX motor2 = MotorHelper.createTalonFX(RobotMap.SPINNER2, false, false, 0.3);
 
     /** How much voltage do we need for desired RPM? */
     private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0, 0);
@@ -53,6 +59,8 @@ public class Spinner extends SubsystemBase
 
     public Spinner()
     {
+        motor2.setControl(new Follower(motor.getDeviceID(), MotorAlignmentValue.Opposed));
+
         // PID can simply be placed on dashboard
         SmartDashboard.putData("SpinnerPID", pid);
         // For FF, we need to publish and read desired parameters
