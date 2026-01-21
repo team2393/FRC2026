@@ -99,6 +99,18 @@ public class FuelHandler extends SubsystemBase
         return new InstantCommand(() -> state = States.TakeIn);
     }
 
+    /** @return Command that toggles take in, idle */
+    public Command toggle_take_in()
+    {
+        return new InstantCommand(() ->
+        {
+            if (state == States.TakeIn)
+                state = States.Idle;
+            else
+                state = States.TakeIn;
+        });
+    }
+
     /** @return Command that starts shooting */
     public Command shoot()
     {
