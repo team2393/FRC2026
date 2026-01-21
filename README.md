@@ -92,3 +92,26 @@ From now on, access photonvision via http://10.23.93.12:5800 !
 
  * Create "Tag"pipeline for April Tags.
    Should recognize tags in 2D
+
+ * Calibrate camera, test accuracy of detected targets
+
+
+From https://docs.limelightvision.io/docs/docs-limelight/pipeline-apriltag/apriltags
+
+ * For ideal tracking, consider the following:
+    - Your tags should be as flat as possible.
+    - Your Limelight should be mounted above or below tag height and angled up/down such that the target is centered.
+    - Your target should look as trapezoidal as possible from your camera's perspective.
+      You don't want your camera to ever be completely "head-on" with a tag if you want to avoid tag flipping.
+
+ * There is an interplay between the following variables for AprilTag Tracking:
+    - Increasing capture resolution will always increase 3D accuracy and increase 3d stability.
+      This will also reduce the rate of ambiguity flipping from most perspectives.
+      It will usually increase range. This will reduce pipeline framerate.
+    - Increasing detector downscale will always increase pipeline framerate.
+      It will decrease effective range, but in some cases this may be negligible.
+      It will not affect 3D accuracy, 3D stability, or decoding accuracy.
+    - Reducing exposure will always improve motion-blur resilience. This is actually really easy to observe. This may reduce range.
+    - Reducing the brightness and contrast of the image will generally improve pipeline framerate and reduce range.
+    - Increasing Sensor gain allows you to increase brightness without increasing exposure. It may reduce 3D stability, and it may reduce tracking stability.
+
