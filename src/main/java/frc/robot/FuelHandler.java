@@ -94,13 +94,19 @@ public class FuelHandler extends SubsystemBase
     }
 
     /** @return Command that starts taking game pieces in */
-    public Command take_in()
+    public Command openIntake()
     {
         return new InstantCommand(() -> state = States.TakeIn);
     }
 
+    /** @return Command that closes the intake */
+    public Command closeIntake()
+    {
+        return new InstantCommand(() -> state = States.Idle);
+    }
+
     /** @return Command that toggles take in, idle */
-    public Command toggle_take_in()
+    public Command toggleIntake()
     {
         return new InstantCommand(() ->
         {

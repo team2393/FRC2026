@@ -49,7 +49,7 @@ public class CameraHelper
         nt_camera = SmartDashboard.getEntry(camera_name + "Camera");
         nt_distance = SmartDashboard.getEntry(camera_name + "Dist");
 
-        // TODO: Allow access to the camera from a computer when tethered to the USB port on the roboRIO
+        // XXX Allow access to the camera from a computer when tethered to the USB port on the roboRIO
         // PortForwarder.add(5800, "photonvision.local", 5800);
 
         // Where is the camera mounted relative to the center of the robot?
