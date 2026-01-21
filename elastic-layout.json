@@ -220,6 +220,47 @@
               "true_icon": "None",
               "false_icon": "None"
             }
+          },
+          {
+            "title": "SpinnerRPM",
+            "x": 500.0,
+            "y": 400.0,
+            "width": 150.0,
+            "height": 100.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/SpinnerRPM",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "AutoDelay",
+            "x": 200.0,
+            "y": 500.0,
+            "width": 150.0,
+            "height": 100.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/AutoDelay",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "Auto",
+            "x": 0.0,
+            "y": 500.0,
+            "width": 200.0,
+            "height": 150.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/SendableChooser[0]",
+              "period": 0.06,
+              "sort_options": false
+            }
           }
         ]
       }
@@ -240,7 +281,7 @@
               "topic": "/SmartDashboard/Offset0",
               "period": 0.06,
               "data_type": "double",
-              "show_submit_button": false
+              "show_submit_button": true
             }
           },
           {
@@ -254,7 +295,7 @@
               "topic": "/SmartDashboard/Offset1",
               "period": 0.06,
               "data_type": "double",
-              "show_submit_button": false
+              "show_submit_button": true
             }
           },
           {
@@ -268,7 +309,7 @@
               "topic": "/SmartDashboard/Offset2",
               "period": 0.06,
               "data_type": "double",
-              "show_submit_button": false
+              "show_submit_button": true
             }
           },
           {
@@ -338,7 +379,7 @@
               "topic": "/SmartDashboard/Offset3",
               "period": 0.06,
               "data_type": "double",
-              "show_submit_button": false
+              "show_submit_button": true
             }
           },
           {
