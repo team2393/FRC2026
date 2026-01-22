@@ -54,7 +54,8 @@ Timeline
  * Gamepiece handling: intake arm, intake mover, storage, spinner?
  * Auto ideas
  * Update from prototype to actual robot
- * Camera positions
+ * Camera positions, considering tag mouning heights in inches
+   of hub 44.25, tower 21.75, outpost 21.75, trench 35
 
  * March 18 - 21: Smoky Mountains Regional
    - Sevierville Convention Center, 202 Gists Creek Rd, Sevierville
