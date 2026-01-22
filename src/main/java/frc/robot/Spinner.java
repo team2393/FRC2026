@@ -31,7 +31,7 @@ public class Spinner extends SubsystemBase
     private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.SPINNER, false, false, 0.3);
 
     /** Motor that follows the primary motor*/
-    private final TalonFX motor2 = MotorHelper.createTalonFX(RobotMap.SPINNER2, false, false, 0.3);
+    // private final TalonFX motor2 = MotorHelper.createTalonFX(RobotMap.SPINNER2, false, false, 0.3);
 
     /** How much voltage do we need for desired RPM? */
     private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0, 0);
@@ -59,7 +59,7 @@ public class Spinner extends SubsystemBase
 
     public Spinner()
     {
-        motor2.setControl(new Follower(motor.getDeviceID(), MotorAlignmentValue.Opposed));
+        // motor2.setControl(new Follower(motor.getDeviceID(), MotorAlignmentValue.Opposed));
 
         // PID can simply be placed on dashboard
         SmartDashboard.putData("SpinnerPID", pid);
