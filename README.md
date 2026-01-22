@@ -51,7 +51,10 @@ Timeline
    Mean error 0.34px, FOV 62.57, 48.92, 74.40.
  * Rotate onto nearest target using that information
  * Find team/drive laptop, set up
- * Gamepiece handling
+ * Gamepiece handling: intake arm, intake mover, storage, spinner?
+ * Auto ideas
+ * Update from prototype to actual robot
+ * Camera positions
 
  * March 18 - 21: Smoky Mountains Regional
    - Sevierville Convention Center, 202 Gists Creek Rd, Sevierville
