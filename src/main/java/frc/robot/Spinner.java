@@ -28,7 +28,7 @@ public class Spinner extends SubsystemBase
     private static final double ACCEPTED_RPM_ERROR = 10;
 
     /** Motor that's controlled */
-    private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.SPINNER, false, false, 0.3);
+    private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.SPINNER, true, false, 0.3);
 
     /** Motor that follows the primary motor*/
     // private final TalonFX motor2 = MotorHelper.createTalonFX(RobotMap.SPINNER2, false, false, 0.3);

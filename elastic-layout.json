@@ -103,7 +103,7 @@
           },
           {
             "title": "TotalCurrent",
-            "x": 650.0,
+            "x": 850.0,
             "y": 400.0,
             "width": 550.0,
             "height": 300.0,
@@ -223,16 +223,18 @@
           },
           {
             "title": "SpinnerRPM",
-            "x": 500.0,
+            "x": 350.0,
             "y": 400.0,
-            "width": 150.0,
-            "height": 100.0,
-            "type": "Text Display",
+            "width": 500.0,
+            "height": 300.0,
+            "type": "Graph",
             "properties": {
               "topic": "/SmartDashboard/SpinnerRPM",
-              "period": 0.06,
+              "period": 0.033,
               "data_type": "double",
-              "show_submit_button": true
+              "time_displayed": 5.0,
+              "color": 4278238420,
+              "line_width": 2.0
             }
           },
           {
