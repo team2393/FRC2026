@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.tools.AutoTools;
 import frc.tools.CommandRobotBase;
 import frc.camera.CameraHelper;
+import frc.swervelib.AbsoluteSwerveCommand;
 import frc.swervelib.RelativeSwerveCommand;
 
 /** FRC2026 robot */
@@ -35,6 +36,7 @@ public class Robot extends CommandRobotBase
     /** Drivetrain and related commands */
     private final RobotDrivetrain drivetrain = new RobotDrivetrain();
     private final Command joydrive = new RelativeSwerveCommand(drivetrain);
+    private final Command absdrive = new AbsoluteSwerveCommand(drivetrain);
     private final Command aim = new AimToHub(tags, drivetrain);
     // private final Command aim = new RotateToTarget("Front", drivetrain);
 
@@ -82,7 +84,16 @@ public class Robot extends CommandRobotBase
 
         RobotOI.joystick.a().whileTrue(new InstantCommand(() -> intake.open(true)));
         RobotOI.joystick.a().whileFalse(new InstantCommand(() -> intake.open(false)));
-
+        RobotOI.joystick.leftBumper().onTrue(new InstantCommand(()->
+        {
+            drivetrain.setDefaultCommand(joydrive);
+            CommandScheduler.getInstance().schedule(joydrive);
+        }));
+        RobotOI.joystick.rightBumper().onTrue(new InstantCommand(()->
+        {
+            drivetrain.setDefaultCommand(absdrive);
+            CommandScheduler.getInstance().schedule(absdrive);
+        }));
         // By default, drive, and allow bound buttons to select other modes
         drivetrain.setDefaultCommand(joydrive);
 
