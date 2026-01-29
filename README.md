@@ -12,8 +12,10 @@ Software manual: https://docs.wpilib.org/en/latest/
 
 Game manual: https://www.firstinspires.org/resource-library/frc/competition-manual-qa-system
 
-Mechanical resources
- * https://www.frcdesign.org/
+Other links:
+
+ * Mechanical resources - https://www.chiefdelphi.com/
+ * Forum - https://www.frcdesign.org/
 
 Get robot code
 --------------
