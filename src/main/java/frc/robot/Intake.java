@@ -14,7 +14,7 @@ public class Intake
 {
     // XXX For now DO, will turn into solenoid or motor
     private final DigitalOutput open_intake = new DigitalOutput(RobotMap.INTAKE_OPENER);
-    private final TalonFX mover = MotorHelper.createTalonFX(RobotMap.INTAKE_MOVER, false, true, 0.3);
+    private final TalonFX mover = MotorHelper.createTalonFX(RobotMap.INTAKE_MOVER, true, true, 0.3);
     private final NetworkTableEntry nt_volt_set = SmartDashboard.getEntry("IntakeVoltageSet");
 
     public Intake()
