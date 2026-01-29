@@ -99,6 +99,10 @@ public class CameraHelper
                     Pose2d position = pose.toPose2d();
                     // System.out.println(target.getFiducialId() + " @ " + tag_pose + " -> " + position);
 
+                    // TODO Filter on valid Z coord
+                    // TODO Filter on coords inside field
+                    // TODO Filter on heading close to gyro
+
                     // For tests, force odometry to camera reading
                     // drivetrain.setOdometry(position.getX(), position.getY(), position.getRotation().getDegrees());
 
