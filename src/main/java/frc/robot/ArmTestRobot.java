@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tools.CommandRobotBase;
 
 /** Test the intake arm
@@ -21,6 +22,7 @@ public class ArmTestRobot extends CommandRobotBase
     public void robotPeriodic()
     {
         super.robotPeriodic();
+        SmartDashboard.putBoolean("Arm At Setpoint", arm.atDesiredAngle());
     }
 
     @Override
@@ -39,6 +41,11 @@ public class ArmTestRobot extends CommandRobotBase
     @Override
     public void autonomousPeriodic()
     {
+        // Toggle between two setpoints every 5 secs
+        final double setpoint = (System.currentTimeMillis() / 5000) % 2 == 0
+                              ? 45.0
+                              : 70.0;
+        arm.setAngle(setpoint);
         arm.hold();
     }
 }
