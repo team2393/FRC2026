@@ -57,7 +57,10 @@ Timeline
  * Rotate onto alliance hub using that information
  * Find team/drive laptop:
    It has all the tools, but won't connect to radio
- * Gamepiece handling: intake arm, intake mover, storage, spinner?
+ * Jan 31: Need to re-assemble drive base
+ * On practice field, test cameras, relative vs. abs. drive,
+   aim for hub while driving
+ * Gamepiece handling: intake arm, intake mover, storage, spinner
  * Auto ideas
  * Update from prototype to actual robot
  * Camera positions, considering tag mouning heights in inches
