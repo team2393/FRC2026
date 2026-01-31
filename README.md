@@ -54,7 +54,7 @@ Timeline
    Mean error 0.27px, FOV 71.2, 56.0, 83.0.
    Calibrated again, and X distance appears good to 1..2 cm!
    Mean error 0.34px, FOV 62.57, 48.92, 74.40.
- * Rotate onto nearest target using that information
+ * Rotate onto alliance hub using that information
  * Find team/drive laptop:
    It has all the tools, but won't connect to radio
  * Gamepiece handling: intake arm, intake mover, storage, spinner?

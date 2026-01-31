@@ -68,7 +68,7 @@ public class Robot extends CommandRobotBase
         // AutoTools.config = new TrajectoryConfig(2.5, 1.5);
 
         // Bind controller buttons
-        RobotOI.joystick.x().whileTrue(aim);
+        RobotOI.joystick.x().whileTrue(aim.repeatedly());
         // RobotOI.joystick.a().onTrue(fuel_handler.toggleIntake());
         // RobotOI.joystick.y().onTrue(fuel_handler.shoot());
         // Helper for creating auto paths: Print X, Y, Heading on button press
