@@ -8,6 +8,7 @@ import java.util.List;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,6 +21,7 @@ import frc.tools.CommandRobotBase;
 import frc.camera.CameraHelper;
 import frc.swervelib.AbsoluteSwerveCommand;
 import frc.swervelib.RelativeSwerveCommand;
+import frc.swervelib.SwerveDrivetrain;
 
 /** FRC2026 robot */
 public class Robot extends CommandRobotBase
@@ -62,11 +64,13 @@ public class Robot extends CommandRobotBase
     {
         // Configure speeds
         // Robot needs >1m/s to run over the bump
+        // Max speed used in teleop
         RobotOI.MAX_METERS_PER_SEC = 2.0;
         RobotOI.MAX_ROTATION_DEG_PER_SEC = 180.0;
-        AutoTools.config = new TrajectoryConfig(1.5, 1.0);
-        // AutoTools.config = new TrajectoryConfig(2.5, 1.5);
-        // XXX AutoTools.config.addConstraint(new SwerveDriveKinematicsConstraint(...));
+        // Max speed used in auto
+        AutoTools.config = new TrajectoryConfig(2.5, 2.0);
+        AutoTools.config.addConstraint(new SwerveDriveKinematicsConstraint(drivetrain.getKinematics(),
+                                                                           SwerveDrivetrain.MAX_METERS_PER_SEC));
 
         // Bind controller buttons
         RobotOI.joystick.x().whileTrue(aim.repeatedly());
@@ -102,6 +106,7 @@ public class Robot extends CommandRobotBase
         power_dist.clearStickyFaults();
         SmartDashboard.putData("Power", power_dist);
 
+        // Auto options
         autos.setDefaultOption("Nothing", new PrintCommand("Do nothing"));
         for (Command auto : AutoNoMouse.createAutoCommands(tags, drivetrain))
             autos.addOption(auto.getName(), auto);

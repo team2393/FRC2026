@@ -37,7 +37,7 @@ abstract public class SwerveDrivetrain extends SubsystemBase
 {
   /** Center of robot */
   public static Translation2d CENTER = new Translation2d(0, 0);
-  
+
   /** Maximum swerve speed of this drivetrain */
   public static double MAX_METERS_PER_SEC = 3.0;
 
@@ -93,7 +93,7 @@ abstract public class SwerveDrivetrain extends SubsystemBase
     this.width = width;
     this.length = length;
     this.modules = modules;
-    
+
     kinematics = new SwerveDriveKinematics(new Translation2d( length / 2,  width / 2),
                                            new Translation2d( length / 2, -width / 2),
                                            new Translation2d(-length / 2, -width / 2),
@@ -135,6 +135,12 @@ abstract public class SwerveDrivetrain extends SubsystemBase
   public double getLength()
   {
     return length;
+  }
+
+  /** @return Kinematics */
+  public SwerveDriveKinematics getKinematics()
+  {
+    return kinematics;
   }
 
   /** Reset gyro heading */
@@ -267,7 +273,7 @@ abstract public class SwerveDrivetrain extends SubsystemBase
     for (int i=0; i<modules.length; ++i)
       modules[i].drive(states[i].angle.getDegrees(),
                        states[i].speedMetersPerSecond);
-    
+
     if (RobotBase.isSimulation())
     {
       double adjusted_vr = Math.toDegrees(kinematics.toChassisSpeeds(states).omegaRadiansPerSecond);
@@ -337,7 +343,7 @@ abstract public class SwerveDrivetrain extends SubsystemBase
     // perfectly placing us on the trajectory
     PIDController x_pid = new PIDController(nt_xy_p.getDouble(0), 0, 0);
     PIDController y_pid = new PIDController(nt_xy_p.getDouble(0), 0, 0);
-    // Angle controller is 'profiled', allowing up to 90 deg/sec (and 90 deg/sec/sec acceleration) 
+    // Angle controller is 'profiled', allowing up to 90 deg/sec (and 90 deg/sec/sec acceleration)
     ProfiledPIDController angle_pid = new ProfiledPIDController(
       nt_angle_p.getDouble(0), 0, 0,
       new TrapezoidProfile.Constraints(Math.toRadians(180), Math.toRadians(180)));
