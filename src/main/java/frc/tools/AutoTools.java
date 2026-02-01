@@ -46,15 +46,15 @@ public class AutoTools
     return TrajectoryGenerator.generateTrajectory(waypoints, config);
   }
 
-  /** Create command that follows a PathWeaver path 
+  /** Create command that follows a PathWeaver path
    *  @param drivetrain Drivetrain to use
-   *  @param pathname Base name "ABC" for "deploy/paths/ABC.wpilib.json"
+   *  @param pathname Base name "ABC" for "deploy/output/ABC.wpilib.json"
    *  @param final_heading .. of robot
    *  @return Command that follows the path
    */
   public static Command followPathWeaver(SwerveDrivetrain drivetrain, String pathname, double final_heading)
   {
-    Path file = Filesystem.getDeployDirectory().toPath().resolve("paths").resolve(pathname + ".wpilib.json");
+    Path file = Filesystem.getDeployDirectory().toPath().resolve("output").resolve(pathname + ".wpilib.json");
     try
     {
       Trajectory trajectory = TrajectoryUtil.fromPathweaverJson(file);

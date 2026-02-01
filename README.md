@@ -56,7 +56,9 @@ Timeline
    Mean error 0.34px, FOV 62.57, 48.92, 74.40.
  * Rotate onto alliance hub using that information
  * Find team/drive laptop:
-   It has all the tools, but won't connect to radio
+   It has all the tools, but won't connect to radio.
+   Update firmware, see
+   https://www.chiefdelphi.com/t/vh109-radio-wifi-doesnt-connect/513308/3
  * Jan 31: Need to re-assemble drive base
  * On practice field, test cameras, relative vs. abs. drive,
    aim for hub while driving

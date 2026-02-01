@@ -4,6 +4,7 @@
 package frc.robot;
 
 import static frc.tools.AutoTools.createTrajectory;
+import static frc.tools.AutoTools.followPathWeaver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -192,6 +193,16 @@ public class AutoNoMouse
             auto.addCommands(new PrintCommand("Done."));
             autos.add(auto);
         }
+
+        {   // Pathweaver example
+            SequentialCommandGroup auto = new SequenceWithStart("Tour", 4.04, 7.440,-180);
+            auto.addCommands(new VariableWaitCommand());
+            auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain, 4.04, 7.44, -180));
+            auto.addCommands(followPathWeaver(drivetrain, "Tour", 0).asProxy());
+            auto.addCommands(new PrintCommand("Done."));
+            autos.add(auto);
+        }
+
         return autos;
     }
 }

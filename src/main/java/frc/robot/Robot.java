@@ -66,6 +66,7 @@ public class Robot extends CommandRobotBase
         RobotOI.MAX_ROTATION_DEG_PER_SEC = 180.0;
         AutoTools.config = new TrajectoryConfig(1.5, 1.0);
         // AutoTools.config = new TrajectoryConfig(2.5, 1.5);
+        // XXX AutoTools.config.addConstraint(new SwerveDriveKinematicsConstraint(...));
 
         // Bind controller buttons
         RobotOI.joystick.x().whileTrue(aim.repeatedly());
