@@ -35,8 +35,9 @@ public class Robot extends CommandRobotBase
     /** Power distribution board to monitor current */
     private final PowerDistribution power_dist = new PowerDistribution();
 
-    /** Drivetrain and related commands */
-    private final RobotDrivetrain drivetrain = new RobotDrivetrain();
+    /** XXX Drivetrain and related commands */
+    // private final SwerveDrivetrain drivetrain = new RobotDrivetrain();
+    private final SwerveDrivetrain drivetrain = new PracticeDrivetrain();
     private final Command joydrive = new RelativeSwerveCommand(drivetrain);
     private final Command absdrive = new AbsoluteSwerveCommand(drivetrain);
     private final Command aim = new AimToHub(tags, drivetrain);
