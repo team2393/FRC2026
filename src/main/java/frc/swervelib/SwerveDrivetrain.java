@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -19,6 +20,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -77,6 +80,12 @@ abstract public class SwerveDrivetrain extends SubsystemBase
   /** Kinematics that translate chassis speed to module settings and vice versa */
   private final SwerveDriveKinematics kinematics;
 
+  /** Stddevs for kinematics-based pose estimate */
+  private final Matrix<N3, N1> pose_stdevs = VecBuilder.fill(1.0, 1.0, 1.0).times(0.05);
+
+  /** Stddevs for vision */
+  private final Matrix<N3, N1> vision_stdevs = VecBuilder.fill(1.0, 1.0, 1.0).times(0.95);
+
   /** Position tracker */
   // private final SwerveDriveOdometry odometry;
   private final SwerveDrivePoseEstimator odometry;
@@ -100,10 +109,8 @@ abstract public class SwerveDrivetrain extends SubsystemBase
                                            new Translation2d(-length / 2,  width / 2) );
 
     // odometry = new SwerveDriveOdometry(kinematics, new Rotation2d(), getPositions());
-    // Default errors are 0.1 for state  vs. 0.9 for vision
     odometry = new SwerveDrivePoseEstimator(kinematics, new Rotation2d(), getPositions(), new Pose2d(),
-                                            VecBuilder.fill(0.05, 0.05, 0.05),
-                                            VecBuilder.fill(0.95, 0.95, 0.95));
+                                            pose_stdevs, vision_stdevs);
 
     // Publish command to reset position
     SmartDashboard.putData(new ResetPositionCommand(this));
@@ -205,10 +212,11 @@ abstract public class SwerveDrivetrain extends SubsystemBase
 
   /** @param robot_position Robot's position on field as estimated by camera
    *  @param timestamp Based on Timer.getFPGATimestamp()
-  */
-  public void updateLocationFromCamera(Pose2d robot_position, double timestamp)
+   *  @param fuzzyness How fuzzy is the camera info? 1: normal >1: we trust it less
+   */
+  public void updateLocationFromCamera(Pose2d robot_position, double timestamp, double fuzzyness)
   {
-    odometry.addVisionMeasurement(robot_position, timestamp);
+    odometry.addVisionMeasurement(robot_position, timestamp, vision_stdevs.times(fuzzyness));
   }
 
   /** Lock modules in "diamond" pattern to prevent rolling */

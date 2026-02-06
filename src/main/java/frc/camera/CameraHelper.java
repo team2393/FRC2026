@@ -86,6 +86,15 @@ public class CameraHelper
                         continue;
                     }
 
+                    // TODO Vary stddev with distance etc, see
+                    // https://www.chiefdelphi.com/t/global-pose-with-ll/513848
+                    double fuzzyness = 1.0;
+                    if (distance > 1)
+                        fuzzyness = distance;
+                    // Check target.poseAmbiguity, target.objDetectConf
+                    System.out.format("Tag %2d: dist %5.2f m, confidence %5.3f, ambig. %5.3f\n",
+                                      target.getFiducialId(), distance, target.objDetectConf, target.poseAmbiguity);
+
                     // Where is that tag on the field?
                     Optional<Pose3d> tag_pose = tags.getTagPose(target.fiducialId);
                     if (tag_pose.isEmpty())
@@ -107,7 +116,7 @@ public class CameraHelper
                     // drivetrain.setOdometry(position.getX(), position.getY(), position.getRotation().getDegrees());
 
                     // For operation, smoothly update location with camera info
-                    drivetrain.updateLocationFromCamera(position, result.getTimestampSeconds());
+                    drivetrain.updateLocationFromCamera(position, result.getTimestampSeconds(), fuzzyness);
                     successes = 50; // 1 second
                 }
         nt_camera.setBoolean(successes > 0);
