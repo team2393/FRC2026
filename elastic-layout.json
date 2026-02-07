@@ -102,22 +102,6 @@
             }
           },
           {
-            "title": "TotalCurrent",
-            "x": 850.0,
-            "y": 400.0,
-            "width": 550.0,
-            "height": 300.0,
-            "type": "Graph",
-            "properties": {
-              "topic": "/SmartDashboard/Power/TotalCurrent",
-              "period": 0.033,
-              "data_type": "double",
-              "time_displayed": 30.0,
-              "color": 4278238420,
-              "line_width": 2.0
-            }
-          },
-          {
             "title": "IntakeVoltageSet",
             "x": 1250.0,
             "y": 0.0,
@@ -225,7 +209,7 @@
             "title": "SpinnerRPM",
             "x": 350.0,
             "y": 400.0,
-            "width": 500.0,
+            "width": 300.0,
             "height": 300.0,
             "type": "Graph",
             "properties": {
@@ -262,6 +246,40 @@
               "topic": "/SmartDashboard/SendableChooser[0]",
               "period": 0.06,
               "sort_options": false
+            }
+          },
+          {
+            "title": "ambiguity",
+            "x": 650.0,
+            "y": 400.0,
+            "width": 300.0,
+            "height": 300.0,
+            "type": "Graph",
+            "properties": {
+              "topic": "/SmartDashboard/ambiguity",
+              "period": 0.033,
+              "data_type": "double",
+              "time_displayed": 5.0,
+              "min_value": -0.5,
+              "max_value": 1.5,
+              "color": 4278238420,
+              "line_width": 2.0
+            }
+          },
+          {
+            "title": "TotalCurrent",
+            "x": 950.0,
+            "y": 400.0,
+            "width": 300.0,
+            "height": 300.0,
+            "type": "Graph",
+            "properties": {
+              "topic": "/SmartDashboard/Power/TotalCurrent",
+              "period": 0.033,
+              "data_type": "double",
+              "time_displayed": 5.0,
+              "color": 4278238420,
+              "line_width": 2.0
             }
           }
         ]

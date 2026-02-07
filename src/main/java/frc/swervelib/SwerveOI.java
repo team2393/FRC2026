@@ -5,6 +5,7 @@ package frc.swervelib;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -16,7 +17,7 @@ public class SwerveOI
    *  Alternate: Right stick to swerve, left to rotate
    */
   public static boolean ALTERNATE = false;
-  
+
   /** Maximum speed for manual driving [m/s] */
   public static double MAX_METERS_PER_SEC = 1.0;
 
@@ -28,7 +29,9 @@ public class SwerveOI
    *  assignments (compare XboxController.Axis vs
    *  PS4Controller.Axis) and needs to use CommandPS4Controller
    */
-  public static final CommandXboxController joystick = new CommandXboxController(0);
+   public static final CommandXboxController joystick = new CommandXboxController(0);
+//  public static final CommandPS4Controller joystick = new CommandPS4Controller(0);
+
 
   private static double filter(double value)
   {
@@ -60,8 +63,12 @@ public class SwerveOI
   /** @return Rotational speed [deg/s] */
   public static double getRotationSpeed()
   {
+    // Slow down when stick is pushed
+    double factor = (ALTERNATE ? joystick.leftStick() : joystick.rightStick()).getAsBoolean()
+                  ? SwerveDrivetrain.CRAWL_SPEED
+                  : 1.0;
     return rotation_slew.calculate(
-      MAX_ROTATION_DEG_PER_SEC * filter(ALTERNATE ? -joystick.getLeftX() : -joystick.getRightX()));
+      MAX_ROTATION_DEG_PER_SEC * factor * filter(ALTERNATE ? -joystick.getLeftX() : -joystick.getRightX()));
   }
 
   /** Reset slew limiters */
@@ -71,7 +78,7 @@ public class SwerveOI
     side_slew.reset(0);
     rotation_slew.reset(0);
   }
-  
+
   /** Start: Reset drivetrain: Zero X, Y, heading */
   public static Trigger resetDrivetrain()
   {

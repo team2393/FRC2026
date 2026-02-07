@@ -80,11 +80,17 @@ public class CameraHelper
                     // Traget too far away?
                     double distance = target.bestCameraToTarget.getTranslation().getNorm();
                     nt_distance.setNumber(distance);
-                    if (distance > 2.5)
+                    if (distance > 3.0)
                     {
                         // System.out.println("No best target");
                         continue;
                     }
+                    SmartDashboard.putNumber("ambiguity", target.poseAmbiguity);
+                    if (target.poseAmbiguity > 0.6)
+                    {
+                        continue;
+                    }
+
 
                     // TODO Vary stddev with distance etc, see
                     // https://www.chiefdelphi.com/t/global-pose-with-ll/513848
