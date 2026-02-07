@@ -276,7 +276,7 @@
             "title": "Offset0",
             "x": 0.0,
             "y": 0.0,
-            "width": 100.0,
+            "width": 150.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -288,9 +288,9 @@
           },
           {
             "title": "Offset1",
-            "x": 100.0,
+            "x": 150.0,
             "y": 0.0,
-            "width": 100.0,
+            "width": 150.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -302,9 +302,9 @@
           },
           {
             "title": "Offset2",
-            "x": 200.0,
+            "x": 300.0,
             "y": 0.0,
-            "width": 100.0,
+            "width": 150.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -318,7 +318,7 @@
             "title": "Angle0",
             "x": 0.0,
             "y": 100.0,
-            "width": 100.0,
+            "width": 150.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -330,9 +330,9 @@
           },
           {
             "title": "Angle1",
-            "x": 100.0,
+            "x": 150.0,
             "y": 100.0,
-            "width": 100.0,
+            "width": 150.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -344,9 +344,9 @@
           },
           {
             "title": "Angle2",
-            "x": 200.0,
+            "x": 300.0,
             "y": 100.0,
-            "width": 100.0,
+            "width": 150.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -358,9 +358,9 @@
           },
           {
             "title": "Angle3",
-            "x": 300.0,
+            "x": 450.0,
             "y": 100.0,
-            "width": 100.0,
+            "width": 150.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -372,9 +372,9 @@
           },
           {
             "title": "Offset3",
-            "x": 300.0,
+            "x": 450.0,
             "y": 0.0,
-            "width": 100.0,
+            "width": 150.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -388,7 +388,7 @@
             "title": "Position0",
             "x": 0.0,
             "y": 200.0,
-            "width": 100.0,
+            "width": 150.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -400,9 +400,9 @@
           },
           {
             "title": "Position1",
-            "x": 100.0,
+            "x": 150.0,
             "y": 200.0,
-            "width": 100.0,
+            "width": 150.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -414,9 +414,9 @@
           },
           {
             "title": "Position2",
-            "x": 200.0,
+            "x": 300.0,
             "y": 200.0,
-            "width": 100.0,
+            "width": 150.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -428,9 +428,9 @@
           },
           {
             "title": "Position3",
-            "x": 300.0,
+            "x": 450.0,
             "y": 200.0,
-            "width": 100.0,
+            "width": 150.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -444,7 +444,7 @@
             "title": "Speed0",
             "x": 0.0,
             "y": 300.0,
-            "width": 100.0,
+            "width": 150.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -456,9 +456,9 @@
           },
           {
             "title": "Speed1",
-            "x": 100.0,
+            "x": 150.0,
             "y": 300.0,
-            "width": 100.0,
+            "width": 150.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -470,9 +470,9 @@
           },
           {
             "title": "Speed2",
-            "x": 200.0,
+            "x": 300.0,
             "y": 300.0,
-            "width": 100.0,
+            "width": 150.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -484,9 +484,9 @@
           },
           {
             "title": "Speed3",
-            "x": 300.0,
+            "x": 450.0,
             "y": 300.0,
-            "width": 100.0,
+            "width": 150.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {

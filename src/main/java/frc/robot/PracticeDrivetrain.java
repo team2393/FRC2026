@@ -17,13 +17,13 @@ public class PracticeDrivetrain extends SwerveDrivetrain
     {
         super(0.53,
               0.53,
-              new SwerveModule(new PracticeRotator(0, RobotMap.FRONT_LEFT_ROTATE,  RobotMap.FRONT_LEFT_ANGLE, 0.0),
+              new SwerveModule(new PracticeRotator(0, RobotMap.FRONT_LEFT_ROTATE,  RobotMap.FRONT_LEFT_ANGLE, -150.1),
                                new PracticeDriver (0, RobotMap.FRONT_LEFT_DRIVE)),
-              new SwerveModule(new PracticeRotator(1, RobotMap.FRONT_RIGHT_ROTATE, RobotMap.FRONT_RIGHT_ANGLE, 0.0),
+              new SwerveModule(new PracticeRotator(1, RobotMap.FRONT_RIGHT_ROTATE, RobotMap.FRONT_RIGHT_ANGLE, 19.8),
                                new PracticeDriver (1, RobotMap.FRONT_RIGHT_DRIVE)),
-              new SwerveModule(new PracticeRotator(2, RobotMap.BACK_RIGHT_ROTATE,  RobotMap.BACK_RIGHT_ANGLE, 0.0),
+              new SwerveModule(new PracticeRotator(2, RobotMap.BACK_RIGHT_ROTATE,  RobotMap.BACK_RIGHT_ANGLE, 83.3),
                                new PracticeDriver (2, RobotMap.BACK_RIGHT_DRIVE)),
-              new SwerveModule(new PracticeRotator(3, RobotMap.BACK_LEFT_ROTATE,   RobotMap.BACK_LEFT_ANGLE, 0.0),
+              new SwerveModule(new PracticeRotator(3, RobotMap.BACK_LEFT_ROTATE,   RobotMap.BACK_LEFT_ANGLE, -133.7),
                                new PracticeDriver (3, RobotMap.BACK_LEFT_DRIVE))
               );
     }
