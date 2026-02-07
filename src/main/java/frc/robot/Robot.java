@@ -21,6 +21,7 @@ import frc.tools.CommandRobotBase;
 import frc.camera.CameraHelper;
 import frc.swervelib.AbsoluteSwerveCommand;
 import frc.swervelib.RelativeSwerveCommand;
+import frc.swervelib.ResetHeadingCommand;
 import frc.swervelib.SwerveDrivetrain;
 
 /** FRC2026 robot */
@@ -38,6 +39,7 @@ public class Robot extends CommandRobotBase
     /** XXX Drivetrain and related commands */
     // private final SwerveDrivetrain drivetrain = new RobotDrivetrain();
     private final SwerveDrivetrain drivetrain = new PracticeDrivetrain();
+    private final Command reset_heading = new ResetHeadingCommand(drivetrain);
     private final Command joydrive = new RelativeSwerveCommand(drivetrain);
     private final Command absdrive = new AbsoluteSwerveCommand(drivetrain);
     private final Command aim = new AimToHub(tags, drivetrain);
@@ -100,6 +102,7 @@ public class Robot extends CommandRobotBase
             drivetrain.setDefaultCommand(absdrive);
             CommandScheduler.getInstance().schedule(absdrive);
         }));
+        SmartDashboard.putData("Reset", reset_heading);
         // By default, drive, and allow bound buttons to select other modes
         drivetrain.setDefaultCommand(joydrive);
 

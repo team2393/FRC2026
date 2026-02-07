@@ -89,11 +89,12 @@ public class CameraHelper
                     // TODO Vary stddev with distance etc, see
                     // https://www.chiefdelphi.com/t/global-pose-with-ll/513848
                     double fuzzyness = 1.0;
-                    if (distance > 1)
-                        fuzzyness = distance;
+                    // if (distance > 1)
+                    //     fuzzyness = distance;
+                    // Check drive speed?
                     // Check target.poseAmbiguity, target.objDetectConf
-                    System.out.format("Tag %2d: dist %5.2f m, confidence %5.3f, ambig. %5.3f\n",
-                                      target.getFiducialId(), distance, target.objDetectConf, target.poseAmbiguity);
+                    // System.out.format("Tag %2d: dist %5.2f m, confidence %5.3f, ambig. %5.3f\n",
+                    //                   target.getFiducialId(), distance, target.objDetectConf, target.poseAmbiguity);
 
                     // Where is that tag on the field?
                     Optional<Pose3d> tag_pose = tags.getTagPose(target.fiducialId);
