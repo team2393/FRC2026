@@ -37,8 +37,8 @@ public class Robot extends CommandRobotBase
     private final PowerDistribution power_dist = new PowerDistribution();
 
     /** XXX Drivetrain and related commands */
-    // private final SwerveDrivetrain drivetrain = new RobotDrivetrain();
-    private final SwerveDrivetrain drivetrain = new PracticeDrivetrain();
+    private final SwerveDrivetrain drivetrain = new RobotDrivetrain();
+    // private final SwerveDrivetrain drivetrain = new PracticeDrivetrain();
     private final Command reset_heading = new ResetHeadingCommand(drivetrain);
     private final Command joydrive = new RelativeSwerveCommand(drivetrain);
     private final Command absdrive = new AbsoluteSwerveCommand(drivetrain);
