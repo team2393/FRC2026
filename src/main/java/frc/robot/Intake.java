@@ -9,11 +9,17 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/** Handle intake */
+/** Intake
+ *
+ *  Opens and closes (via 'Arm')
+ *  and has motor to move/pull game pieces in
+ */
 public class Intake
 {
-    // XXX For now DO, will turn into solenoid or motor
+    // XXX For now DO, will turn into 'Arm'
     private final DigitalOutput open_intake = new DigitalOutput(RobotMap.INTAKE_OPENER);
+    // private final Arm arm = new Arm();
+
     private final TalonFX mover = MotorHelper.createTalonFX(RobotMap.INTAKE_MOVER, true, true, 0.3);
     private final NetworkTableEntry nt_volt_set = SmartDashboard.getEntry("IntakeVoltageSet");
 
@@ -25,6 +31,8 @@ public class Intake
     public void open(boolean yes_no)
     {
         open_intake.set(yes_no);
+        // arm.setAngle(yes_no ? 0.0 : 70.0);
+
         mover.setVoltage(yes_no ? nt_volt_set.getDouble(0) : 0);
     }
 }

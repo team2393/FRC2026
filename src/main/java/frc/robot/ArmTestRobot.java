@@ -11,7 +11,7 @@ import frc.tools.CommandRobotBase;
  *  1) Find DEG_PER_ROT
  *  2) Find DOWN_ANGLE, UP_ANGLE,
  *     make reset() work
- *  3) Does "forward" move up in teleop?
+ *  3) Does stick "forward" in teleop move the arm "up"?
  *  4) Tune kg, PID in auto
  */
 public class ArmTestRobot extends CommandRobotBase

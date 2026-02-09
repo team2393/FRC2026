@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Intake Arm: Motor to rotate out/in
  *
- *  Robot must power up with arm all up=in
+ *  Robot must power up with arm all "up" or "in"
  */
 public class Arm
 {
@@ -31,8 +31,8 @@ public class Arm
     // Rotate at a max speed of 45 deg/sec
     private final TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(45, 45);
     private final ProfiledPIDController pid = new ProfiledPIDController(0.0, 0.0, 0.0, constraints);
-    private final NetworkTableEntry nt_angle = SmartDashboard.getEntry("Arm Angle"),
-                                    nt_kg = SmartDashboard.getEntry("Arm kg"),
+    private final NetworkTableEntry nt_angle         = SmartDashboard.getEntry("Arm Angle"),
+                                    nt_kg            = SmartDashboard.getEntry("Arm kg"),
                                     nt_desired_angle = SmartDashboard.getEntry("Set Arm Angle");
 
     /** Zero degrees = arm horizontally out */
@@ -58,7 +58,7 @@ public class Arm
     public void reset()
     {
         // We are at UP_ANGLE.
-        // Assume raw angle reports 30
+        // Assume raw angle reports 30 degress
         // -> ZERO_OFFSET = 30 - UP_ANGLE
         ZERO_OFFSET = getRawAngle() - UP_ANGLE;
         // getAngle() will now return
