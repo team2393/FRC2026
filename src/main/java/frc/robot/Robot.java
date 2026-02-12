@@ -10,6 +10,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,8 +37,13 @@ public class Robot extends CommandRobotBase
     /** Power distribution board to monitor current */
     private final PowerDistribution power_dist = new PowerDistribution();
 
-    /** XXX Drivetrain and related commands */
-    private final SwerveDrivetrain drivetrain = new RobotDrivetrain();
+    // TODO Use RoboRIO serial from practice chassis
+    private final boolean is_practice_chassis =  RobotController.getSerialNumber().equals("1234");
+
+    /** Drivetrain and related commands */
+    private final SwerveDrivetrain drivetrain = is_practice_chassis
+                                              ? new PracticeDrivetrain()
+                                              : new RobotDrivetrain();
     // private final SwerveDrivetrain drivetrain = new PracticeDrivetrain();
     private final Command reset_heading = new ResetHeadingCommand(drivetrain);
     private final Command joydrive = new RelativeSwerveCommand(drivetrain);
@@ -65,6 +71,10 @@ public class Robot extends CommandRobotBase
 
     public Robot()
     {
+        System.out.println("** RIO serial " + RobotController.getSerialNumber());
+        System.out.println("** on " + drivetrain.getClass().getName());
+        System.out.println("************************************");
+
         // Configure speeds
         // Robot needs >1m/s to run over the bump
         // Max speed used in teleop
