@@ -38,7 +38,7 @@ public class Robot extends CommandRobotBase
     private final PowerDistribution power_dist = new PowerDistribution();
 
     // TODO Use RoboRIO serial from practice chassis
-    private final boolean is_practice_chassis =  RobotController.getSerialNumber().equals("1234");
+    private final boolean is_practice_chassis =  RobotController.getSerialNumber().equals("0323821B");
 
     /** Drivetrain and related commands */
     private final SwerveDrivetrain drivetrain = is_practice_chassis
@@ -60,7 +60,7 @@ public class Robot extends CommandRobotBase
         new CameraHelper(tags, "Front",
                          0.33, -0.09, 0.16,
                         0.0,
-                        -10.0),
+                        -34.0),
         new CameraHelper(tags, "Back",
                         -0.34, -0.07, 0.16,
                         180.0,
