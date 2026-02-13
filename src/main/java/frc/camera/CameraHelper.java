@@ -80,7 +80,7 @@ public class CameraHelper
                     // Traget too far away?
                     double distance = target.bestCameraToTarget.getTranslation().getNorm();
                     nt_distance.setNumber(distance);
-                    if (distance > 3.0)
+                    if (distance > 3.5)
                     {
                         // System.out.println("No best target");
                         continue;
