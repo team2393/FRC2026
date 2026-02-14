@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Arm
 {
-    private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.INTAKE_ARM, false, true, 0.3);
+    private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.INTAKE_ARM, true, true, 0.3);
 
     /** Calibration: Degrees of arm per motor rotation */
     private final static double DEG_PER_ROT = 1.0;
