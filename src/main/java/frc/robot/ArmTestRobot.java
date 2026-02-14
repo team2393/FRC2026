@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tools.CommandRobotBase;
 
@@ -37,6 +38,7 @@ public class ArmTestRobot extends CommandRobotBase
         arm.getAngle(); // getting angle will show it in NT
         double voltage = -12.0 * RobotOI.joystick.getRightY();
         arm.setVoltage(voltage);
+        RobotOI.joystick.setRumble(RumbleType.kBothRumble, Math.abs(voltage/12));
         SmartDashboard.putNumber("Voltage", voltage);
     }
 
