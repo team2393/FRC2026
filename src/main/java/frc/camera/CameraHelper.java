@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.swervelib.SwerveDrivetrain;
 
@@ -26,8 +27,10 @@ public class CameraHelper
     private final AprilTagFieldLayout tags;
     private final PhotonCamera camera;
     private final Transform3d robotToCam;
-    private final NetworkTableEntry nt_camera, nt_distance;
+    private final NetworkTableEntry nt_camera, nt_distance, nt_tag_period;
+    private final Timer tagTimer = new Timer();
     private int successes = 0;
+    private double avg_tag_period = 0.02;
 
     /** @param tags Field info
      *  @param camera_name Camera name ("Front", "Back") in photonvision network tablee ntries
@@ -48,6 +51,7 @@ public class CameraHelper
 
         nt_camera = SmartDashboard.getEntry(camera_name + "Camera");
         nt_distance = SmartDashboard.getEntry(camera_name + "Dist");
+        nt_tag_period = SmartDashboard.getEntry(camera_name + "TagPeriod");
 
         // XXX Allow access to the camera from a computer when tethered to the USB port on the roboRIO
         // PortForwarder.add(5800, "photonvision.local", 5800);
@@ -73,10 +77,12 @@ public class CameraHelper
             return;
         }
 
+        boolean sawTarget = false;
         for (PhotonPipelineResult result : camera.getAllUnreadResults())
             if (result.hasTargets())
                 for (PhotonTrackedTarget target : result.getTargets())
                 {
+                    sawTarget = true;
                     // Traget too far away?
                     double distance = target.bestCameraToTarget.getTranslation().getNorm();
                     nt_distance.setNumber(distance);
@@ -127,5 +133,16 @@ public class CameraHelper
                     successes = 50; // 1 second
                 }
         nt_camera.setBoolean(successes > 0);
+        if (sawTarget)
+        {
+            double tag_period = tagTimer.get();
+            tagTimer.restart();
+            // Exponential smoothing, 90:10%
+            avg_tag_period = 0.9 * avg_tag_period  +  0.1 * tag_period;
+            if (avg_tag_period == 0)
+                nt_tag_period.setDouble(0);
+            else
+                nt_tag_period.setDouble(1.0/avg_tag_period);
+        }
     }
 }

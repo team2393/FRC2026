@@ -1,6 +1,6 @@
 {
   "version": 1.0,
-  "grid_size": 50,
+  "grid_size": 25,
   "tabs": [
     {
       "name": "Main",
@@ -89,7 +89,7 @@
           },
           {
             "title": "HubDist",
-            "x": 1050.0,
+            "x": 1250.0,
             "y": 0.0,
             "width": 100.0,
             "height": 100.0,
@@ -103,7 +103,7 @@
           },
           {
             "title": "IntakeVoltageSet",
-            "x": 1250.0,
+            "x": 1350.0,
             "y": 0.0,
             "width": 150.0,
             "height": 100.0,
@@ -117,7 +117,7 @@
           },
           {
             "title": "BackCamera",
-            "x": 850.0,
+            "x": 950.0,
             "y": 0.0,
             "width": 100.0,
             "height": 100.0,
@@ -148,7 +148,7 @@
           },
           {
             "title": "BackDist",
-            "x": 950.0,
+            "x": 1050.0,
             "y": 0.0,
             "width": 100.0,
             "height": 100.0,
@@ -280,6 +280,34 @@
               "time_displayed": 5.0,
               "color": 4278238420,
               "line_width": 2.0
+            }
+          },
+          {
+            "title": "FrontTagPeriod",
+            "x": 850.0,
+            "y": 0.0,
+            "width": 100.0,
+            "height": 100.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/FrontTagPeriod",
+              "period": 0.033,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "BackTagPeriod",
+            "x": 1150.0,
+            "y": 0.0,
+            "width": 100.0,
+            "height": 100.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/BackTagPeriod",
+              "period": 0.033,
+              "data_type": "double",
+              "show_submit_button": false
             }
           }
         ]
