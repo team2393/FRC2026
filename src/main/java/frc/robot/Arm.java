@@ -93,8 +93,10 @@ public class Arm
         motor.setVoltage(voltage);
     }
 
-    /** Hold at desired angle */
-    public void hold()
+    /** Hold at desired angle
+     *  @return Voltage used to hold
+     */
+    public double hold()
     {
         final double angle = getAngle();
 
@@ -104,5 +106,6 @@ public class Arm
         final double voltage = kg * Math.cos(Math.toRadians(angle))
                              + pid.calculate(angle, setpoint);
         setVoltage(voltage);
+        return voltage;
     }
 }
