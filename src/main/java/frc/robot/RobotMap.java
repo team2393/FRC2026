@@ -37,7 +37,7 @@ public class RobotMap
 
     // Falcon CAN IDs
     public static final int INTAKE_ARM = 2;
-    public static final int INTAKE_MOVER = 18;
+    public static final int INTAKE_MOVER = 15;
     public static final int STOREAGE_MOVER = 20;
     public static final int SPINNER = 20;
     public static final int SPINNER2 = 21;
