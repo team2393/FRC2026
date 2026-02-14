@@ -19,8 +19,12 @@ public class Arm
 {
     private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.INTAKE_ARM, true, true, 0.3);
 
-    /** Calibration: Degrees of arm per motor rotation */
-    private final static double DEG_PER_ROT = 1.0;
+    /** Calibration: Degrees of arm per motor rotation
+     *
+     *  Motor -> 3:1,3:1,3:1 gears, 36:12=3:1 sprockets  -> Arm
+     *  ==> 81 motor rotations for 360 degree arm movement
+     */
+    private final static double DEG_PER_ROT = 360.0 / 81.0;
 
     /** Angle when arm is up, intake "in" */
     private final static double UP_ANGLE = 0;
