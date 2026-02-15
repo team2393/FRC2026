@@ -50,6 +50,8 @@ public class Arm
         pid.enableContinuousInput(-180, 180);
         pid.setTolerance(1.0);
         SmartDashboard.putData("Arm PID", pid);
+
+        reset();
     }
 
     /** @return -180..180 degrees */
@@ -58,7 +60,10 @@ public class Arm
         return motor.getPosition().getValueAsDouble() * DEG_PER_ROT;
     }
 
-    /** Reset angle, assuming arm is positioned at UP_ANGLE */
+    /** Reset angle, assuming arm is positioned at UP_ANGLE
+     *
+     *  Arm resets itself when constructed
+     */
     public void reset()
     {
         // We are at UP_ANGLE.
