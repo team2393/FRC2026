@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.swervebot;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -15,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.camera.CameraHelper;
 import frc.camera.RotateToTarget;
 import frc.demo.DemoMechanism;
 import frc.demo.DemoMechanismArmCommand;
@@ -72,6 +75,11 @@ public class SwerveBot extends CommandRobotBase
 
   private final SendableChooser<Command> autos = new SendableChooser<>();
 
+  private final AprilTagFieldLayout tags = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
+
+  private final CameraHelper camera = new CameraHelper(tags, "Front",
+                                                       0.32, -0.16, 0.28, 0, -20);
+
   public SwerveBot()
   {
     // Slower, smoother movement
@@ -117,6 +125,13 @@ public class SwerveBot extends CommandRobotBase
   public void disabledPeriodic()
   {
     AutoTools.indicateStart(drivetrain, autos.getSelected());
+  }
+
+  @Override
+  public void robotPeriodic()
+  {
+    super.robotPeriodic();
+    camera.updatePosition(drivetrain);
   }
 
   @Override

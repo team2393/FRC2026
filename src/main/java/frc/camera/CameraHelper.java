@@ -27,7 +27,7 @@ public class CameraHelper
     private final AprilTagFieldLayout tags;
     private final PhotonCamera camera;
     private final Transform3d robotToCam;
-    private final NetworkTableEntry nt_camera, nt_distance, nt_tag_period;
+    private final NetworkTableEntry nt_camera, nt_info, nt_distance, nt_tag_period;
     private final Timer tagTimer = new Timer();
     private int successes = 0;
     private double avg_tag_period = 0.02;
@@ -50,6 +50,7 @@ public class CameraHelper
         camera = new PhotonCamera(camera_name);
 
         nt_camera = SmartDashboard.getEntry(camera_name + "Camera");
+        nt_info = SmartDashboard.getEntry(camera_name + "Info");
         nt_distance = SmartDashboard.getEntry(camera_name + "Dist");
         nt_tag_period = SmartDashboard.getEntry(camera_name + "TagPeriod");
 
@@ -83,7 +84,7 @@ public class CameraHelper
                 for (PhotonTrackedTarget target : result.getTargets())
                 {
                     sawTarget = true;
-                    // Traget too far away?
+                    // Target too far away?
                     double distance = target.bestCameraToTarget.getTranslation().getNorm();
                     nt_distance.setNumber(distance);
                     if (distance > 3.5)
@@ -91,12 +92,8 @@ public class CameraHelper
                         // System.out.println("No best target");
                         continue;
                     }
-                    SmartDashboard.putNumber("ambiguity", target.poseAmbiguity);
                     if (target.poseAmbiguity > 0.6)
-                    {
                         continue;
-                    }
-
 
                     // TODO Vary stddev with distance etc, see
                     // https://www.chiefdelphi.com/t/global-pose-with-ll/513848
@@ -104,20 +101,32 @@ public class CameraHelper
                     // if (distance > 1)
                     //     fuzzyness = distance;
                     // Check drive speed?
-                    // Check target.poseAmbiguity, target.objDetectConf
-                    // System.out.format("Tag %2d: dist %5.2f m, confidence %5.3f, ambig. %5.3f\n",
-                    //                   target.getFiducialId(), distance, target.objDetectConf, target.poseAmbiguity);
 
                     // Where is that tag on the field?
                     Optional<Pose3d> tag_pose = tags.getTagPose(target.fiducialId);
                     if (tag_pose.isEmpty())
                         continue;
 
-                    // System.out.println(target.bestCameraToTarget);
-                    // Transform from tag to camera, then from camera to center of robot
                     Pose3d pose = tag_pose.get();
-                    pose = pose.transformBy(target.bestCameraToTarget.inverse());
+
+                    // TESTING...
+                    // pose = new Pose3d();
+
+                    // Transform from tag to camera...
+                    Transform3d target_to_camera = target.bestCameraToTarget.inverse();
+                    String info = String.format("#%02d to cam: %5.2f %5.2f %5.2f  < %5.1f %5.1f %5.1f",
+                                                target.fiducialId,
+                                                target_to_camera.getX(), target_to_camera.getY(), target_to_camera.getZ(),
+                                                Math.toDegrees(target_to_camera.getRotation().getX()),
+                                                Math.toDegrees(target_to_camera.getRotation().getY()),
+                                                Math.toDegrees(target_to_camera.getRotation().getZ()));
+                    nt_info.setString(info);
+                    pose = pose.transformBy(target_to_camera);
+
+                    // ... then from camera to center of robot
                     pose = pose.transformBy(robotToCam.inverse());
+
+                    // Map from 3D down to 2D
                     Pose2d position = pose.toPose2d();
                     // System.out.println(target.getFiducialId() + " @ " + tag_pose + " -> " + position);
 
