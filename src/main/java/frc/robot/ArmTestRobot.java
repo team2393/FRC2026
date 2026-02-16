@@ -5,6 +5,7 @@ package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tools.CommandRobotBase;
 
@@ -24,12 +25,18 @@ public class ArmTestRobot extends CommandRobotBase
     private final NetworkTableEntry nt_setpoint2 = SmartDashboard.getEntry("Setpoint2");
     private final NetworkTableEntry nt_max_voltage = SmartDashboard.getEntry("MaxVoltage");
     private final NetworkTableEntry nt_voltage = SmartDashboard.getEntry("Voltage");
+    /** Power distribution board to monitor current */
+    private final PowerDistribution power_dist = new PowerDistribution();
 
     public ArmTestRobot()
     {
-        nt_setpoint1.setDefaultDouble(45);
-        nt_setpoint2.setDefaultDouble(70);
+        nt_setpoint1.setDefaultDouble(10);
+        nt_setpoint2.setDefaultDouble(120);
         nt_max_voltage.setDefaultDouble(5);
+
+           // Power dist. info
+        power_dist.clearStickyFaults();
+        SmartDashboard.putData("Power", power_dist);
     }
 
     @Override

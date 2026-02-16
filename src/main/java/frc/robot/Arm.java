@@ -17,7 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Arm
 {
-    private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.INTAKE_ARM, true, true, 0.3);
+    // No brake so we can manually move 'up'
+    private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.INTAKE_ARM, true, false, 0.3);
 
     /** Calibration: Degrees of arm per motor rotation
      *
@@ -27,14 +28,16 @@ public class Arm
     private final static double DEG_PER_ROT = 360.0 / 81.0;
 
     /** Angle when arm is up, intake "in" */
-    private final static double UP_ANGLE = 0;
+    private final static double UP_ANGLE = 130;
 
     /** Angle when arm is down, intake "out" */
     private final static double DOWN_ANGLE = 0;
 
-    // Rotate at a max speed of 45 deg/sec
+    // Rotate at a max speed of ... deg/sec, accel ... deg/s/s
+    // Chain chattered/oscillated using 180, 180
+    // chain snapped with 100, 180
     private final TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(45, 45);
-    private final ProfiledPIDController pid = new ProfiledPIDController(0.0, 0.0, 0.0, constraints);
+    private final ProfiledPIDController pid = new ProfiledPIDController(0.5, 0.0, 0.0, constraints);
     private final NetworkTableEntry nt_angle         = SmartDashboard.getEntry("Arm Angle"),
                                     nt_kg            = SmartDashboard.getEntry("Arm kg"),
                                     nt_desired_angle = SmartDashboard.getEntry("Set Arm Angle");
@@ -44,11 +47,12 @@ public class Arm
 
     public Arm()
     {
-        nt_kg.setDefaultDouble(0.0);
+        nt_kg.setDefaultDouble(0.2);
         nt_desired_angle.setDefaultDouble(55);
 
         pid.enableContinuousInput(-180, 180);
         pid.setTolerance(1.0);
+        pid.setIZone(2.0);
         SmartDashboard.putData("Arm PID", pid);
 
         reset();
@@ -116,6 +120,7 @@ public class Arm
         final double angle = getAngle();
 
         final double kg = nt_kg.getDouble(0.25);
+        // final double setpoint = nt_desired_angle.getDouble(50);
         final double setpoint = MathUtil.clamp(nt_desired_angle.getDouble(50), DOWN_ANGLE, UP_ANGLE);
 
         final double voltage = kg * Math.cos(Math.toRadians(angle))
