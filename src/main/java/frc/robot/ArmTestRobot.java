@@ -22,12 +22,14 @@ public class ArmTestRobot extends CommandRobotBase
     private final NetworkTableEntry nt_at_setpoint = SmartDashboard.getEntry("ArmAtSetpoint");
     private final NetworkTableEntry nt_setpoint1 = SmartDashboard.getEntry("Setpoint1");
     private final NetworkTableEntry nt_setpoint2 = SmartDashboard.getEntry("Setpoint2");
+    private final NetworkTableEntry nt_max_voltage = SmartDashboard.getEntry("MaxVoltage");
     private final NetworkTableEntry nt_voltage = SmartDashboard.getEntry("Voltage");
 
     public ArmTestRobot()
     {
         nt_setpoint1.setDefaultDouble(45);
         nt_setpoint2.setDefaultDouble(70);
+        nt_max_voltage.setDefaultDouble(5);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class ArmTestRobot extends CommandRobotBase
     public void teleopPeriodic()
     {
         arm.getAngle(); // getting angle will show it in NT
-        double voltage = -12.0 * RobotOI.joystick.getRightY();
+        double voltage = -RobotOI.joystick.getRightY() * nt_max_voltage.getDouble(12.0);
         arm.setVoltage(voltage);
         RobotOI.joystick.setRumble(RumbleType.kBothRumble, Math.abs(voltage/12));
         nt_voltage.setDouble(voltage);
