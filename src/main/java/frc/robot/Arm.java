@@ -73,6 +73,12 @@ public class Arm
         // getAngle() will now return
         // 30 - ZERO_OFFSET =
         // 30 - (30 - UP_ANGLE) = UP_ANGLE
+        resetPID();
+    }
+
+    /** Reset the PID */
+    public void resetPID()
+    {
         pid.reset(getAngle());
     }
 

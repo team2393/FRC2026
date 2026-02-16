@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tools.CommandRobotBase;
@@ -18,12 +19,22 @@ import frc.tools.CommandRobotBase;
 public class ArmTestRobot extends CommandRobotBase
 {
     private final Arm arm = new Arm();
+    private final NetworkTableEntry nt_at_setpoint = SmartDashboard.getEntry("ArmAtSetpoint");
+    private final NetworkTableEntry nt_setpoint1 = SmartDashboard.getEntry("Setpoint1");
+    private final NetworkTableEntry nt_setpoint2 = SmartDashboard.getEntry("Setpoint2");
+    private final NetworkTableEntry nt_voltage = SmartDashboard.getEntry("Voltage");
+
+    public ArmTestRobot()
+    {
+        nt_setpoint1.setDefaultDouble(45);
+        nt_setpoint2.setDefaultDouble(70);
+    }
 
     @Override
     public void robotPeriodic()
     {
         super.robotPeriodic();
-        SmartDashboard.putBoolean("Arm At Setpoint", arm.atDesiredAngle());
+        nt_at_setpoint.setBoolean(arm.atDesiredAngle());
     }
 
     @Override
@@ -39,7 +50,13 @@ public class ArmTestRobot extends CommandRobotBase
         double voltage = -12.0 * RobotOI.joystick.getRightY();
         arm.setVoltage(voltage);
         RobotOI.joystick.setRumble(RumbleType.kBothRumble, Math.abs(voltage/12));
-        SmartDashboard.putNumber("Voltage", voltage);
+        nt_voltage.setDouble(voltage);
+    }
+
+    @Override
+    public void autonomousInit()
+    {
+        arm.resetPID();
     }
 
     @Override
@@ -47,10 +64,10 @@ public class ArmTestRobot extends CommandRobotBase
     {
         // Toggle between two setpoints every 5 secs
         final double setpoint = (System.currentTimeMillis() / 5000) % 2 == 0
-                              ? 45.0
-                              : 70.0;
+                              ? nt_setpoint1.getDouble(45)
+                              : nt_setpoint2.getDouble(45);
         arm.setAngle(setpoint);
         double voltage = arm.hold();
-        SmartDashboard.putNumber("Voltage", voltage);
+        nt_voltage.setDouble(voltage);
     }
 }
