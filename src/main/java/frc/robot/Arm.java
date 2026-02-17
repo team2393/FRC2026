@@ -126,6 +126,7 @@ public class Arm
 
         final double voltage = kg * Math.cos(Math.toRadians(angle))
                              + pid.calculate(angle, setpoint);
+        // TODO Limit voltage or current to prevent damage to arm
         setVoltage(voltage);
         return voltage;
     }
