@@ -50,7 +50,8 @@ public class Arm
         nt_kg.setDefaultDouble(0.2);
         nt_desired_angle.setDefaultDouble(55);
 
-        pid.enableContinuousInput(-180, 180);
+        // Do NOT wrap around
+        // pid.enableContinuousInput(-180, 180);
         pid.setTolerance(1.0);
         pid.setIZone(2.0);
         SmartDashboard.putData("Arm PID", pid);
