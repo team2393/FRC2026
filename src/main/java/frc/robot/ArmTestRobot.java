@@ -43,6 +43,7 @@ public class ArmTestRobot extends CommandRobotBase
     public void robotPeriodic()
     {
         super.robotPeriodic();
+        arm.getAngle(); // getting angle will show it in NT
         nt_at_setpoint.setBoolean(arm.atDesiredAngle());
     }
 
@@ -55,7 +56,6 @@ public class ArmTestRobot extends CommandRobotBase
     @Override
     public void teleopPeriodic()
     {
-        arm.getAngle(); // getting angle will show it in NT
         double voltage = -RobotOI.joystick.getRightY() * nt_max_voltage.getDouble(12.0);
         arm.setVoltage(voltage);
         RobotOI.joystick.setRumble(RumbleType.kBothRumble, Math.abs(voltage/12));

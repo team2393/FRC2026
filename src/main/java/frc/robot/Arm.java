@@ -18,7 +18,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Arm
 {
     // No brake so we can manually move 'up'
-    private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.INTAKE_ARM, true, false, 0.3);
+    // During smooth moves, stator current in Phoenix tuner went up to 7A
+    // --> 10 A limit?
+    private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.INTAKE_ARM, true, false, 0, 10.0);
 
     /** Calibration: Degrees of arm per motor rotation
      *
