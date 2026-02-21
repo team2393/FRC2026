@@ -45,6 +45,7 @@ public class FuelHandler extends SubsystemBase
     private final Intake intake = new Intake();
     // At 5V, mechanism uses ~20 amp. With balls, it runs up to ~30
     private final TalonFX storage_mover = MotorHelper.createTalonFX(RobotMap.STOREAGE_MOVER, false, true, 0, 30.0);
+    private final TalonFX feeder = MotorHelper.createTalonFX(RobotMap.FEEDER, false, true, 0, 30.0);
     private final DigitalInput storage_sensor = new DigitalInput(RobotMap.STORAGE_SENSOR);
     private final KeepOnFilter keep_storarge = new KeepOnFilter(1.0);
     private final Spinner spinner = new Spinner();
@@ -186,11 +187,13 @@ public class FuelHandler extends SubsystemBase
         if (run_storage)
         {
             storage_mover.setVoltage(nt_belt_voltage.getDouble(0));
+            feeder.setVoltage(nt_belt_voltage.getDouble(0));
             vis_storage.setColor(blink_on_off ? BELT_ON : BELT_OFF);
         }
         else
         {
             storage_mover.setVoltage(0);
+            feeder.setVoltage(0);
             vis_storage.setColor(BELT_OFF);
         }
 

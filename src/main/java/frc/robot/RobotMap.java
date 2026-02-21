@@ -39,6 +39,7 @@ public class RobotMap
     public static final int INTAKE_ARM = 2;
     public static final int INTAKE_MOVER = 15;
     public static final int STOREAGE_MOVER = 9;
+    public static final int FEEDER = 12;
     public static final int SPINNER = 20;
     public static final int SPINNER2 = 21;
 

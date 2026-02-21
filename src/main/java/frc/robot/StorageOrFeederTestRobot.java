@@ -8,11 +8,12 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tools.CommandRobotBase;
 
-/** Storage test */
-public class StorageTestRobot extends CommandRobotBase
+/** Storage or Feeder test */
+public class StorageOrFeederTestRobot extends CommandRobotBase
 {
+    // Storage:
     // At 5V, mechanism uses ~20 amp. With balls, it runs up to ~30
-    private final TalonFX motor = MotorHelper.createTalonFX(9, false, false, 0, 30.0);
+    private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.STOREAGE_MOVER, false, false, 0, 30.0);
 
     @Override
     public void teleopPeriodic()

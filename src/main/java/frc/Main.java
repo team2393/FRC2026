@@ -28,7 +28,7 @@ public final class Main
       // RobotBase.startRobot(frc.robot.SpinnerTestRobot::new);
       // RobotBase.startRobot(frc.robot.IntakeTestRobot::new);
       // RobotBase.startRobot(frc.robot.FuelHandlerTestRobot::new);
-      RobotBase.startRobot(frc.robot.StorageTestRobot::new);
+      RobotBase.startRobot(frc.robot.StorageOrFeederTestRobot::new);
       // RobotBase.startRobot(frc.robot.ArmTestRobot::new);
       // RobotBase.startRobot(frc.robot.HoodDemoRobot::new);
 
