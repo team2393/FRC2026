@@ -22,9 +22,9 @@ import frc.tools.KeepOnFilter;
  *
  *  Basic idea:
  *
- *  Intake    Storage          Spinner
- *  O O O O   O O O O O O O O
- *  --->--->  --->--->--->--S  >>>>>>>>
+ *  Intake    Storage          Feeder Spinner
+ *  O O O O   O O O O O O O O O O O O
+ *  --->--->  --->--->--->--->--->--S  >>>>>>>>
  *
  *  Intake can open/close.
  *  Intake and storage have motors for grabber wheels or belt
