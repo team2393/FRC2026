@@ -51,6 +51,7 @@ public class MotorHelper
             .withMotorOutput(new MotorOutputConfigs().withInverted(inverted)
                                                      .withNeutralMode(neutral))
             .withOpenLoopRamps(new OpenLoopRampsConfigs().withVoltageOpenLoopRampPeriod(ramp_up_secs));
+        // https://v6.docs.ctr-electronics.com/en/stable/docs/hardware-reference/talonfx/improving-performance-with-current-limits.html
         if (stator_current_limit > 0)
             config.withCurrentLimits(new CurrentLimitsConfigs().withStatorCurrentLimit(stator_current_limit)
                                                                .withStatorCurrentLimitEnable(true));
