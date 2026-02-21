@@ -49,7 +49,8 @@ public class FuelHandler extends SubsystemBase
     private final DigitalInput storage_sensor = new DigitalInput(RobotMap.STORAGE_SENSOR);
     private final KeepOnFilter keep_storarge = new KeepOnFilter(1.0);
     private final Spinner spinner = new Spinner();
-    private final NetworkTableEntry nt_belt_voltage = SmartDashboard.getEntry("BeltVoltage");
+    private final NetworkTableEntry nt_storage_voltage = SmartDashboard.getEntry("StorageVoltage");
+    private final NetworkTableEntry nt_feeder_voltage = SmartDashboard.getEntry("FeederVoltage");
     private final NetworkTableEntry nt_storage_full = SmartDashboard.getEntry("StorageFull");
     private final NetworkTableEntry nt_always_spin  = SmartDashboard.getEntry("AlwaysSpin");
 
@@ -70,15 +71,16 @@ public class FuelHandler extends SubsystemBase
     private final Debouncer after_shot_delay = new Debouncer(1.0);
 
     /** Visualization */
-    private final static Color8Bit BELT_OFF = new Color8Bit(100, 100, 0);
-    private final static Color8Bit BELT_ON = new Color8Bit(255, 255, 0);
+    private final static Color8Bit MOVE_OFF = new Color8Bit(100, 100, 0);
+    private final static Color8Bit MOVE_ON = new Color8Bit(255, 255, 0);
     private final static Color8Bit SPINNER_OFF = new Color8Bit(100, 0, 0);
     private final static Color8Bit SPINNER_ON = new Color8Bit(255, 0, 0);
     private final MechanismLigament2d vis_intake, vis_storage, vis_shooter;
 
     public FuelHandler()
     {
-        nt_belt_voltage.setDefaultDouble(5.0);
+        nt_storage_voltage.setDefaultDouble(5.0);
+        nt_feeder_voltage.setDefaultDouble(5.0);
         nt_always_spin.setDefaultBoolean(false);
 
         // Visualization
@@ -175,26 +177,26 @@ public class FuelHandler extends SubsystemBase
         {
             intake.open(true);
             vis_intake.setAngle(-20);
-            vis_intake.setColor(blink_on_off ? BELT_ON : BELT_OFF);
+            vis_intake.setColor(blink_on_off ? MOVE_ON : MOVE_OFF);
         }
         else
         {
             intake.open(false);
             vis_intake.setAngle(90);
-            vis_intake.setColor(BELT_OFF);
+            vis_intake.setColor(MOVE_OFF);
         }
 
         if (run_storage)
         {
-            storage_mover.setVoltage(nt_belt_voltage.getDouble(0));
-            feeder.setVoltage(nt_belt_voltage.getDouble(0));
-            vis_storage.setColor(blink_on_off ? BELT_ON : BELT_OFF);
+            storage_mover.setVoltage(nt_storage_voltage.getDouble(0));
+            feeder.setVoltage(nt_feeder_voltage.getDouble(0));
+            vis_storage.setColor(blink_on_off ? MOVE_ON : MOVE_OFF);
         }
         else
         {
             storage_mover.setVoltage(0);
             feeder.setVoltage(0);
-            vis_storage.setColor(BELT_OFF);
+            vis_storage.setColor(MOVE_OFF);
         }
 
         if (run_spinner  ||  nt_always_spin.getBoolean(false))
