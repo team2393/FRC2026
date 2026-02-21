@@ -18,21 +18,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Hood extends SubsystemBase
 {
     /** Encoder steps per percent movement */
-    private final double STEPS_PER_PERC = 2048 * 14.0 / 100.0;
+    private final double STEPS_PER_PERC = 1.0; // 2048 * 14.0 / 100.0;
 
     /** Position is limited to 0 .. max [percent] */
     private final double MIN_POS = 0, MAX_POS = 100.0;
 
-    private final TalonFX hood = MotorHelper.createTalonFX(RobotMap.HOOD, true, true, 0.3);
-
-    // TODO If there is homing switch, use it:
-    // Defines states "homing" vs. "holding", ...
-    // Otherwise remove homing and rely on reset() at startup
-    private final DigitalInput home = new DigitalInput(RobotMap.HOOD_HOME);
+    private final TalonFX hood = MotorHelper.createTalonFX(RobotMap.HOOD, true, false, 0.3);
 
     private final NetworkTableEntry nt_setpoint = SmartDashboard.getEntry("HoodSetpoint");
     private final NetworkTableEntry nt_position = SmartDashboard.getEntry("Hood");
-    private final NetworkTableEntry nt_at_home = SmartDashboard.getEntry("HoodHome");
 
     /** Maximum speed [mm/s] */
     // About half the actual max speed is a good setting
@@ -41,6 +35,8 @@ public class Hood extends SubsystemBase
     // private final ProfiledPIDController pid = new ProfiledPIDController(0, 0, 0,
                             // new TrapezoidProfile.Constraints(MAX_PERC_PER_SEC, MAX_PERC_PER_SEC));
     private final PIDController pid = new PIDController(0, 0, 0);
+
+    private double zero_offset = 0.0;
 
     public Hood()
     {
@@ -55,26 +51,13 @@ public class Hood extends SubsystemBase
      */
     public void reset()
     {
-        hood.setPosition(0.0);
+        zero_offset = hood.getPosition().getValueAsDouble();
     }
 
     /** @return Position in 0-100 percent */
     public double getPosition()
     {
-        return hood.getPosition().getValueAsDouble() / STEPS_PER_PERC;
-    }
-
-    public boolean atHome()
-    {
-        // REV magnetic limit switch contains an internal pull-up resistor,
-        // and is 'active low', connecting to ground when detecting the magnet.
-        // If we're not at the limit, i.e. magnet is not at the sensor, it reports 'true'
-        // because of the pull-up.
-        // If we are at the limit, i.e. magnet is close to the sensor, it reports 'false'
-        // because of the active low.
-        // When we disconnect the cable, the pull-up internal to the RoboRIO reports 'true',
-        // so not really fail-safe.
-        return ! home.get();
+        return (hood.getPosition().getValueAsDouble() - zero_offset) / STEPS_PER_PERC;
     }
 
     /** @param voltage Motor voltage -12..+12 */
@@ -92,9 +75,8 @@ public class Hood extends SubsystemBase
             voltage = MathUtil.clamp(voltage, -6, 6);
             setVoltage(voltage);
         }
-        else if (setpoint == 0)
+        else
             setVoltage(0);
-        // Negative setpoint disables control, do nothing
     }
 
     @Override
@@ -102,6 +84,5 @@ public class Hood extends SubsystemBase
     {
         holdPosition();
         nt_position.setDouble(getPosition());
-        nt_at_home.setBoolean(atHome());
     }
 }
