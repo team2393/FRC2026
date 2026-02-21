@@ -43,7 +43,8 @@ import frc.tools.KeepOnFilter;
 public class FuelHandler extends SubsystemBase
 {
     private final Intake intake = new Intake();
-    private final TalonFX storage_mover = MotorHelper.createTalonFX(RobotMap.STOREAGE_MOVER, false, true, 0.3);
+    // At 5V, mechanism uses ~20 amp. With balls, it runs up to ~30
+    private final TalonFX storage_mover = MotorHelper.createTalonFX(RobotMap.STOREAGE_MOVER, false, true, 0, 30.0);
     private final DigitalInput storage_sensor = new DigitalInput(RobotMap.STORAGE_SENSOR);
     private final KeepOnFilter keep_storarge = new KeepOnFilter(1.0);
     private final Spinner spinner = new Spinner();
@@ -76,7 +77,7 @@ public class FuelHandler extends SubsystemBase
 
     public FuelHandler()
     {
-        nt_belt_voltage.setDefaultDouble(3.0);
+        nt_belt_voltage.setDefaultDouble(5.0);
         nt_always_spin.setDefaultBoolean(false);
 
         // Visualization
