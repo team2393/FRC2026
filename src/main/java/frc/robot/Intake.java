@@ -31,7 +31,7 @@ public class Intake
     public void open(boolean yes_no)
     {
         open_intake.set(yes_no);
-        // arm.setAngle(yes_no ? 0.0 : 70.0);
+        // arm.setAngle(yes_no ? 5.0 : 120.0);
 
         mover.setVoltage(yes_no ? nt_volt_set.getDouble(0) : 0);
     }
