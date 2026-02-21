@@ -5,7 +5,21 @@ package frc.robot;
 
 import frc.tools.CommandRobotBase;
 
-/** Fuel handler test */
+/** Fuel handler test
+ *
+ *  In teleop, press a
+ *  Intake opens and pulls game pieces in until
+ *  game piece is detected by 'StorageFull'.
+ *  Might also press a while taking in to stop/close.
+ *
+ *  Press y to start shooting.
+ *  When shooter speed reaches setpoint,
+ *  game pieces will be moved out
+ *  until 'StorageFull' indicates no more.
+ *  Shooter stops after ~2 sec.
+ *
+ *  'AlwaysSpin' constantly enables the shooter.
+ */
 public class FuelHandlerTestRobot extends CommandRobotBase
 {
     private final FuelHandler fuel_handler = new FuelHandler();
