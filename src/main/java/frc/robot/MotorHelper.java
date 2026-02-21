@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -28,6 +29,19 @@ public class MotorHelper
      */
     public static TalonFX createTalonFX(int can_id, final boolean invert, boolean brake, double ramp_up_secs)
     {
+        return createTalonFX(can_id, invert, brake, ramp_up_secs, 0.0);
+    }
+
+    /** Create motor
+     *  @param can_id CAN ID
+     *  @param invert Invert direction (clockwise), or use the default (CCW)?
+     *  @param brake Brake, or coast?
+     *  @param ramp_up_secs How long to delay ramp-up
+     *  @param stator_current_limit Stator current limit or 0.0 to disable
+     *  @return {@link TalonFX}
+     */
+    public static TalonFX createTalonFX(int can_id, final boolean invert, boolean brake, double ramp_up_secs, double stator_current_limit)
+    {
         TalonFX motor = new TalonFX(can_id);
 
         InvertedValue inverted = invert ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
@@ -37,6 +51,9 @@ public class MotorHelper
             .withMotorOutput(new MotorOutputConfigs().withInverted(inverted)
                                                      .withNeutralMode(neutral))
             .withOpenLoopRamps(new OpenLoopRampsConfigs().withVoltageOpenLoopRampPeriod(ramp_up_secs));
+        if (stator_current_limit > 0)
+            config.withCurrentLimits(new CurrentLimitsConfigs().withStatorCurrentLimit(stator_current_limit)
+                                                               .withStatorCurrentLimitEnable(true));
         motor.getConfigurator().apply(config);
         motor.clearStickyFaults();
 
