@@ -89,8 +89,8 @@ public class FuelHandler extends SubsystemBase
         mech.getRoot("left", 0, 0.2).append(new MechanismLigament2d("base", 0.8, 0, 10, new Color8Bit(100, 100, 100)));
 
         MechanismRoot2d right = mech.getRoot("right", 0.8, 0.2);
-        right.append(vis_intake  = new MechanismLigament2d("intake",  0.2,  90, 10, BELT_OFF));
-        right.append(vis_storage = new MechanismLigament2d("storage", 0.6, 170, 10, BELT_OFF));
+        right.append(vis_intake  = new MechanismLigament2d("intake",  0.2,  90, 10, MOVE_OFF));
+        right.append(vis_storage = new MechanismLigament2d("storage", 0.6, 170, 10, MOVE_OFF));
 
         vis_storage.append(vis_shooter = new MechanismLigament2d("shooter", 0.2, -70, 10, SPINNER_OFF));
 
