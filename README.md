@@ -45,6 +45,7 @@ Timeline
    - Upgrade firmware https://frc-radio.vivid-hosting.net/overview/upgrading-firmware
    - Configure Robot Radio mode, team number, SSID and 2.4 GHz password, enable 2.4 GHz wifi via DIP #3
    - Check other DIPs to disable power-over-ethernet which could destroy vision processors
+   - For access point, set AP and robot radio to the same team and SSID
  * Tune swerve drivetrain
  * Find camera (limelight 2, maybe later Pi)
  * Jan. 16: Use camera to rotate on target and estimate distance (2D, RotateToTarget).
