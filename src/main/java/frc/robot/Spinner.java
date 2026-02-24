@@ -28,16 +28,16 @@ public class Spinner extends SubsystemBase
     private static final double ACCEPTED_RPM_ERROR = 10;
 
     /** Motor that's controlled */
-    private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.SPINNER, true, false, 0.3);
+    private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.SPINNER, false, false, 0.3);
 
     /** Motor that follows the primary motor*/
-    // private final TalonFX motor2 = MotorHelper.createTalonFX(RobotMap.SPINNER2, false, false, 0.3);
+    private final TalonFX motor2 = MotorHelper.createTalonFX(RobotMap.SPINNER2, false, false, 0.3);
 
     /** How much voltage do we need for desired RPM? */
     private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0, 0);
 
     /** React to disturbances */
-    private final PIDController pid = new PIDController(0, 0, 0);
+    private final PIDController pid = new PIDController(0.001, 0.01, 0);
 
     /** Feed-forward kv */
     private NetworkTableEntry nt_kv = SmartDashboard.getEntry("SpinnerKV");
@@ -59,13 +59,14 @@ public class Spinner extends SubsystemBase
 
     public Spinner()
     {
-        // motor2.setControl(new Follower(motor.getDeviceID(), MotorAlignmentValue.Opposed));
+        motor2.setControl(new Follower(motor.getDeviceID(), MotorAlignmentValue.Opposed));
 
+        pid.setIZone(50.0);
         // PID can simply be placed on dashboard
         SmartDashboard.putData("SpinnerPID", pid);
         // For FF, we need to publish and read desired parameters
-        nt_kv.setDefaultDouble(0.1);
-        nt_setpoint.setDefaultDouble(60);
+        nt_kv.setDefaultDouble(0.00217);
+        nt_setpoint.setDefaultDouble(1000);
     }
 
     @Override

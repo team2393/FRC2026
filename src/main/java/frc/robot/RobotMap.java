@@ -31,7 +31,7 @@ public class RobotMap
     public static final int BACK_RIGHT_ROTATE  = 17;
     public static final int BACK_LEFT_ROTATE   =  6;
 
-    public static final int HOOD               = 10;
+    public static final int HOOD               = 11;
 
     // CANCoder angle sensors: 10 Amp fuse on mini power panel
     public static final int FRONT_LEFT_ANGLE  = 1;
@@ -43,9 +43,9 @@ public class RobotMap
     public static final int INTAKE_ARM = 2;
     public static final int INTAKE_MOVER = 15;
     public static final int STOREAGE_MOVER = 9;
-    public static final int FEEDER = 12;
-    public static final int SPINNER = 20;
-    public static final int SPINNER2 = 21;
+    public static final int FEEDER = 14;
+    public static final int SPINNER = 12;
+    public static final int SPINNER2 = 13;
 
     // DIO channels
     public static final int HOOD_HOME = 2;
