@@ -89,6 +89,7 @@ Network
 | 10.23.93.11 | Default for new camera | http                          |
 | 10.23.93.12 | "Front" camera         | http                          |
 | 10.23.93.13 | "Back" camera          | http                          |
+| 10.23.93.?? | Drive station          | ssh to robot, Network Tables  |
 
 See https://docs.wpilib.org/en/latest/docs/networking/networking-introduction/ip-configurations.html
 
