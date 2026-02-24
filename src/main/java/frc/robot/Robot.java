@@ -37,11 +37,8 @@ public class Robot extends CommandRobotBase
     /** Power distribution board to monitor current */
     private final PowerDistribution power_dist = new PowerDistribution();
 
-    // TODO Use RoboRIO serial from practice chassis
-    private final boolean is_practice_chassis =  RobotController.getSerialNumber().equals("0323821B");
-
     /** Drivetrain and related commands */
-    private final SwerveDrivetrain drivetrain = is_practice_chassis
+    private final SwerveDrivetrain drivetrain = RobotMap.is_practice_chassis
                                               ? new PracticeDrivetrain()
                                               : new RobotDrivetrain();
     // private final SwerveDrivetrain drivetrain = new PracticeDrivetrain();

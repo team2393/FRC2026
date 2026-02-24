@@ -3,9 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import edu.wpi.first.wpilibj.RobotController;
+
 /** What on the robot is connected where and how? */
 public class RobotMap
 {
+    public static final boolean is_practice_chassis =  RobotController.getSerialNumber().equals("0323821B");
+
     // Constants define CAN IDs or RoboRIO ports
     // For CAN ID, number should match the power distribution panel port
 

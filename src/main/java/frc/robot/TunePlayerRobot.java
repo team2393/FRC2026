@@ -4,6 +4,7 @@
 package frc.robot;
 
 import com.ctre.phoenix6.Orchestra;
+import com.ctre.phoenix6.configs.AudioConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import frc.tools.CommandRobotBase;
@@ -16,21 +17,28 @@ public class TunePlayerRobot extends CommandRobotBase
     public TunePlayerRobot()
     {
         orch.loadMusic("tune.chrp");
-        // Practice robot
-        for (int i=2; i<=8; ++i)
-            orch.addInstrument(new TalonFX(i));
 
-        // orch.addInstrument(new TalonFX(RobotMap.FRONT_LEFT_DRIVE));
-        // orch.addInstrument(new TalonFX(RobotMap.FRONT_RIGHT_DRIVE));
-        // orch.addInstrument(new TalonFX(RobotMap.BACK_RIGHT_DRIVE));
-        // orch.addInstrument(new TalonFX(RobotMap.BACK_LEFT_DRIVE));
-        // orch.addInstrument(new TalonFX(RobotMap.FRONT_LEFT_ROTATE));
-        // orch.addInstrument(new TalonFX(RobotMap.FRONT_RIGHT_ROTATE));
-        // orch.addInstrument(new TalonFX(RobotMap.BACK_RIGHT_ROTATE));
-        // orch.addInstrument(new TalonFX(RobotMap.BACK_LEFT_ROTATE));
+        if (RobotMap.is_practice_chassis)
+            for (int i=2; i<=8; ++i)
+                orch.addInstrument(new TalonFX(i));
+        else
+        {
+            orch.addInstrument(new TalonFX(RobotMap.FRONT_LEFT_DRIVE));
+            orch.addInstrument(new TalonFX(RobotMap.FRONT_RIGHT_DRIVE));
+            orch.addInstrument(new TalonFX(RobotMap.BACK_RIGHT_DRIVE));
+            orch.addInstrument(new TalonFX(RobotMap.BACK_LEFT_DRIVE));
+            orch.addInstrument(new TalonFX(RobotMap.FRONT_LEFT_ROTATE));
+            orch.addInstrument(new TalonFX(RobotMap.FRONT_RIGHT_ROTATE));
+            orch.addInstrument(new TalonFX(RobotMap.BACK_RIGHT_ROTATE));
+            orch.addInstrument(new TalonFX(RobotMap.BACK_LEFT_ROTATE));
+        }
     }
 
-
+    @Override
+    public void disabledInit()
+    {
+        orch.stop();
+    }
 
     @Override
     public void teleopInit()
