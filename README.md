@@ -14,8 +14,8 @@ Game manual: https://www.firstinspires.org/resource-library/frc/competition-manu
 
 Other links:
 
- * Mechanical resources - https://www.chiefdelphi.com/
- * Forum - https://www.frcdesign.org/
+ * Forum -https://www.chiefdelphi.com/
+ * Mechanical resources - https://www.frcdesign.org/
 
 Get robot code
 --------------
