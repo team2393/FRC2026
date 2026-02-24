@@ -78,6 +78,19 @@ Timeline
    - https://www.firstinspires.org/event-detail?eventId=76307
    - https://frc-events.firstinspires.org/2026/alhu
 
+Network
+-------
+
+| Address     | Device                 | Protocoll                     |
+| ----------- | ---------------------- | ------------------------------|
+| 10.23.93.1  | Robot radio            | http                          |
+| 10.23.93.2  | RoboRIO                | http, ssh 'admin' or 'lvuser' |
+| 10.23.93.4  | "Gateway", AP radio    | http                          |
+| 10.23.93.11 | Default for new camera | http                          |
+| 10.23.93.12 | "Front" camera         | http                          |
+| 10.23.93.13 | "Back" camera          | http                          |
+
+See https://docs.wpilib.org/en/latest/docs/networking/networking-introduction/ip-configurations.html
 
 Camera (Photon Vision, Pi)
 --------------------------
