@@ -46,20 +46,25 @@ public class FuelHandler extends SubsystemBase
     // At 5V, mechanism uses ~20 amp. With balls, it runs up to ~30
     private final TalonFX storage_mover = MotorHelper.createTalonFX(RobotMap.STOREAGE_MOVER, false, true, 0, 30.0);
     private final TalonFX feeder = MotorHelper.createTalonFX(RobotMap.FEEDER, false, true, 0, 30.0);
-    private final DigitalInput storage_sensor = new DigitalInput(RobotMap.STORAGE_SENSOR);
-    private final KeepOnFilter keep_storarge = new KeepOnFilter(1.0);
+    private final DigitalInput feeder_sensor = new DigitalInput(RobotMap.FEEDER_SENSOR);
+    private final KeepOnFilter keep_feeder = new KeepOnFilter(1.0);
     private final Spinner spinner = new Spinner();
     private final NetworkTableEntry nt_storage_voltage = SmartDashboard.getEntry("StorageVoltage");
     private final NetworkTableEntry nt_feeder_voltage = SmartDashboard.getEntry("FeederVoltage");
-    private final NetworkTableEntry nt_storage_full = SmartDashboard.getEntry("StorageFull");
+    private final NetworkTableEntry nt_feeder_full = SmartDashboard.getEntry("FeederFull");
     private final NetworkTableEntry nt_always_spin  = SmartDashboard.getEntry("AlwaysSpin");
 
     enum States
     {
         /** All motors off, intake closed */
         Idle,
-        /** Open intake, move intake & storage until storage is full */
+        /** Open intake, move storage and feeder until game piece in feeder */
         TakeIn,
+
+        // TODO New state: Store?
+        // Intake closed; move storage to push game pieces up to feeder;
+        // run feeder until game piece in feeder
+
         /** Close intake, run spinner up to speed */
         PrepShooting,
         /** Shoot until storage is empty */
@@ -134,10 +139,10 @@ public class FuelHandler extends SubsystemBase
         boolean run_storage = false;
         boolean run_spinner = false;
         // As we push balls out, gaps between balls suggest
-        // there's nothing in storage, so if we detect a ball,
-        // keep 'storage_full' on for a little longer
-        boolean storage_full = keep_storarge.calculate(storage_sensor.get());
-        nt_storage_full.setBoolean(storage_full);
+        // there's nothing in feeder, so if we detect a ball,
+        // keep 'feeder_full' on for a little longer
+        boolean feeder_full = keep_feeder.calculate(feeder_sensor.get());
+        nt_feeder_full.setBoolean(feeder_full);
 
         if (state == States.Idle)
         {
@@ -145,10 +150,17 @@ public class FuelHandler extends SubsystemBase
         }
         else if (state == States.TakeIn)
         {
-            run_intake = true;
-            run_storage = true;
-            if (storage_full)
+            if (feeder_full)
+            {
                 state = States.Idle;
+                // and leave run_.. = false
+                // so we're effectively idle right now
+            }
+            else
+            {
+                run_intake = true;
+                run_storage = true;
+            }
         }
         else if (state == States.PrepShooting)
         {
@@ -167,7 +179,7 @@ public class FuelHandler extends SubsystemBase
 
             // All game items gone? Keep spinner running to make sure
             // all items are really shot.
-            if (after_shot_delay.calculate(!storage_full))
+            if (after_shot_delay.calculate(!feeder_full))
                 state = States.Idle;
         }
 

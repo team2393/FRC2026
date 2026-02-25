@@ -8,7 +8,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -19,9 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /** Spinner that ejects "fuel" balls */
 public class Spinner extends SubsystemBase
 {
-    /** How much does the spinner rotate for one motor turn?
-     *  To calibrate, start with 1.0
-     */
+    /** How much does the spinner rotate for one motor turn? */
     private static final double SPINNER_ROTATIONS_PER_MOTOR_TURN = 1.0;
 
     /** Which RPM error do we consider 'close enough' to the setpoint? */
@@ -32,9 +29,6 @@ public class Spinner extends SubsystemBase
 
     /** Motor that follows the primary motor*/
     private final TalonFX motor2 = MotorHelper.createTalonFX(RobotMap.SPINNER2, false, false, 0.3);
-
-    /** How much voltage do we need for desired RPM? */
-    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0, 0);
 
     /** React to disturbances */
     private final PIDController pid = new PIDController(0.001, 0.01, 0);
@@ -127,13 +121,11 @@ public class Spinner extends SubsystemBase
     /** Run spinner at setpoint rev per minute */
     public void runAtSpeedSetpoint()
     {
-        feedforward.setKv(nt_kv.getDouble(0.0));
-
         double desired_rpm = nt_setpoint.getDouble(0.0);
         double current_rpm = getRPM();
         // Feed forward should get us close to the desired speed,
         // and PID then corrects disturbances
-        double voltage = feedforward.calculateWithVelocities(current_rpm, desired_rpm)
+        double voltage = nt_kv.getDouble(0.0) * desired_rpm
                        + pid.calculate(current_rpm, desired_rpm);
         setVoltage(voltage);
     }
