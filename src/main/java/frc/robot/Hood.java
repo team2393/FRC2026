@@ -22,7 +22,8 @@ public class Hood extends SubsystemBase
     /** Position is limited to 0 .. max [percent] */
     private final double MIN_POS = 0, MAX_POS = 100.0;
 
-    private final TalonFX hood = MotorHelper.createTalonFX(RobotMap.HOOD, true, false, 0, 20);
+    // Only draws ~1A when moving or pushed...
+    private final TalonFX hood = MotorHelper.createTalonFX(RobotMap.HOOD, true, false, 0, 10);
 
     private final NetworkTableEntry nt_setpoint = SmartDashboard.getEntry("HoodSetpoint");
     private final NetworkTableEntry nt_position = SmartDashboard.getEntry("Hood");

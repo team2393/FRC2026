@@ -48,7 +48,6 @@ public class RobotMap
     public static final int SPINNER2 = 13;
 
     // DIO channels
-    public static final int HOOD_HOME = 2;
     public static final int INTAKE_OPENER = 4;
     public static final int FEEDER_SENSOR = 5;
 }

@@ -13,7 +13,7 @@ public class StorageOrFeederTestRobot extends CommandRobotBase
 {
     // Storage:
     // At 5V, mechanism uses ~20 amp. With balls, it runs up to ~30
-    private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.STOREAGE_MOVER, false, false, 0, 30.0);
+    private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.FEEDER, false, false, 0, 30.0);
 
     @Override
     public void teleopPeriodic()

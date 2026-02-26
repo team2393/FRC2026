@@ -29,17 +29,25 @@ public class HoodDemoRobot extends CommandRobotBase
     }
 
     @Override
+    public void disabledInit()
+    {
+        // 0 or less disables the hood position hold
+        SmartDashboard.putNumber("HoodSetpoint", -1);
+    }
+
+    @Override
     public void teleopInit()
     {
         hood.reset();
-        SmartDashboard.putNumber("Hood", -1);
+        SmartDashboard.putNumber("HoodSetpoint", -1);
     }
 
     @Override
     public void teleopPeriodic()
     {
+        // Disable the 'holdPosition()' call in Hood::periodic()!
         // Pushing forward/up sends positive voltage
-        hood.setVoltage(-0.1*joystick.getRightY());
+        hood.setVoltage(-12.0*joystick.getRightY());
     }
 
     @Override
@@ -47,6 +55,6 @@ public class HoodDemoRobot extends CommandRobotBase
     {
         double setpoint = ((System.currentTimeMillis() / (int)(SmartDashboard.getNumber("Period", 5.0)*1000)) % 2 == 1)
                         ? 20.0 : 80.0;
-        SmartDashboard.putNumber("Hood", setpoint);
+        SmartDashboard.putNumber("HoodSetpoint", setpoint);
     }
 }
