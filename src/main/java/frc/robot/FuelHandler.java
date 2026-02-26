@@ -84,8 +84,8 @@ public class FuelHandler extends SubsystemBase
 
     public FuelHandler()
     {
-        nt_storage_voltage.setDefaultDouble(5.0);
-        nt_feeder_voltage.setDefaultDouble(5.0);
+        nt_storage_voltage.setDefaultDouble(6.0);
+        nt_feeder_voltage.setDefaultDouble(6.0);
         nt_always_spin.setDefaultBoolean(false);
 
         // Visualization
