@@ -70,8 +70,10 @@ public class Arm
     /** Reset angle, assuming arm is positioned at UP_ANGLE
      *
      *  Arm resets itself when constructed
+     *
+     *  @return UP_ANGLE
      */
-    public void reset()
+    public double reset()
     {
         // We are at UP_ANGLE.
         // Assume raw angle reports 30 degress
@@ -81,6 +83,7 @@ public class Arm
         // 30 - ZERO_OFFSET =
         // 30 - (30 - UP_ANGLE) = UP_ANGLE
         resetPID();
+        return UP_ANGLE;
     }
 
     /** Reset the PID */
@@ -92,7 +95,11 @@ public class Arm
     /** @return -180..180 degrees, zero means straight forward, 90 vertical */
     public double getAngle()
     {
-        final double angle = Math.IEEEremainder(getRawAngle() - ZERO_OFFSET, 360.0);
+        final double raw = getRawAngle();
+        double angle = Math.IEEEremainder(raw - ZERO_OFFSET, 360.0);
+        // Auto-reset: Force readings beyond UP_ANGLE to UP_ANGLE
+        if (angle > UP_ANGLE)
+            angle = reset();
         nt_angle.setDouble(angle);
         return angle;
     }
@@ -128,7 +135,6 @@ public class Arm
 
         final double voltage = kg * Math.cos(Math.toRadians(angle))
                              + pid.calculate(angle, setpoint);
-        // TODO Limit voltage or current to prevent damage to arm
         setVoltage(voltage);
         return voltage;
     }
