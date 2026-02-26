@@ -11,6 +11,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -126,11 +127,14 @@ public class CameraHelper
                     // ... then from camera to center of robot
                     pose = pose.transformBy(robotToCam.inverse());
 
+                    // TODO Check for sensible robot height
+                    // if (! MathUtil.isNear(0.5, pose.getZ(), 1.0))
+                    //     continue;
+
                     // Map from 3D down to 2D
                     Pose2d position = pose.toPose2d();
                     // System.out.println(target.getFiducialId() + " @ " + tag_pose + " -> " + position);
 
-                    // TODO Filter on valid Z coord
                     // TODO Filter on coords inside field
                     // TODO Filter on heading close to gyro
 
