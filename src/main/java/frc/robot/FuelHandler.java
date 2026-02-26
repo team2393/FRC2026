@@ -50,7 +50,8 @@ public class FuelHandler extends SubsystemBase
     private final KeepOnFilter keep_feeder = new KeepOnFilter(1.0);
     private final Spinner spinner = new Spinner();
     private final NetworkTableEntry nt_storage_voltage = SmartDashboard.getEntry("StorageVoltage");
-    private final NetworkTableEntry nt_feeder_voltage = SmartDashboard.getEntry("FeederVoltage");
+    private final NetworkTableEntry nt_feeder_intake_voltage = SmartDashboard.getEntry("FeederIntakeVoltage");
+    private final NetworkTableEntry nt_feeder_fire_voltage = SmartDashboard.getEntry("FeederFireVoltage");
     private final NetworkTableEntry nt_feeder_full = SmartDashboard.getEntry("FeederFull");
     private final NetworkTableEntry nt_always_spin  = SmartDashboard.getEntry("AlwaysSpin");
 
@@ -85,7 +86,8 @@ public class FuelHandler extends SubsystemBase
     public FuelHandler()
     {
         nt_storage_voltage.setDefaultDouble(6.0);
-        nt_feeder_voltage.setDefaultDouble(6.0);
+        nt_feeder_intake_voltage.setDefaultDouble(5.0);
+        nt_feeder_fire_voltage.setDefaultDouble(6.0);
         nt_always_spin.setDefaultBoolean(false);
 
         // Visualization
@@ -138,6 +140,7 @@ public class FuelHandler extends SubsystemBase
         boolean run_intake = false;
         boolean run_storage = false;
         boolean run_spinner = false;
+
         // As we push balls out, gaps between balls suggest
         // there's nothing in feeder, so if we detect a ball,
         // keep 'feeder_full' on for a little longer
@@ -201,7 +204,10 @@ public class FuelHandler extends SubsystemBase
         if (run_storage)
         {
             storage_mover.setVoltage(nt_storage_voltage.getDouble(0));
-            feeder.setVoltage(nt_feeder_voltage.getDouble(0));
+            if (run_spinner)
+                feeder.setVoltage(nt_feeder_fire_voltage.getDouble(0));
+            else
+                feeder.setVoltage(nt_feeder_intake_voltage.getDouble(0));
             vis_storage.setColor(blink_on_off ? MOVE_ON : MOVE_OFF);
         }
         else

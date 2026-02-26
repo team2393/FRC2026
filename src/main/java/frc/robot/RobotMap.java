@@ -49,5 +49,5 @@ public class RobotMap
 
     // DIO channels
     public static final int INTAKE_OPENER = 4;
-    public static final int FEEDER_SENSOR = 5;
+    public static final int FEEDER_SENSOR = 9;
 }
