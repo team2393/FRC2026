@@ -32,7 +32,7 @@ public class Hood extends SubsystemBase
     private final double MAX_PERC_PER_SEC = 200.0;
     // TODO Profiled PID controller
     // private final ProfiledPIDController pid = new ProfiledPIDController(0, 0, 0,
-                            // new TrapezoidProfile.Constraints(MAX_PERC_PER_SEC, MAX_PERC_PER_SEC));
+                           // new TrapezoidProfile.Constraints(MAX_PERC_PER_SEC, MAX_PERC_PER_SEC));
     private final PIDController pid = new PIDController(0, 0, 0);
 
     private double zero_offset = 0.0;
@@ -51,6 +51,8 @@ public class Hood extends SubsystemBase
     public void reset()
     {
         zero_offset = hood.getPosition().getValueAsDouble();
+        // TODO Reset profiled PID controller
+        // pid.reset(getPosition());
     }
 
     /** @return Position in 0-100 percent */
