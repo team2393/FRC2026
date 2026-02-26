@@ -62,13 +62,14 @@ Timeline
    https://www.chiefdelphi.com/t/vh109-radio-wifi-doesnt-connect/513308/3
  * Jan 31: Need to re-assemble drive base
  * Feb 23: Need to re-connect drive base wiring
- * Feb 26: Start to test feeder, spinner
+ * Feb 26: Start to test feeder, feeder sensor, spinner
  * Test updated intake arm, intake mover
  * Test/tune combined game piece handling
  * Camera positions, considering tag mouning heights in inches
    of hub 44.25, tower 21.75, outpost 21.75, trench 35
  * On practice field, test cameras, relative vs. abs. drive,
    aim for hub while driving
+ * Combine aming and shooting
  * Auto ideas
 
  * March 18 - 21: Smoky Mountains Regional
