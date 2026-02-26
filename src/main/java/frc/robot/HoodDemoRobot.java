@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.tools.CommandRobotBase;
@@ -18,6 +19,14 @@ public class HoodDemoRobot extends CommandRobotBase
 {
     private final CommandXboxController joystick = new CommandXboxController(0);
     private final Hood hood = new Hood();
+    private final PowerDistribution power_dist = new PowerDistribution();
+
+    public HoodDemoRobot()
+    {
+        // Power dist. info
+        power_dist.clearStickyFaults();
+        SmartDashboard.putData("Power", power_dist);
+    }
 
     @Override
     public void teleopInit()
