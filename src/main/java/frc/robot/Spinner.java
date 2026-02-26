@@ -31,7 +31,7 @@ public class Spinner extends SubsystemBase
     private final TalonFX motor2 = MotorHelper.createTalonFX(RobotMap.SPINNER2, false, false, 0, 40);
 
     /** React to disturbances */
-    private final PIDController pid = new PIDController(0.001, 0.01, 0);
+    private final PIDController pid = new PIDController(0.002, 0.01, 0);
 
     /** Feed-forward kv */
     private NetworkTableEntry nt_kv = SmartDashboard.getEntry("SpinnerKV");
@@ -55,11 +55,11 @@ public class Spinner extends SubsystemBase
     {
         motor2.setControl(new Follower(motor.getDeviceID(), MotorAlignmentValue.Opposed));
 
-        pid.setIZone(50.0);
+        pid.setIZone(200);
         // PID can simply be placed on dashboard
         SmartDashboard.putData("SpinnerPID", pid);
         // For FF, we need to publish and read desired parameters
-        nt_kv.setDefaultDouble(0.00217);
+        nt_kv.setDefaultDouble(0.00213);
         nt_setpoint.setDefaultDouble(1000);
     }
 
