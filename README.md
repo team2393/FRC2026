@@ -57,17 +57,19 @@ Timeline
    Mean error 0.34px, FOV 62.57, 48.92, 74.40.
  * Rotate onto alliance hub using that information
  * Find team/drive laptop:
-   It has all the tools, but won't connect to radio.
-   Update firmware, see
+   It has all the tools, but wouldn't connect to radio,
+   fixed with radio update
    https://www.chiefdelphi.com/t/vh109-radio-wifi-doesnt-connect/513308/3
  * Jan 31: Need to re-assemble drive base
- * On practice field, test cameras, relative vs. abs. drive,
-   aim for hub while driving
- * Gamepiece handling: intake arm, intake mover, storage, spinner
- * Auto ideas
- * Update from prototype to actual robot
+ * Feb 23: Need to re-connect drive base wiring
+ * Feb 26: Start to test feeder, spinner
+ * Test updated intake arm, intake mover
+ * Test/tune combined game piece handling
  * Camera positions, considering tag mouning heights in inches
    of hub 44.25, tower 21.75, outpost 21.75, trench 35
+ * On practice field, test cameras, relative vs. abs. drive,
+   aim for hub while driving
+ * Auto ideas
 
  * March 18 - 21: Smoky Mountains Regional
    - Sevierville Convention Center, 202 Gists Creek Rd, Sevierville
