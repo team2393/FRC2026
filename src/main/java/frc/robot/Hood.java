@@ -17,28 +17,28 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Hood extends SubsystemBase
 {
     /** Encoder steps per percent movement */
-    private final double STEPS_PER_PERC = 1.0; // 2048 * 14.0 / 100.0;
+    private final double STEPS_PER_PERC = 12.0/100.0;
 
     /** Position is limited to 0 .. max [percent] */
     private final double MIN_POS = 0, MAX_POS = 100.0;
 
-    private final TalonFX hood = MotorHelper.createTalonFX(RobotMap.HOOD, true, false, 0.3);
+    private final TalonFX hood = MotorHelper.createTalonFX(RobotMap.HOOD, true, false, 0, 20);
 
     private final NetworkTableEntry nt_setpoint = SmartDashboard.getEntry("HoodSetpoint");
     private final NetworkTableEntry nt_position = SmartDashboard.getEntry("Hood");
 
     /** Maximum speed [mm/s] */
     // About half the actual max speed is a good setting
-    private final double MAX_PERC_PER_SEC = 200.0;
-    // TODO Profiled PID controller
-    // private final ProfiledPIDController pid = new ProfiledPIDController(0, 0, 0,
-                           // new TrapezoidProfile.Constraints(MAX_PERC_PER_SEC, MAX_PERC_PER_SEC));
-    private final PIDController pid = new PIDController(0, 0, 0);
+    private final double MAX_PERC_PER_SEC = 500.0;
+    private final ProfiledPIDController pid = new ProfiledPIDController(.1, 0.1, 0,
+                           new TrapezoidProfile.Constraints(MAX_PERC_PER_SEC, MAX_PERC_PER_SEC));
+    // private final PIDController pid = new PIDController(0.1, 0.1, 0);
 
     private double zero_offset = 0.0;
 
     public Hood()
     {
+        pid.setIZone(10.0);
         nt_setpoint.setDefaultDouble(-1.0);
         SmartDashboard.putData("HoodPID", pid);
     }
@@ -51,8 +51,8 @@ public class Hood extends SubsystemBase
     public void reset()
     {
         zero_offset = hood.getPosition().getValueAsDouble();
-        // TODO Reset profiled PID controller
-        // pid.reset(getPosition());
+        // Reset profiled PID controller
+        pid.reset(getPosition());
     }
 
     /** @return Position in 0-100 percent */
