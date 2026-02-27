@@ -60,7 +60,7 @@
             "title": "Heading",
             "x": 200.0,
             "y": 400.0,
-            "width": 100.0,
+            "width": 150.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -208,17 +208,15 @@
           {
             "title": "SpinnerRPM",
             "x": 350.0,
-            "y": 400.0,
-            "width": 275.0,
-            "height": 275.0,
-            "type": "Graph",
+            "y": 500.0,
+            "width": 125.0,
+            "height": 100.0,
+            "type": "Text Display",
             "properties": {
               "topic": "/SmartDashboard/SpinnerRPM",
               "period": 0.033,
               "data_type": "double",
-              "time_displayed": 5.0,
-              "color": 4278238420,
-              "line_width": 2.0
+              "show_submit_button": false
             }
           },
           {
@@ -304,6 +302,78 @@
               "period": 0.06,
               "data_type": "string",
               "show_submit_button": false
+            }
+          },
+          {
+            "title": "SpinnerSetpoint",
+            "x": 350.0,
+            "y": 400.0,
+            "width": 125.0,
+            "height": 100.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/SpinnerSetpoint",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "SpinnerAtSetpoint",
+            "x": 475.0,
+            "y": 400.0,
+            "width": 150.0,
+            "height": 100.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/SmartDashboard/SpinnerAtSetpoint",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Hood",
+            "x": 625.0,
+            "y": 500.0,
+            "width": 125.0,
+            "height": 100.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Hood",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "HoodSetpoint",
+            "x": 475.0,
+            "y": 500.0,
+            "width": 150.0,
+            "height": 100.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/HoodSetpoint",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "AlwaysSpin",
+            "x": 750.0,
+            "y": 500.0,
+            "width": 150.0,
+            "height": 100.0,
+            "type": "Toggle Switch",
+            "properties": {
+              "topic": "/SmartDashboard/AlwaysSpin",
+              "period": 0.06,
+              "data_type": "boolean"
             }
           }
         ]
@@ -556,6 +626,127 @@
             "properties": {
               "topic": "/SmartDashboard/Power",
               "period": 0.06
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Arm",
+      "grid_layout": {
+        "layouts": [],
+        "containers": [
+          {
+            "title": "Arm PID",
+            "x": 525.0,
+            "y": 75.0,
+            "width": 300.0,
+            "height": 450.0,
+            "type": "ProfiledPIDController",
+            "properties": {
+              "topic": "/SmartDashboard/Arm PID",
+              "period": 0.06
+            }
+          },
+          {
+            "title": "Arm kg",
+            "x": 525.0,
+            "y": 0.0,
+            "width": 150.0,
+            "height": 75.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Arm kg",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "Arm Angle",
+            "x": 250.0,
+            "y": 0.0,
+            "width": 125.0,
+            "height": 75.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Arm Angle",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "ArmAtSetpoint",
+            "x": 375.0,
+            "y": 0.0,
+            "width": 125.0,
+            "height": 75.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/SmartDashboard/ArmAtSetpoint",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Set Arm Angle",
+            "x": 100.0,
+            "y": 0.0,
+            "width": 150.0,
+            "height": 75.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Set Arm Angle",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "Setpoint1",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 100.0,
+            "height": 75.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Setpoint1",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "Setpoint2",
+            "x": 0.0,
+            "y": 75.0,
+            "width": 100.0,
+            "height": 75.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Setpoint2",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "izone",
+            "x": 825.0,
+            "y": 75.0,
+            "width": 150.0,
+            "height": 150.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Arm PID/izone",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
             }
           }
         ]
