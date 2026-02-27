@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Feeder.Mode;
 import frc.tools.KeepOnFilter;
 
 /** Fuel hander state machine
@@ -43,16 +44,14 @@ import frc.tools.KeepOnFilter;
 public class FuelHandler extends SubsystemBase
 {
     private final Intake intake = new Intake();
-    // At 5V, mechanism uses ~20 amp. With balls, it runs up to ~30
-    private final TalonFX storage_mover = MotorHelper.createTalonFX(RobotMap.STOREAGE_MOVER, false, true, 0, 30.0);
-    private final TalonFX feeder = MotorHelper.createTalonFX(RobotMap.FEEDER, false, true, 0, 30.0);
-    private final DigitalInput feeder_sensor = new DigitalInput(RobotMap.FEEDER_SENSOR);
+
+    private final Storage storage = new Storage();
+
+    private final Feeder feeder = new Feeder();
     private final KeepOnFilter keep_feeder = new KeepOnFilter(1.0);
-    private final Spinner spinner = new Spinner();
-    private final NetworkTableEntry nt_storage_voltage = SmartDashboard.getEntry("StorageVoltage");
-    private final NetworkTableEntry nt_feeder_intake_voltage = SmartDashboard.getEntry("FeederIntakeVoltage");
-    private final NetworkTableEntry nt_feeder_fire_voltage = SmartDashboard.getEntry("FeederFireVoltage");
     private final NetworkTableEntry nt_feeder_full = SmartDashboard.getEntry("FeederFull");
+
+    private final Spinner spinner = new Spinner();
     private final NetworkTableEntry nt_always_spin  = SmartDashboard.getEntry("AlwaysSpin");
 
     enum States
@@ -85,9 +84,6 @@ public class FuelHandler extends SubsystemBase
 
     public FuelHandler()
     {
-        nt_storage_voltage.setDefaultDouble(6.0);
-        nt_feeder_intake_voltage.setDefaultDouble(5.0);
-        nt_feeder_fire_voltage.setDefaultDouble(6.0);
         nt_always_spin.setDefaultBoolean(false);
 
         // Visualization
@@ -139,12 +135,13 @@ public class FuelHandler extends SubsystemBase
     {
         boolean run_intake = false;
         boolean run_storage = false;
+        Feeder.Mode feeder_mode = Feeder.Mode.OFF;
         boolean run_spinner = false;
 
         // As we push balls out, gaps between balls suggest
         // there's nothing in feeder, so if we detect a ball,
         // keep 'feeder_full' on for a little longer
-        boolean feeder_full = keep_feeder.calculate(feeder_sensor.get());
+        boolean feeder_full = keep_feeder.calculate(feeder.haveBall());
         nt_feeder_full.setBoolean(feeder_full);
 
         if (state == States.Idle)
@@ -163,6 +160,7 @@ public class FuelHandler extends SubsystemBase
             {
                 run_intake = true;
                 run_storage = true;
+                feeder_mode = Feeder.Mode.FEED;
             }
         }
         else if (state == States.PrepShooting)
@@ -178,6 +176,7 @@ public class FuelHandler extends SubsystemBase
         else if (state == States.Shoot)
         {
             run_storage = true;
+            feeder_mode = Mode.SHOOT;
             run_spinner = true;
 
             // All game items gone? Keep spinner running to make sure
@@ -203,19 +202,16 @@ public class FuelHandler extends SubsystemBase
 
         if (run_storage)
         {
-            storage_mover.setVoltage(nt_storage_voltage.getDouble(0));
-            if (run_spinner)
-                feeder.setVoltage(nt_feeder_fire_voltage.getDouble(0));
-            else
-                feeder.setVoltage(nt_feeder_intake_voltage.getDouble(0));
+            storage.run(true);
             vis_storage.setColor(blink_on_off ? MOVE_ON : MOVE_OFF);
         }
         else
         {
-            storage_mover.setVoltage(0);
-            feeder.setVoltage(0);
+            storage.run(false);
             vis_storage.setColor(MOVE_OFF);
         }
+
+        feeder.run(feeder_mode);
 
         if (run_spinner  ||  nt_always_spin.getBoolean(false))
         {
