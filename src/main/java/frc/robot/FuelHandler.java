@@ -43,7 +43,7 @@ import frc.tools.KeepOnFilter;
  */
 public class FuelHandler extends SubsystemBase
 {
-    private final Intake intake = new Intake();
+    // TODO private final Intake intake = new Intake();
 
     private final Storage storage = new Storage();
 
@@ -189,13 +189,13 @@ public class FuelHandler extends SubsystemBase
 
         if (run_intake)
         {
-            intake.open(true);
+            // TODO intake.open(true);
             vis_intake.setAngle(-20);
             vis_intake.setColor(blink_on_off ? MOVE_ON : MOVE_OFF);
         }
         else
         {
-            intake.open(false);
+            // TODO intake.open(false);
             vis_intake.setAngle(90);
             vis_intake.setColor(MOVE_OFF);
         }
