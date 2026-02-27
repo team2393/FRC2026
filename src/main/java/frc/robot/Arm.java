@@ -35,6 +35,9 @@ public class Arm
     /** Angle when arm is down, intake "out" */
     private final static double DOWN_ANGLE = 0;
 
+    /** Margin at limits where arm gets de-energized to avoid driving into limits */
+    private final static double MARGIN = 5;
+
     // Rotate at a max speed of ... deg/sec, accel ... deg/s/s
     // Chain chattered/oscillated using 180, 180
     // chain snapped with 100, 180
@@ -133,8 +136,14 @@ public class Arm
         // final double setpoint = nt_desired_angle.getDouble(50);
         final double setpoint = MathUtil.clamp(nt_desired_angle.getDouble(50), DOWN_ANGLE, UP_ANGLE);
 
-        final double voltage = kg * Math.cos(Math.toRadians(angle))
-                             + pid.calculate(angle, setpoint);
+        double voltage;
+        // If commanded close to limits _and_ readback is there as well, de-energize
+        if ((setpoint < DOWN_ANGLE+MARGIN && angle < DOWN_ANGLE+MARGIN) ||
+            (setpoint > UP_ANGLE-MARGIN   && angle > UP_ANGLE-MARGIN))
+            voltage = 0;
+        else
+            voltage = kg * Math.cos(Math.toRadians(angle))
+                    + pid.calculate(angle, setpoint);
         setVoltage(voltage);
         return voltage;
     }

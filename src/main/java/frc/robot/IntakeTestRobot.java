@@ -24,10 +24,4 @@ public class IntakeTestRobot extends CommandRobotBase
     {
         intake.open(RobotOI.joystick.a().getAsBoolean());
     }
-
-    @Override
-    public void autonomousPeriodic()
-    {
-        intake.open(true);
-    }
 }

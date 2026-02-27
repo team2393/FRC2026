@@ -6,7 +6,6 @@ package frc.robot;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Intake
@@ -16,23 +15,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Intake
 {
-    // XXX For now DO, will turn into 'Arm'
-    private final DigitalOutput open_intake = new DigitalOutput(RobotMap.INTAKE_OPENER);
-    // private final Arm arm = new Arm();
+    private final Arm arm = new Arm();
 
     private final TalonFX mover = MotorHelper.createTalonFX(RobotMap.INTAKE_MOVER, false, true, 0.3);
     private final NetworkTableEntry nt_volt_set = SmartDashboard.getEntry("IntakeVoltageSet");
+    private final NetworkTableEntry nt_open_angle = SmartDashboard.getEntry("IntakeOpenAngle");
+    private final NetworkTableEntry nt_closed_angle = SmartDashboard.getEntry("IntakeClosedAngle");
 
     public Intake()
     {
         nt_volt_set.setDefaultDouble(10.0);
+        nt_open_angle.setDefaultDouble(5.0);
+        nt_closed_angle.setDefaultDouble(120.0);
     }
 
     public void open(boolean yes_no)
     {
-        open_intake.set(yes_no);
-        // arm.setAngle(yes_no ? 5.0 : 120.0);
-
+        arm.setAngle(yes_no ? nt_open_angle.getDouble(100) : nt_closed_angle.getDouble(100));
+        arm.hold();
         mover.setVoltage(yes_no ? nt_volt_set.getDouble(0) : 0);
     }
 }
