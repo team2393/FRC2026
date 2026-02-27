@@ -22,7 +22,7 @@ public class Spinner extends SubsystemBase
     private static final double SPINNER_ROTATIONS_PER_MOTOR_TURN = 1.0;
 
     /** Which RPM error do we consider 'close enough' to the setpoint? */
-    private static final double ACCEPTED_RPM_ERROR = 10;
+    private static final double ACCEPTED_RPM_ERROR = 100;
 
     /** Motor that's controlled */
     private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.SPINNER, false, false, 0,40);
@@ -31,7 +31,7 @@ public class Spinner extends SubsystemBase
     private final TalonFX motor2 = MotorHelper.createTalonFX(RobotMap.SPINNER2, false, false, 0, 40);
 
     /** React to disturbances */
-    private final PIDController pid = new PIDController(0.002, 0.01, 0);
+    private final PIDController pid = new PIDController(0.005, 0.04, 0);
 
     /** Feed-forward kv */
     private NetworkTableEntry nt_kv = SmartDashboard.getEntry("SpinnerKV");

@@ -23,10 +23,13 @@ import frc.tools.CommandRobotBase;
 public class FuelHandlerTestRobot extends CommandRobotBase
 {
     private final FuelHandler fuel_handler = new FuelHandler();
+    private Hood hood = new Hood();
 
     public FuelHandlerTestRobot()
     {
         RobotOI.joystick.a().onTrue(fuel_handler.toggleIntake());
         RobotOI.joystick.y().onTrue(fuel_handler.shoot());
+
+        hood.reset();
     }
 }
