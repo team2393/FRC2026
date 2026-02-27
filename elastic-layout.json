@@ -163,7 +163,7 @@
           {
             "title": "photonvision2_Port_1182_Output_MJPEG_Server",
             "x": 900.0,
-            "y": 175.0,
+            "y": 100.0,
             "width": 275.0,
             "height": 275.0,
             "type": "Camera Stream",
@@ -177,7 +177,7 @@
           {
             "title": "photonvision_Port_1182_Output_MJPEG_Server",
             "x": 625.0,
-            "y": 175.0,
+            "y": 100.0,
             "width": 275.0,
             "height": 275.0,
             "type": "Camera Stream",
@@ -247,22 +247,6 @@
             }
           },
           {
-            "title": "TotalCurrent",
-            "x": 900.0,
-            "y": 450.0,
-            "width": 275.0,
-            "height": 275.0,
-            "type": "Graph",
-            "properties": {
-              "topic": "/SmartDashboard/Power/TotalCurrent",
-              "period": 0.033,
-              "data_type": "double",
-              "time_displayed": 5.0,
-              "color": 4278238420,
-              "line_width": 2.0
-            }
-          },
-          {
             "title": "FrontTagPeriod",
             "x": 800.0,
             "y": 0.0,
@@ -292,9 +276,9 @@
           },
           {
             "title": "FrontInfo",
-            "x": 625.0,
-            "y": 100.0,
-            "width": 400.0,
+            "x": 1175.0,
+            "y": 200.0,
+            "width": 325.0,
             "height": 75.0,
             "type": "Text Display",
             "properties": {
@@ -322,7 +306,7 @@
             "title": "SpinnerAtSetpoint",
             "x": 475.0,
             "y": 400.0,
-            "width": 150.0,
+            "width": 125.0,
             "height": 100.0,
             "type": "Boolean Box",
             "properties": {
@@ -337,7 +321,7 @@
           },
           {
             "title": "Hood",
-            "x": 625.0,
+            "x": 600.0,
             "y": 500.0,
             "width": 125.0,
             "height": 100.0,
@@ -351,9 +335,9 @@
           },
           {
             "title": "HoodSetpoint",
-            "x": 475.0,
-            "y": 500.0,
-            "width": 150.0,
+            "x": 600.0,
+            "y": 400.0,
+            "width": 125.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -365,9 +349,9 @@
           },
           {
             "title": "AlwaysSpin",
-            "x": 750.0,
+            "x": 475.0,
             "y": 500.0,
-            "width": 150.0,
+            "width": 125.0,
             "height": 100.0,
             "type": "Toggle Switch",
             "properties": {
