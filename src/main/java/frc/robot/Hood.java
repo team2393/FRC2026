@@ -22,6 +22,9 @@ public class Hood extends SubsystemBase
     /** Position is limited to 0 .. max [percent] */
     private final double MIN_POS = 0, MAX_POS = 100.0;
 
+    /** Margin around min..max [percent] */
+    private final double MARGIN = 5.0;
+
     // Only draws ~1A when moving or pushed...
     private final TalonFX hood = MotorHelper.createTalonFX(RobotMap.HOOD, true, false, 0, 10);
 
@@ -71,14 +74,24 @@ public class Hood extends SubsystemBase
     private void holdPosition()
     {
         double setpoint = nt_setpoint.getDouble(0.0);
-        if (setpoint > 0)
-        {
-            double voltage = pid.calculate(getPosition(), MathUtil.clamp(setpoint, MIN_POS, MAX_POS));
-            voltage = MathUtil.clamp(voltage, -6, 6);
-            setVoltage(voltage);
-        }
-        else
+        // Negative setpoint disables control
+        if (setpoint <= 0)
             setVoltage(0);
+        else
+        {
+            // Avoid running into limits so leave margin
+            setpoint = MathUtil.clamp(setpoint, MIN_POS, MAX_POS-MARGIN);
+            final double position = getPosition();
+            // 0..MARGIN: Let settle
+            if (setpoint <= MARGIN  &&  position <= MARGIN)
+                setVoltage(0);
+            else
+            {   // Between MARGIN .. MAX-MARGIN control the position
+                double voltage = pid.calculate(getPosition(), MathUtil.clamp(setpoint, MIN_POS, MAX_POS));
+                voltage = MathUtil.clamp(voltage, -6, 6);
+                setVoltage(voltage);
+            }
+        }
     }
 
     @Override
