@@ -48,20 +48,20 @@ public class Robot extends CommandRobotBase
     private final Command aim = new AimToHub(tags, drivetrain);
     // private final Command aim = new RotateToTarget("Front", drivetrain);
 
-    // TODO Eventually, use FuelHandler. For now preliminary Intake
-    // private final FuelHandler fuel_handler = new FuelHandler();
-    private final Intake intake = new Intake();
+    private final FuelHandler fuel_handler = new FuelHandler();
+    private final Hood hood = new Hood();
 
     /** Handle cameras */
     private final List<CameraHelper> cameras = List.of(
-        new CameraHelper(tags, "Front",
-                         0.33, -0.09, 0.16,
-                        0.0,
-                        -34.0),
         new CameraHelper(tags, "Back",
-                        -0.34, -0.07, 0.16,
-                        180.0,
-                        -10.0));
+                        -0.11, -0.22, 0.46,
+                        0.0,
+                        -20.0)
+        // new CameraHelper(tags, "Front",
+        //                  0.33, -0.09, 0.16,
+        //                 0.0,
+        //                 -34.0)
+                        );
 
     /** Auto-no-mouse options */
     private final SendableChooser<Command> autos = new SendableChooser<>();
@@ -82,6 +82,8 @@ public class Robot extends CommandRobotBase
         AutoTools.config.addConstraint(new SwerveDriveKinematicsConstraint(drivetrain.getKinematics(),
                                                                            SwerveDrivetrain.MAX_METERS_PER_SEC));
 
+        hood.reset();
+
         // Bind controller buttons
         RobotOI.joystick.x().whileTrue(aim.repeatedly());
         // RobotOI.joystick.a().onTrue(fuel_handler.toggleIntake());
@@ -97,8 +99,9 @@ public class Robot extends CommandRobotBase
         }
         ));
 
-        RobotOI.joystick.a().whileTrue(new InstantCommand(() -> intake.open(true)));
-        RobotOI.joystick.a().whileFalse(new InstantCommand(() -> intake.open(false)));
+        RobotOI.joystick.a().onTrue(fuel_handler.toggleIntake());
+        RobotOI.joystick.y().onTrue(fuel_handler.shoot());
+
         RobotOI.joystick.leftBumper().onTrue(new InstantCommand(()->
         {
             drivetrain.setDefaultCommand(joydrive);
