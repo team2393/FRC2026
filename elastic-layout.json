@@ -162,7 +162,7 @@
           },
           {
             "title": "photonvision2_Port_1182_Output_MJPEG_Server",
-            "x": 900.0,
+            "x": 625.0,
             "y": 100.0,
             "width": 275.0,
             "height": 275.0,
@@ -176,7 +176,7 @@
           },
           {
             "title": "photonvision_Port_1182_Output_MJPEG_Server",
-            "x": 625.0,
+            "x": 900.0,
             "y": 100.0,
             "width": 275.0,
             "height": 275.0,
