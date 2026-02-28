@@ -28,6 +28,7 @@ public class LookupTable
     /** Table of data points */
     private final List<Entry> table = new ArrayList<>();
 
+    /** Create with list of distance, speed, hood, deviation */
     public LookupTable(final double... cell)
     {
         if (cell.length % 4 != 0)

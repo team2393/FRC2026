@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.swervelib.SwerveDrivetrain;
 import frc.swervelib.SwerveOI;
+import frc.tools.LookupTable;
+import frc.tools.LookupTable.Entry;
 
 /** Command that aims at hub
  *
@@ -36,6 +38,13 @@ public class AimToHub extends Command
                                                     new TrapezoidProfile.Constraints(3*360, 3*360));
     private Translation2d hub = null;
     private Pose2d last_pose = null;
+
+    private final static LookupTable settings_table = new LookupTable(
+        // distance, speed, hood, deviation
+        //      [m], [rpm],  [%], deviation
+        0.0,   500,    0,         0,
+                2.0,   800,   80,         0,
+                4.0,  2000,   90,         0);
 
     /** @param tags {@link AprilTagFieldLayout}
      *  @param drivetrain {@link SwerveDrivetrain}
@@ -139,8 +148,12 @@ public class AimToHub extends Command
 
         drivetrain.swerve(vx, vy, Math.toRadians(vr));
 
-        // XXX Set spinner speed, hood angle, .. based on distance using LookupTable
         nt_distance.setDouble(distance);
+
+        // TODO Set spinner speed, hood angle, .. based on distance using LookupTable
+        // Entry settings = settings_table.lookup(distance);
+        // SmartDashboard.putNumber("SpinnerSetpoint", settings.speed());
+        // SmartDashboard.putNumber("HoodSetpoint", settings.hood());
     }
 
     @Override
