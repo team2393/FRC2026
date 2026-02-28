@@ -53,11 +53,11 @@ public class Robot extends CommandRobotBase
 
     /** Handle cameras */
     private final List<CameraHelper> cameras = List.of(
-        new CameraHelper(tags, "Back",
+        new CameraHelper(tags, "Front",
                         -0.11, -0.22, 0.46,
                         0.0,
                         -20.0)
-        // new CameraHelper(tags, "Front",
+        // new CameraHelper(tags, "Back",
         //                  0.33, -0.09, 0.16,
         //                 0.0,
         //                 -34.0)
