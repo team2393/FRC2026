@@ -61,10 +61,10 @@ public class FuelHandler extends SubsystemBase
         /** Open intake, move storage and feeder until game piece in feeder */
         TakeIn,
 
-        // TODO New state: Store?
-        // Intake closed; move storage to push game pieces up to feeder;
-        // run feeder until game piece in feeder
-
+        /** Intake closed; move storage to push game pieces up to feeder;
+         *  run feeder unless game piece in feeder
+         */
+        Store,
         /** Close intake, run spinner up to speed */
         PrepShooting,
         /** Shoot until storage is empty */
@@ -109,16 +109,16 @@ public class FuelHandler extends SubsystemBase
     /** @return Command that closes the intake */
     public Command closeIntake()
     {
-        return new InstantCommand(() -> state = States.Idle);
+        return new InstantCommand(() -> state = States.Store);
     }
 
-    /** @return Command that toggles take in, idle */
+    /** @return Command that toggles take in, store */
     public Command toggleIntake()
     {
         return new InstantCommand(() ->
         {
             if (state == States.TakeIn)
-                state = States.Idle;
+                state = States.Store;
             else
                 state = States.TakeIn;
         });
@@ -133,14 +133,14 @@ public class FuelHandler extends SubsystemBase
     @Override
     public void periodic()
     {
+        // Assume all should be off, then turn on what's necessary based on state
         boolean run_intake = false;
         boolean run_storage = false;
         Feeder.Mode feeder_mode = Feeder.Mode.OFF;
         boolean run_spinner = false;
 
-        // As we push balls out, gaps between balls suggest
-        // there's nothing in feeder, so if we detect a ball,
-        // keep 'feeder_full' on for a little longer
+        // As we push balls out, there can be brief gaps between balls.
+        // Bridge those to keep feeder on for a little longer
         boolean feeder_full = keep_feeder.calculate(feeder.haveBall());
         nt_feeder_full.setBoolean(feeder_full);
 
@@ -148,14 +148,10 @@ public class FuelHandler extends SubsystemBase
         {
             // Leave all off
         }
-        else if (state == States.TakeIn)
+        if (state == States.TakeIn)
         {
             if (feeder_full)
-            {
-                state = States.Idle;
-                // and leave run_.. = false
-                // so we're effectively idle right now
-            }
+                state = States.Store;
             else
             {
                 run_intake = true;
@@ -163,8 +159,15 @@ public class FuelHandler extends SubsystemBase
                 feeder_mode = Feeder.Mode.FEED;
             }
         }
-        else if (state == States.PrepShooting)
+        if (state == States.Store)
         {
+            run_storage = true;
+            feeder_mode = feeder_full ? Mode.OFF : Mode.FEED;
+        }
+        if (state == States.PrepShooting)
+        {
+            run_storage = true;
+            feeder_mode = feeder_full ? Mode.OFF : Mode.FEED;
             run_spinner = true;
             if (spinner.isAtSetpoint())
             {
@@ -173,7 +176,7 @@ public class FuelHandler extends SubsystemBase
                 state = States.Shoot;
             }
         }
-        else if (state == States.Shoot)
+        if (state == States.Shoot)
         {
             run_storage = true;
             feeder_mode = Mode.SHOOT;
@@ -182,7 +185,7 @@ public class FuelHandler extends SubsystemBase
             // All game items gone? Keep spinner running to make sure
             // all items are really shot.
             if (after_shot_delay.calculate(!feeder_full))
-                state = States.Idle;
+                state = States.Store;
         }
 
         boolean blink_on_off = (System.currentTimeMillis()/200) % 2 == 0;
