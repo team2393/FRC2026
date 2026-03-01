@@ -161,7 +161,9 @@ public class FuelHandler extends SubsystemBase
         }
         if (state == States.Store)
         {
-            run_storage = true;
+            // Don't run stprage because balls
+            // wedge up at feeder
+            // run_storage = true;
             feeder_mode = feeder_full ? Mode.OFF : Mode.FEED;
         }
         if (state == States.PrepShooting)
