@@ -84,7 +84,7 @@ public class FuelHandler2 extends SubsystemBase
     private final static Color8Bit MOVE_ON = new Color8Bit(255, 255, 0);
     private final static Color8Bit SPINNER_OFF = new Color8Bit(100, 0, 0);
     private final static Color8Bit SPINNER_ON = new Color8Bit(255, 0, 0);
-    private final MechanismLigament2d vis_intake, vis_storage, vis_shooter;
+    private final MechanismLigament2d vis_intake, vis_storage, vis_feeder, vis_shooter;
 
     public FuelHandler2()
     {
@@ -99,7 +99,8 @@ public class FuelHandler2 extends SubsystemBase
         right.append(vis_intake  = new MechanismLigament2d("intake",  0.2,  90, 10, MOVE_OFF));
         right.append(vis_storage = new MechanismLigament2d("storage", 0.6, 170, 10, MOVE_OFF));
 
-        vis_storage.append(vis_shooter = new MechanismLigament2d("shooter", 0.2, -70, 10, SPINNER_OFF));
+        vis_storage.append(vis_feeder = new MechanismLigament2d("feeder", 0.1, -70, 10, MOVE_OFF));
+        vis_feeder.append(vis_shooter = new MechanismLigament2d("shooter", 0.1, 0, 10, SPINNER_OFF));
 
         SmartDashboard.putData("FuelHandler", mech);
     }
@@ -212,6 +213,10 @@ public class FuelHandler2 extends SubsystemBase
 
         // Feeder?
         feeder.run(feeder_mode);
+        if (feeder_mode == Mode.OFF)
+            vis_feeder.setColor(MOVE_OFF);
+        else
+            vis_feeder.setColor(blink_on_off ? MOVE_ON : MOVE_OFF);
 
         // Spinner?
         if (run_spinner  ||  nt_always_spin.getBoolean(false))
