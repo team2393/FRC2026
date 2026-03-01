@@ -48,7 +48,7 @@ public class Robot extends CommandRobotBase
     private final Command aim = new AimToHub(tags, drivetrain);
     // private final Command aim = new RotateToTarget("Front", drivetrain);
 
-    private final FuelHandler fuel_handler = new FuelHandler();
+    private final FuelHandler2 fuel_handler = new FuelHandler2();
     private final Hood hood = new Hood();
 
     /** Handle cameras */
@@ -100,7 +100,7 @@ public class Robot extends CommandRobotBase
         ));
 
         RobotOI.joystick.a().onTrue(fuel_handler.toggleIntake());
-        RobotOI.joystick.y().onTrue(fuel_handler.shoot());
+        RobotOI.joystick.y().onTrue(fuel_handler.toggleShooter());
 
         RobotOI.joystick.leftBumper().onTrue(new InstantCommand(()->
         {
