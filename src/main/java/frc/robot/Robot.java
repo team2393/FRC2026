@@ -48,7 +48,7 @@ public class Robot extends CommandRobotBase
     private final Command aim = new AimToHub(tags, drivetrain);
     // private final Command aim = new RotateToTarget("Front", drivetrain);
 
-    private final FuelHandler2 fuel_handler = new FuelHandler2();
+    private final FuelHandler fuel_handler = new FuelHandler();
     private final Hood hood = new Hood();
 
     /** Handle cameras */

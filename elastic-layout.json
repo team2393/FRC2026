@@ -330,7 +330,7 @@
               "topic": "/SmartDashboard/Hood",
               "period": 0.06,
               "data_type": "double",
-              "show_submit_button": true
+              "show_submit_button": false
             }
           },
           {
@@ -358,6 +358,48 @@
               "topic": "/SmartDashboard/AlwaysSpin",
               "period": 0.06,
               "data_type": "boolean"
+            }
+          },
+          {
+            "title": "Arm Angle",
+            "x": 725.0,
+            "y": 400.0,
+            "width": 100.0,
+            "height": 100.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Arm Angle",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "IntakeClosedAngle",
+            "x": 825.0,
+            "y": 400.0,
+            "width": 100.0,
+            "height": 100.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/IntakeClosedAngle",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "IntakeOpenAngle",
+            "x": 825.0,
+            "y": 500.0,
+            "width": 100.0,
+            "height": 100.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/IntakeOpenAngle",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": true
             }
           }
         ]
