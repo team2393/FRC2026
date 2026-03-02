@@ -39,6 +39,8 @@ public class Intake
         arm.setAngle(yes_no ? nt_open_angle.getDouble(100) : nt_closed_angle.getDouble(100));
         arm.hold();
 
-        mover.setVoltage(arm.getAngle() < 30 ? nt_volt_set.getDouble(0) : 0);
+        // TODO Re-enable mover
+        mover.setVoltage(0);
+        // mover.setVoltage(arm.getAngle() < 30 ? nt_volt_set.getDouble(0) : 0);
     }
 }

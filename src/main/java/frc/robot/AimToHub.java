@@ -41,10 +41,12 @@ public class AimToHub extends Command
 
     private final static LookupTable settings_table = new LookupTable(
         // distance, speed, hood, deviation
-        //      [m], [rpm],  [%], deviation
-        0.0,   500,    0,         0,
-                2.0,   800,   80,         0,
-                4.0,  2000,   90,         0);
+        //       [m], [rpm],  [%], deviation
+         1.5,  1800,   70,         0,
+                 2.0,  1850,   70,         0,
+                 2.5,  1800,   90,         0,
+                 3.5,  2050,   85,         0,
+                 4.0,  2250,   90,         0);
 
     /** @param tags {@link AprilTagFieldLayout}
      *  @param drivetrain {@link SwerveDrivetrain}
@@ -150,10 +152,10 @@ public class AimToHub extends Command
 
         nt_distance.setDouble(distance);
 
-        // TODO Set spinner speed, hood angle, .. based on distance using LookupTable
-        // Entry settings = settings_table.lookup(distance);
-        // SmartDashboard.putNumber("SpinnerSetpoint", settings.speed());
-        // SmartDashboard.putNumber("HoodSetpoint", settings.hood());
+        // Set spinner speed, hood angle, .. based on distance using LookupTable
+        Entry settings = settings_table.lookup(distance);
+        SmartDashboard.putNumber("SpinnerSetpoint", settings.speed());
+        SmartDashboard.putNumber("HoodSetpoint", settings.hood());
     }
 
     @Override

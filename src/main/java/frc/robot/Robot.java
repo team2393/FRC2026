@@ -35,7 +35,7 @@ public class Robot extends CommandRobotBase
     private final HubTimer hub_timer = new HubTimer();
 
     /** Power distribution board to monitor current */
-    private final PowerDistribution power_dist = new PowerDistribution();
+    // private final PowerDistribution power_dist = new PowerDistribution();
 
     /** Drivetrain and related commands */
     private final SwerveDrivetrain drivetrain = RobotMap.is_practice_chassis
@@ -117,8 +117,8 @@ public class Robot extends CommandRobotBase
         drivetrain.setDefaultCommand(joydrive);
 
         // Power dist. info
-        power_dist.clearStickyFaults();
-        SmartDashboard.putData("Power", power_dist);
+        // power_dist.clearStickyFaults();
+        // SmartDashboard.putData("Power", power_dist);
 
         // Auto options
         autos.setDefaultOption("Nothing", new PrintCommand("Do nothing"));
