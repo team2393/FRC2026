@@ -10,13 +10,19 @@ import frc.tools.CommandRobotBase;
 /** Test the intake */
 public class IntakeTestRobot extends CommandRobotBase
 {
-    private final PowerDistribution power_dist = new PowerDistribution();
+    // private final PowerDistribution power_dist = new PowerDistribution();
     private final Intake intake = new Intake();
 
     public IntakeTestRobot()
     {
-        power_dist.clearStickyFaults();
-        SmartDashboard.putData("Power", power_dist);
+        // power_dist.clearStickyFaults();
+        // SmartDashboard.putData("Power", power_dist);
+    }
+
+    @Override
+    public void disabledPeriodic()
+    {
+        intake.showAngle();
     }
 
     @Override

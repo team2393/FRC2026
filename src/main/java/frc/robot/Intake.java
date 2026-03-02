@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Intake
 {
-    // private final Arm arm = new Arm();
+    private final Arm arm = new Arm();
 
     private final TalonFX mover = MotorHelper.createTalonFX(RobotMap.INTAKE_MOVER, false, true, 0, 30);
     private final NetworkTableEntry nt_volt_set = SmartDashboard.getEntry("IntakeVoltageSet");
@@ -29,10 +29,16 @@ public class Intake
         nt_closed_angle.setDefaultDouble(120.0);
     }
 
+    public void showAngle()
+    {
+        arm.getAngle();
+    }
+
     public void open(boolean yes_no)
     {
-        // arm.setAngle(yes_no ? nt_open_angle.getDouble(100) : nt_closed_angle.getDouble(100));
-        // arm.hold();
-        mover.setVoltage(yes_no ? nt_volt_set.getDouble(0) : 0);
+        arm.setAngle(yes_no ? nt_open_angle.getDouble(100) : nt_closed_angle.getDouble(100));
+        arm.hold();
+
+        mover.setVoltage(arm.getAngle() < 30 ? nt_volt_set.getDouble(0) : 0);
     }
 }
