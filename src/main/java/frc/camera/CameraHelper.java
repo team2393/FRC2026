@@ -18,6 +18,9 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.swervelib.SwerveDrivetrain;
@@ -135,8 +138,22 @@ public class CameraHelper
                     Pose2d position = pose.toPose2d();
                     // System.out.println(target.getFiducialId() + " @ " + tag_pose + " -> " + position);
 
-                    // TODO Filter on coords inside field
-                    // TODO Filter on heading close to gyro
+                    // Filter on coords inside field
+                    if (position.getX() < 0  ||  position.getX() > tags.getFieldLength()  ||
+                        position.getY() < 0  ||  position.getY() > tags.getFieldWidth())
+                    {
+                        // System.out.println("Computed pos outside of field");
+                        continue;
+                    }
+
+                    // Filter on camera estimate too far away from odometry posoition,
+                    // except when disabled we trust any camera estimate
+                    if (! DriverStation.isDisabled()  &&
+                        drivetrain.getPose().getTranslation().getDistance(position.getTranslation()) > 5)
+                    {
+                        // System.out.println("Impossibible jump in position");
+                        continue;
+                    }
 
                     // For tests, force odometry to camera reading
                     // drivetrain.setOdometry(position.getX(), position.getY(), position.getRotation().getDegrees());
