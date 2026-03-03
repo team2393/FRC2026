@@ -131,8 +131,12 @@ public class CameraHelper
                     pose = pose.transformBy(robotToCam.inverse());
 
                     // TODO Check for sensible robot height
+                    SmartDashboard.putNumber("Pose Z", pose.getZ());
                     // if (! MathUtil.isNear(0.5, pose.getZ(), 1.0))
+                    // {
+                    //     // System.out.println("Ignoring robot Z " + pose.getZ());
                     //     continue;
+                    // }
 
                     // Map from 3D down to 2D
                     Pose2d position = pose.toPose2d();
@@ -142,17 +146,20 @@ public class CameraHelper
                     if (position.getX() < 0  ||  position.getX() > tags.getFieldLength()  ||
                         position.getY() < 0  ||  position.getY() > tags.getFieldWidth())
                     {
-                        // System.out.println("Computed pos outside of field");
+                        System.out.println("Computed pos outside of field: " + pose.getTranslation());
                         continue;
                     }
 
-                    // Filter on camera estimate too far away from odometry posoition,
-                    // except when disabled we trust any camera estimate
-                    if (! DriverStation.isDisabled()  &&
-                        drivetrain.getPose().getTranslation().getDistance(position.getTranslation()) > 5)
+                    // When disabled we trust any camera estimate,
+                    // otherwise ignore camera estimate too far away from odometry position
+                    if (! DriverStation.isDisabled())
                     {
-                        // System.out.println("Impossibible jump in position");
-                        continue;
+                        double jump = drivetrain.getPose().getTranslation().getDistance(position.getTranslation());
+                        if (jump > 5)
+                        {
+                            System.out.println("Impossibible jump of " + jump + "m");
+                            continue;
+                        }
                     }
 
                     // For tests, force odometry to camera reading
