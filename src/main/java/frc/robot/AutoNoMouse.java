@@ -29,7 +29,7 @@ import frc.tools.SequenceWithStart;
 public class AutoNoMouse
 {
     /** Create all our auto-no-mouse commands */
-    public static List<Command> createAutoCommands(AprilTagFieldLayout tags, SwerveDrivetrain drivetrain)
+    public static List<Command> createAutoCommands(AprilTagFieldLayout tags, SwerveDrivetrain drivetrain, FuelHandler fuel_handler)
     {
         // List of all auto commands
         final List<Command> autos = new ArrayList<>();
@@ -44,6 +44,26 @@ public class AutoNoMouse
             Trajectory path = createTrajectory(true, 0,   0, 0,
                                                     2.0, 0, 0);
             auto.addCommands(drivetrain.followTrajectory(path, 0).asProxy());
+            autos.add(auto);
+        }
+
+        // Start with nose at red hub, drive back, shoot, then move to trench
+        {
+            SequentialCommandGroup auto = new SequenceWithStart("Nose@red,shoot,trench", 13.01, 4.02, 180);
+            auto.addCommands(new VariableWaitCommand());
+
+            // Drive back
+            auto.addCommands(new SwerveToPositionCommand(drivetrain, 14.03, 4.07).asProxy());
+            // Shoot
+            auto.addCommands(fuel_handler.openIntake());
+            auto.addCommands(new AimToHub(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+            // Move to trench
+            Trajectory path = createTrajectory(true, 14.03, 4.07,  90,
+                                                                      13.88, 6.73, 135,
+                                                                      13.01, 7.36, 180);
+            auto.addCommands(drivetrain.followTrajectory(path, 180).asProxy());
+
             autos.add(auto);
         }
 

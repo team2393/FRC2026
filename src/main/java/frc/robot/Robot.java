@@ -122,7 +122,7 @@ public class Robot extends CommandRobotBase
 
         // Auto options
         autos.setDefaultOption("Nothing", new PrintCommand("Do nothing"));
-        for (Command auto : AutoNoMouse.createAutoCommands(tags, drivetrain))
+        for (Command auto : AutoNoMouse.createAutoCommands(tags, drivetrain, fuel_handler))
             autos.addOption(auto.getName(), auto);
         SmartDashboard.putData(autos);
     }

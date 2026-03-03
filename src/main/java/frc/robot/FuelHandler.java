@@ -105,6 +105,18 @@ public class FuelHandler extends SubsystemBase
         SmartDashboard.putData("FuelHandler", mech);
     }
 
+    /** @return Command that opens intake */
+    public Command openIntake()
+    {
+        return new InstantCommand(() -> intake_state = IntakeState.Open);
+    }
+
+    /** @return Command that closes intake */
+    public Command closeIntake()
+    {
+        return new InstantCommand(() -> intake_state = IntakeState.Closed);
+    }
+
     /** @return Command that toggles intake open/close */
     public Command toggleIntake()
     {
@@ -128,6 +140,25 @@ public class FuelHandler extends SubsystemBase
             else
                 shooter_state = ShooterState.PrepShooting;
         });
+    }
+
+    /** @return Command that starts shooting and waits until done */
+    public Command shoot()
+    {
+        return new Command()
+        {
+            @Override
+            public void initialize()
+            {
+                shooter_state = ShooterState.PrepShooting;
+            }
+
+            @Override
+            public boolean isFinished()
+            {
+                return shooter_state == ShooterState.Storing;
+            }
+        };
     }
 
     @Override
