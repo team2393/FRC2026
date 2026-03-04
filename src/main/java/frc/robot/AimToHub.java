@@ -42,7 +42,8 @@ public class AimToHub extends Command
     private final static LookupTable settings_table = new LookupTable(
         // distance, speed, hood, deviation
         //       [m], [rpm],  [%], deviation
-         1.5,  1800,   70,         0,
+         1.3,  1800,   55,         0,
+                 1.5,  1800,   70,         0,
                  2.0,  1850,   70,         0,
                  2.5,  1800,   90,         0,
                  3.5,  2050,   85,         0,
