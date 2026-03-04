@@ -22,7 +22,7 @@ public class IntakeTestRobot extends CommandRobotBase
     @Override
     public void disabledPeriodic()
     {
-        intake.showAngle();
+        intake.getAngle();
     }
 
     @Override

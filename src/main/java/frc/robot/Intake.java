@@ -29,9 +29,9 @@ public class Intake
         nt_closed_angle.setDefaultDouble(120.0);
     }
 
-    public void showAngle()
+    public double getAngle()
     {
-        arm.getAngle();
+        return arm.getAngle();
     }
 
     public void open(boolean yes_no)

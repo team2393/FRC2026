@@ -3,11 +3,9 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-import com.ctre.phoenix6.hardware.TalonFX;
-
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -222,6 +220,14 @@ public class FuelHandler extends SubsystemBase
             intake.open(true);
             vis_intake.setAngle(-20);
             vis_intake.setColor(blink_on_off ? MOVE_ON : MOVE_OFF);
+
+            // When disabled, we tend to move the arm back up into the initial configuration.
+            // In case the state machine was still "Open", correct that
+            if (DriverStation.isDisabled() && intake.getAngle() > 100)
+            {
+                intake_state = IntakeState.Closed;
+                System.out.println("Setting intake state to closed");
+            }
         }
         else
         {
