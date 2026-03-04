@@ -9,6 +9,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Intake Arm: Motor to rotate out/in
@@ -85,14 +86,8 @@ public class Arm
         // getAngle() will now return
         // 30 - ZERO_OFFSET =
         // 30 - (30 - UP_ANGLE) = UP_ANGLE
-        resetPID();
+        pid.reset(UP_ANGLE);
         return UP_ANGLE;
-    }
-
-    /** Reset the PID */
-    public void resetPID()
-    {
-        pid.reset(getAngle());
     }
 
     /** @return -180..180 degrees, zero means straight forward, 90 vertical */
@@ -132,18 +127,29 @@ public class Arm
     {
         final double angle = getAngle();
 
-        final double kg = nt_kg.getDouble(0.25);
-        // final double setpoint = nt_desired_angle.getDouble(50);
         final double setpoint = MathUtil.clamp(nt_desired_angle.getDouble(50), DOWN_ANGLE, UP_ANGLE);
 
         double voltage;
-        // If commanded close to limits _and_ readback is there as well, de-energize
-        if ((setpoint < DOWN_ANGLE+MARGIN && angle < DOWN_ANGLE+MARGIN) ||
-            (setpoint > UP_ANGLE-MARGIN   && angle > UP_ANGLE-MARGIN))
+        if (DriverStation.isDisabled())
+        {   // Motor won't move, so keep resetting PID
+            pid.reset(angle);
             voltage = 0;
+        }
+        else if ((setpoint < DOWN_ANGLE+MARGIN && angle < DOWN_ANGLE+MARGIN) ||
+                 (setpoint > UP_ANGLE-MARGIN   && angle > UP_ANGLE-MARGIN))
+        {   // If commanded close to limits _and_ readback is there as well, de-energize
+            voltage = 0;
+        }
         else
+        {
+            // System.out.format("Arm set %5.1f goal %5.1f angle %5.1f\n",
+            //                   pid.getSetpoint().position,
+            //                   pid.getGoal().position,
+            //                   angle);
+            final double kg = nt_kg.getDouble(0.25);
             voltage = kg * Math.cos(Math.toRadians(angle))
                     + pid.calculate(angle, setpoint);
+        }
         setVoltage(voltage);
         return voltage;
     }

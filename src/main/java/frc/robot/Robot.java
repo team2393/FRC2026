@@ -86,8 +86,8 @@ public class Robot extends CommandRobotBase
 
         // Bind controller buttons
         RobotOI.joystick.x().whileTrue(aim.repeatedly());
-        // RobotOI.joystick.a().onTrue(fuel_handler.toggleIntake());
-        // RobotOI.joystick.y().onTrue(fuel_handler.shoot());
+        RobotOI.joystick.a().onTrue(fuel_handler.toggleIntake());
+        RobotOI.joystick.y().onTrue(fuel_handler.toggleShooter());
         // Helper for creating auto paths: Print X, Y, Heading on button press
         RobotOI.joystick.b().onTrue(new InstantCommand(() ->
         {
@@ -98,9 +98,6 @@ public class Robot extends CommandRobotBase
                          pose.getRotation().getDegrees());
         }
         ));
-
-        RobotOI.joystick.a().onTrue(fuel_handler.toggleIntake());
-        RobotOI.joystick.y().onTrue(fuel_handler.toggleShooter());
 
         RobotOI.joystick.leftBumper().onTrue(new InstantCommand(()->
         {

@@ -63,12 +63,6 @@ public class ArmTestRobot extends CommandRobotBase
     }
 
     @Override
-    public void autonomousInit()
-    {
-        arm.resetPID();
-    }
-
-    @Override
     public void autonomousPeriodic()
     {
         // Toggle between two setpoints every 5 secs
