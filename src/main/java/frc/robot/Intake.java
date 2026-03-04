@@ -40,6 +40,6 @@ public class Intake
         arm.hold();
 
         // Turn on when arm is low enough
-        mover.setVoltage(arm.getAngle() < 30 ? nt_volt_set.getDouble(0) : 0);
+        mover.setVoltage(arm.getAngle() < 20 ? nt_volt_set.getDouble(0) : 0);
     }
 }
