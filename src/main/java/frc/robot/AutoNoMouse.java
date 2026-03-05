@@ -50,7 +50,38 @@ public class AutoNoMouse
 
 
 
-        // TODO "Back Shoot": Drive back to clear start line, open intake, aim, shoot
+
+        {
+            SequentialCommandGroup auto = new SequenceWithStart("Nose@red,shoot", 13.01, 4.02, 180);
+            auto.addCommands(new VariableWaitCommand());
+
+            // Drive back
+            auto.addCommands(new SwerveToPositionCommand(drivetrain, 14.03, 4.07).asProxy());
+            // Shoot
+            auto.addCommands(fuel_handler.openIntake());
+            auto.addCommands(new AimToHub(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+
+            autos.add(auto);
+        }
+
+        //
+        {
+            SequentialCommandGroup auto = new SequenceWithStart("Nose@blue,shoot", 3.54, 4.00, 0);
+            auto.addCommands(new VariableWaitCommand());
+
+            // Drive back
+            auto.addCommands(new SwerveToPositionCommand(drivetrain, 2.24, 4.02).asProxy());
+            // Shoot
+            auto.addCommands(fuel_handler.openIntake());
+            auto.addCommands(new AimToHub(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+
+            autos.add(auto);
+        }
+
+
+
 
         // Start with nose at red hub, drive back, shoot, then move to trench
         {
