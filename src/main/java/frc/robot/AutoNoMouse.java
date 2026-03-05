@@ -41,12 +41,17 @@ public class AutoNoMouse
             auto.setName("Forward 2.0m");
             auto.addCommands(new VariableWaitCommand());
             auto.addCommands(new SelectRelativeTrajectoryCommand(drivetrain));
-            Trajectory path = createTrajectory(true, 0,   0, 0,
-                                                    2.0, 0, 0);
+            Trajectory path = createTrajectory(true, 0, 0, 0,
+                                                   2.0, 0, 0);
             auto.addCommands(drivetrain.followTrajectory(path, 0).asProxy());
             autos.add(auto);
         }
 
+        // TODO Delete "Forward 2.0m" or rather change it into
+        // TODO "Back": Drive back to clear start line
+        
+        // TODO "Back Shoot": Drive back to clear start line, open intake, aim, shoot
+        
         // Start with nose at red hub, drive back, shoot, then move to trench
         {
             SequentialCommandGroup auto = new SequenceWithStart("Nose@red,shoot,trench", 13.01, 4.02, 180);
