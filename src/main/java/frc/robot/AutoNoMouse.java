@@ -36,7 +36,7 @@ public class AutoNoMouse
 
         // Each auto is created within a { .. block .. } so we get local variables for 'path' and the like.
         // Each auto should start with a VariableWaitCommand to allow coordination with other teams
-        {   // Drive forward 2.0 m using a (simple) trajectory
+        {   // Drive back, open intake
             SequentialCommandGroup auto = new SequentialCommandGroup();
             auto.setName("Back 1.5m and Open");
             auto.addCommands(new VariableWaitCommand());
@@ -48,10 +48,7 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
-
-
-
-        {
+        {   // Start with nose at red hub, drive back, shoot
             SequentialCommandGroup auto = new SequenceWithStart("Nose@red,shoot", 13.01, 4.02, 180);
             auto.addCommands(new VariableWaitCommand());
 
@@ -65,8 +62,7 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
-        //
-        {
+        {   // Start with nose at blue hub, drive back, shoot
             SequentialCommandGroup auto = new SequenceWithStart("Nose@blue,shoot", 3.54, 4.00, 0);
             auto.addCommands(new VariableWaitCommand());
 
@@ -80,11 +76,7 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
-
-
-
-        // Start with nose at red hub, drive back, shoot, then move to trench
-        {
+        {   // Start with nose at red hub, drive back, shoot, then move to trench
             SequentialCommandGroup auto = new SequenceWithStart("Nose@red,shoot,trench", 13.01, 4.02, 180);
             auto.addCommands(new VariableWaitCommand());
 
@@ -99,6 +91,25 @@ public class AutoNoMouse
                                                                       13.88, 6.73, 135,
                                                                       13.01, 7.36, 180);
             auto.addCommands(drivetrain.followTrajectory(path, 180).asProxy());
+
+            autos.add(auto);
+        }
+
+        {   // Start with nose at blue hub, drive back, shoot, then move to trench
+            SequentialCommandGroup auto = new SequenceWithStart("Nose@blue,shoot,trench", 3.5, 4.0, 0);
+            auto.addCommands(new VariableWaitCommand());
+
+            // Drive back
+            auto.addCommands(new SwerveToPositionCommand(drivetrain, 2.25, 4.0).asProxy());
+            // Shoot
+            auto.addCommands(fuel_handler.openIntake());
+            auto.addCommands(new AimToHub(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+            // Move to trench
+            Trajectory path = createTrajectory(true,  2.25, 4.00,  90,
+                                                                       2.85, 6.90,  45,
+                                                                       3.92, 7.36,   0);
+            auto.addCommands(drivetrain.followTrajectory(path, 0).asProxy());
 
             autos.add(auto);
         }
