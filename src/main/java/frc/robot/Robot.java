@@ -28,7 +28,7 @@ import frc.swervelib.SwerveDrivetrain;
 /** FRC2026 robot */
 public class Robot extends CommandRobotBase
 {
-    /** XXX Pick k2026RebuiltWelded or k2026RebuiltAndymark */
+    /** TODO Pick k2026RebuiltWelded or k2026RebuiltAndymark */
     private final AprilTagFieldLayout tags = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
 
     /** Track if hub is active */

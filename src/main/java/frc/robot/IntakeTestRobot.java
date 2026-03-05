@@ -3,8 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tools.CommandRobotBase;
 
 /** Test the intake */
@@ -12,12 +10,6 @@ public class IntakeTestRobot extends CommandRobotBase
 {
     // private final PowerDistribution power_dist = new PowerDistribution();
     private final Intake intake = new Intake();
-
-    public IntakeTestRobot()
-    {
-        // power_dist.clearStickyFaults();
-        // SmartDashboard.putData("Power", power_dist);
-    }
 
     @Override
     public void disabledPeriodic()
