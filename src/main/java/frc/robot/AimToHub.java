@@ -93,14 +93,22 @@ public class AimToHub extends Command
     @Override
     public void initialize()
     {
+        // Aim For Given Hub
         // Use "our" hub.
-        if (DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Red)
-            hub = RED_HUB;
-        else
-            hub = BLUE_HUB;
+        // if (DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Red)
+        //     hub = RED_HUB;
+        // else
+        //     hub = BLUE_HUB;
 
         last_pose = drivetrain.getPose();
 
+        // Aim For Closest Hub
+        double blueDistance = last_pose.getTranslation().getDistance(BLUE_HUB);
+        double redDistance = last_pose.getTranslation().getDistance(RED_HUB);
+        if (redDistance > blueDistance)
+            hub = BLUE_HUB;
+        else
+            hub = RED_HUB;
         // Profiled PID needs to start with current measurement (robot heading)
         pid.reset(last_pose.getRotation().getDegrees());
     }
