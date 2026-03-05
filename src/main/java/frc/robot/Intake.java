@@ -17,7 +17,7 @@ public class Intake
 {
     private final Arm arm = new Arm();
 
-    private final TalonFX mover = MotorHelper.createTalonFX(RobotMap.INTAKE_MOVER, false, true, 0, 30);
+    private final TalonFX mover = MotorHelper.createTalonFX(RobotMap.INTAKE_MOVER, false, true, 2, 30);
     private final NetworkTableEntry nt_volt_set = SmartDashboard.getEntry("IntakeVoltageSet");
     private final NetworkTableEntry nt_open_angle = SmartDashboard.getEntry("IntakeOpenAngle");
     private final NetworkTableEntry nt_closed_angle = SmartDashboard.getEntry("IntakeClosedAngle");
