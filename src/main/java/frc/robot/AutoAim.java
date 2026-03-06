@@ -25,10 +25,11 @@ import frc.tools.LookupTable.Entry;
  *  Aims robot at hub based on odometry,
  *  which is ideally updated from camera info.
  */
-public class AimToHub extends Command
+public class AutoAim extends Command
 {
     /** Estimated ball speed [m/s] */
     private final double BALL_SPEED = 3.0;
+    private final AprilTagFieldLayout tags;
     private final Translation2d BLUE_HUB;
     private final Translation2d RED_HUB;
     private final SwerveDrivetrain drivetrain;
@@ -36,7 +37,7 @@ public class AimToHub extends Command
     private final NetworkTableEntry nt_distance = SmartDashboard.getEntry("HubDistance");
     private final ProfiledPIDController pid = new ProfiledPIDController(5, 1, 0,
                                                     new TrapezoidProfile.Constraints(3*360, 3*360));
-    private Translation2d hub = null;
+    private Translation2d aim_target = null;
     private Pose2d last_pose = null;
 
     private final static LookupTable settings_table = new LookupTable(
@@ -52,7 +53,7 @@ public class AimToHub extends Command
     /** @param tags {@link AprilTagFieldLayout}
      *  @param drivetrain {@link SwerveDrivetrain}
      */
-    public AimToHub(AprilTagFieldLayout tags, SwerveDrivetrain drivetrain)
+    public AutoAim(AprilTagFieldLayout tags, SwerveDrivetrain drivetrain)
     {
         this(tags, drivetrain, true);
     }
@@ -61,8 +62,10 @@ public class AimToHub extends Command
      *  @param drivetrain {@link SwerveDrivetrain}
      *  @param absolute Absolute drive mode?
      */
-    public AimToHub(AprilTagFieldLayout tags, SwerveDrivetrain drivetrain, boolean absolute)
+    public AutoAim(AprilTagFieldLayout tags, SwerveDrivetrain drivetrain, boolean absolute)
     {
+        this.tags = tags;
+
         // Center of blue, red hub is between tags ... and ...
         // ID,X,Y,Z,Z-Rotation,X-Rotation
         // 20,205.873,158.844,44.25,  0,0
@@ -90,25 +93,43 @@ public class AimToHub extends Command
         // SmartDashboard.putData("AimToHubPID", pid);
     }
 
+    /** @param coord Position to check
+     *  @param low Low end of range
+     *  @param high High end of range
+     *  @return Is coordinate within the range?
+     */
+    private boolean isBetween(double coord, double low, double high)
+    {
+        if (low > high)
+            throw new RuntimeException("Invalid range");
+        return low <= coord  &&  coord <= high;
+    }
+
     @Override
     public void initialize()
     {
-        // Aim For Given Hub
-        // Use "our" hub.
-        // if (DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Red)
-        //     hub = RED_HUB;
-        // else
-        //     hub = BLUE_HUB;
-
         last_pose = drivetrain.getPose();
 
-        // Aim For Closest Hub
-        double blueDistance = last_pose.getTranslation().getDistance(BLUE_HUB);
-        double redDistance = last_pose.getTranslation().getDistance(RED_HUB);
-        if (redDistance > blueDistance)
-            hub = BLUE_HUB;
+        if (isBetween(last_pose.getTranslation().getX(), 0, BLUE_HUB.getX()))
+            aim_target = BLUE_HUB;
+        else if (isBetween(last_pose.getTranslation().getX(), RED_HUB.getX(), tags.getFieldLength()))
+            aim_target = RED_HUB;
+        else if (isBetween(last_pose.getTranslation().getX(), BLUE_HUB.getX(), 0.5*tags.getFieldLength()))
+        {
+            if (last_pose.getTranslation().getY() < 0.5*tags.getFieldWidth())
+                aim_target = new Translation2d(0.5*BLUE_HUB.getX(), 0.25*tags.getFieldWidth());
+            else
+                aim_target = new Translation2d(0.5*BLUE_HUB.getX(), 0.75*tags.getFieldWidth());
+        }
         else
-            hub = RED_HUB;
+        {
+            double x = RED_HUB.getX() + 0.5*(tags.getFieldLength()-RED_HUB.getX());
+            if (last_pose.getTranslation().getY() < 0.5*tags.getFieldWidth())
+                aim_target = new Translation2d(x, 0.25*tags.getFieldWidth());
+            else
+                aim_target = new Translation2d(x, 0.75*tags.getFieldWidth());
+        }
+
         // Profiled PID needs to start with current measurement (robot heading)
         pid.reset(last_pose.getRotation().getDegrees());
     }
@@ -124,14 +145,14 @@ public class AimToHub extends Command
         last_pose = robot_pose;
 
         // Direction from where we are to hub
-        Translation2d direction = hub.minus(robot_pose.getTranslation());
+        Translation2d direction = aim_target.minus(robot_pose.getTranslation());
         double distance = direction.getNorm();
         // Estimate time for ball to travel that distance
         double shot_time = distance / BALL_SPEED;
         // Determine how far robot travels in that time,
         Translation2d robot_travel = robot_speed.times(shot_time);
         // Estimate where hub will appear to be ...
-        Translation2d perceived_hub = hub.minus(robot_travel);
+        Translation2d perceived_hub = aim_target.minus(robot_travel);
         // .. and aim for that
         direction = perceived_hub.minus(robot_pose.getTranslation());
         // Where do we have to point?

@@ -46,7 +46,7 @@ public class Robot extends CommandRobotBase
     private final Command reset_heading = new ResetHeadingCommand(drivetrain);
     private final Command joydrive = new RelativeSwerveCommand(drivetrain);
     private final Command absdrive = new AbsoluteSwerveCommand(drivetrain);
-    private final Command aim = new AimToHub(tags, drivetrain);
+    private final Command aim = new AutoAim(tags, drivetrain);
     private final Command pass = new ApplyAdjustableSettingCommand("", "PassHood", 30, "HoodSetpoint")
                         .andThen(new ApplyAdjustableSettingCommand("", "PassSpinner", 2000, "SpinnerSetpoint"))
                         .withName("Pass");

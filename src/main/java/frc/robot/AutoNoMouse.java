@@ -56,7 +56,7 @@ public class AutoNoMouse
             auto.addCommands(new SwerveToPositionCommand(drivetrain, 14.03, 4.07).asProxy());
             // Shoot
             auto.addCommands(fuel_handler.openIntake());
-            auto.addCommands(new AimToHub(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().withTimeout(5));
 
             autos.add(auto);
@@ -70,7 +70,7 @@ public class AutoNoMouse
             auto.addCommands(new SwerveToPositionCommand(drivetrain, 2.24, 4.02).asProxy());
             // Shoot
             auto.addCommands(fuel_handler.openIntake());
-            auto.addCommands(new AimToHub(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().withTimeout(5));
 
             autos.add(auto);
@@ -84,7 +84,7 @@ public class AutoNoMouse
             auto.addCommands(new SwerveToPositionCommand(drivetrain, 14.03, 4.07).asProxy());
             // Shoot
             auto.addCommands(fuel_handler.openIntake());
-            auto.addCommands(new AimToHub(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().withTimeout(5));
             // Move to trench
             Trajectory path = createTrajectory(true, 14.03, 4.07,  90,
@@ -103,7 +103,7 @@ public class AutoNoMouse
             auto.addCommands(new SwerveToPositionCommand(drivetrain, 2.25, 4.0).asProxy());
             // Shoot
             auto.addCommands(fuel_handler.openIntake());
-            auto.addCommands(new AimToHub(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().withTimeout(5));
             // Move to trench
             Trajectory path = createTrajectory(true,  2.25, 4.00,  90,
@@ -165,7 +165,7 @@ public class AutoNoMouse
                                                     2.77, 2.72,  90,
                                                     3.00, 4.00,  60);
             auto.addCommands(drivetrain.followTrajectory(path, 0).asProxy());
-            auto.addCommands(new AimToHub(tags, drivetrain).asProxy());
+            auto.addCommands(new AutoAim(tags, drivetrain).asProxy());
             auto.addCommands(new PrintCommand("Shoot!"));
             auto.addCommands(new WaitCommand(2));
             // Sweep through center of field to pick up fuel
@@ -183,7 +183,7 @@ public class AutoNoMouse
             auto.addCommands(drivetrain.followTrajectory(path, 90).asProxy());
             auto.addCommands(new PrintCommand("Close intake"));
             // Aim and shoot
-            auto.addCommands(new AimToHub(tags, drivetrain).asProxy());
+            auto.addCommands(new AutoAim(tags, drivetrain).asProxy());
             auto.addCommands(new PrintCommand("Shoot!"));
             auto.addCommands(new WaitCommand(2));
             auto.addCommands(new PrintCommand("Done."));
@@ -200,7 +200,7 @@ public class AutoNoMouse
                                                 13.52, 3.99, -96
                                                 );
             auto.addCommands(drivetrain.followTrajectory(path, 180).asProxy());
-            auto.addCommands(new AimToHub(tags, drivetrain).asProxy());
+            auto.addCommands(new AutoAim(tags, drivetrain).asProxy());
             auto.addCommands(new PrintCommand("Shoot!"));
             auto.addCommands(new WaitCommand(2));
             // Sweep through center of field to pick up fuel
@@ -217,7 +217,7 @@ public class AutoNoMouse
             auto.addCommands(drivetrain.followTrajectory(path, 90).asProxy());
             auto.addCommands(new PrintCommand("Close intake"));
             // Aim and shoot
-            auto.addCommands(new AimToHub(tags, drivetrain).asProxy());
+            auto.addCommands(new AutoAim(tags, drivetrain).asProxy());
             auto.addCommands(new PrintCommand("Shoot!"));
             auto.addCommands(new WaitCommand(2));
             auto.addCommands(new PrintCommand("Done."));
@@ -232,7 +232,7 @@ public class AutoNoMouse
             Trajectory path = createTrajectory(true, 13.00, 1.67, 68,
                                                   13.64, 3.65, 92);
             auto.addCommands(drivetrain.followTrajectory(path, 180).asProxy());
-            auto.addCommands(new AimToHub(tags, drivetrain).asProxy());
+            auto.addCommands(new AutoAim(tags, drivetrain).asProxy());
             auto.addCommands(new PrintCommand("Shoot!"));
             auto.addCommands(new WaitCommand(2));
             // Pick up fuel from our side
@@ -254,7 +254,7 @@ public class AutoNoMouse
             auto.addCommands(drivetrain.followTrajectory(path, 180).asProxy());
 
             // Aim and shoot
-            auto.addCommands(new AimToHub(tags, drivetrain).asProxy());
+            auto.addCommands(new AutoAim(tags, drivetrain).asProxy());
             auto.addCommands(new PrintCommand("Shoot!"));
             auto.addCommands(new WaitCommand(2));
             auto.addCommands(new PrintCommand("Done."));
