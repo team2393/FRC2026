@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import frc.tools.ApplyAdjustableSettingCommand;
 import frc.tools.AutoTools;
 import frc.tools.CommandRobotBase;
 import frc.camera.CameraHelper;
@@ -46,7 +47,9 @@ public class Robot extends CommandRobotBase
     private final Command joydrive = new RelativeSwerveCommand(drivetrain);
     private final Command absdrive = new AbsoluteSwerveCommand(drivetrain);
     private final Command aim = new AimToHub(tags, drivetrain);
-    // private final Command aim = new RotateToTarget("Front", drivetrain);
+    private final Command pass = new ApplyAdjustableSettingCommand("", "PassHood", 30, "HoodSetpoint")
+                        .andThen(new ApplyAdjustableSettingCommand("", "PassSpinner", 2000, "SpinnerSetpoint"))
+                        .withName("Pass");
 
     private final FuelHandler fuel_handler = new FuelHandler();
     private final Hood hood = new Hood();
@@ -88,6 +91,7 @@ public class Robot extends CommandRobotBase
         RobotOI.joystick.x().whileTrue(aim.repeatedly());
         RobotOI.joystick.a().onTrue(fuel_handler.toggleIntake());
         RobotOI.joystick.y().onTrue(fuel_handler.toggleShooter());
+        SmartDashboard.putData("Pass", pass);
         // Helper for creating auto paths: Print X, Y, Heading on button press
         RobotOI.joystick.b().onTrue(new InstantCommand(() ->
         {

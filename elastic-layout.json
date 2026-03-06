@@ -362,7 +362,7 @@
           },
           {
             "title": "Arm Angle",
-            "x": 775.0,
+            "x": 750.0,
             "y": 400.0,
             "width": 100.0,
             "height": 100.0,
@@ -376,9 +376,9 @@
           },
           {
             "title": "IntakeClosedAngle",
-            "x": 875.0,
+            "x": 850.0,
             "y": 400.0,
-            "width": 100.0,
+            "width": 125.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -390,13 +390,55 @@
           },
           {
             "title": "IntakeOpenAngle",
-            "x": 875.0,
+            "x": 850.0,
+            "y": 500.0,
+            "width": 125.0,
+            "height": 100.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/IntakeOpenAngle",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "Pass",
+            "x": 975.0,
+            "y": 375.0,
+            "width": 275.0,
+            "height": 125.0,
+            "type": "Command",
+            "properties": {
+              "topic": "/SmartDashboard/Pass",
+              "period": 0.06,
+              "show_type": false,
+              "maximize_button_space": true
+            }
+          },
+          {
+            "title": "PassHood",
+            "x": 1100.0,
             "y": 500.0,
             "width": 100.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
-              "topic": "/SmartDashboard/IntakeOpenAngle",
+              "topic": "/SmartDashboard/PassHood",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "PassSpinner",
+            "x": 975.0,
+            "y": 500.0,
+            "width": 125.0,
+            "height": 100.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/PassSpinner",
               "period": 0.06,
               "data_type": "double",
               "show_submit_button": true
