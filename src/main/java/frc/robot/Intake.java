@@ -17,14 +17,15 @@ public class Intake
 {
     private final Arm arm = new Arm();
 
-    private final TalonFX mover = MotorHelper.createTalonFX(RobotMap.INTAKE_MOVER, false, true, 2, 30);
+    // 30 Amp limit was insufficient
+    private final TalonFX mover = MotorHelper.createTalonFX(RobotMap.INTAKE_MOVER, false, true, 2, 70);
     private final NetworkTableEntry nt_volt_set = SmartDashboard.getEntry("IntakeVoltageSet");
     private final NetworkTableEntry nt_open_angle = SmartDashboard.getEntry("IntakeOpenAngle");
     private final NetworkTableEntry nt_closed_angle = SmartDashboard.getEntry("IntakeClosedAngle");
 
     public Intake()
     {
-        nt_volt_set.setDefaultDouble(10.0);
+        nt_volt_set.setDefaultDouble(9.0);
         nt_open_angle.setDefaultDouble(5.0);
         nt_closed_angle.setDefaultDouble(120.0);
     }
