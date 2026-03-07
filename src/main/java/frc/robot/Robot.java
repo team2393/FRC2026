@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.tools.ApplyAdjustableSettingCommand;
+import frc.tools.ApplySettingsCommand;
 import frc.tools.AutoTools;
 import frc.tools.CommandRobotBase;
 import frc.camera.CameraHelper;
@@ -91,6 +92,11 @@ public class Robot extends CommandRobotBase
         RobotOI.joystick.x().whileTrue(aim.repeatedly());
         RobotOI.joystick.a().onTrue(fuel_handler.toggleIntake());
         RobotOI.joystick.y().onTrue(fuel_handler.toggleShooter());
+
+        ApplySettingsCommand trench = new ApplySettingsCommand("Trench");
+        trench.add("HoodSetpoint", 0);
+        SmartDashboard.putData(trench);
+
         SmartDashboard.putData("Pass", pass);
         // Helper for creating auto paths: Print X, Y, Heading on button press
         RobotOI.joystick.b().onTrue(new InstantCommand(() ->
