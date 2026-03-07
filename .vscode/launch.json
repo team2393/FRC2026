@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "ProfileCheck",
+      "request": "launch",
+      "mainClass": "frc.tools.ProfileCheck",
+      "projectName": "FRC2026"
+    },
+    {
+      "type": "java",
       "name": "Crunch",
       "request": "launch",
       "mainClass": "tutorial.Crunch",
