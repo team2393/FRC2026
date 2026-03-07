@@ -69,6 +69,9 @@ Timeline
  * Test/tune combined game piece handling
  * On practice field, test cameras, relative vs. abs. drive,
    aim for hub while driving
+ * Lower hood when close to tremch
+ * Tune spinner spood
+ * Auto aim in center should use a;lliance color, not nearest hub
  * Combine aming and shooting
  * Auto ideas
 
