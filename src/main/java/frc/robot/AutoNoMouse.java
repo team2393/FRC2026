@@ -108,7 +108,7 @@ public class AutoNoMouse
             // Move to trench
             Trajectory path = createTrajectory(true,  2.25, 4.00,  90,
                                                                        2.85, 6.90,  45,
-                                                                       3.92, 7.36,   0);
+                                                                       3.60, 7.43,   0);
             auto.addCommands(drivetrain.followTrajectory(path, 0).asProxy());
 
             autos.add(auto);
