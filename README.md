@@ -67,11 +67,10 @@ Timeline
           configure AimToHub table of hood and speed settings.
           Intake mover disabled until fixed.
  * Test/tune combined game piece handling
- * On practice field, test cameras, relative vs. abs. drive,
-   aim for hub while driving
- * Lower hood when close to tremch
+ * Mar 7: On practice field, test cameras, relative vs. abs. drive,
+          auto (back, shoot, shoot & go to trench for blue side)
+ * Lower hood when close to trench?
  * Tune spinner spood
- * Auto aim in center should use a;lliance color, not nearest hub
  * Combine aming and shooting
  * Auto ideas
 

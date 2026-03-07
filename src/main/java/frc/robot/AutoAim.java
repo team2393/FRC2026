@@ -110,24 +110,31 @@ public class AutoAim extends Command
     {
         last_pose = drivetrain.getPose();
 
-        if (isBetween(last_pose.getTranslation().getX(), 0, BLUE_HUB.getX()))
-            aim_target = BLUE_HUB;
-        else if (isBetween(last_pose.getTranslation().getX(), RED_HUB.getX(), tags.getFieldLength()))
-            aim_target = RED_HUB;
-        else if (isBetween(last_pose.getTranslation().getX(), BLUE_HUB.getX(), 0.5*tags.getFieldLength()))
-        {
-            if (last_pose.getTranslation().getY() < 0.5*tags.getFieldWidth())
-                aim_target = new Translation2d(0.5*BLUE_HUB.getX(), 0.25*tags.getFieldWidth());
+        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue)
+        {   // In home area, aim for hub
+            if (isBetween(last_pose.getTranslation().getX(), 0, BLUE_HUB.getX()))
+                aim_target = BLUE_HUB;
             else
-                aim_target = new Translation2d(0.5*BLUE_HUB.getX(), 0.75*tags.getFieldWidth());
+            {   // Pass to lower or upper half of home area
+                double x = 0.5*BLUE_HUB.getX();
+                if (last_pose.getTranslation().getY() < 0.5*tags.getFieldWidth())
+                    aim_target = new Translation2d(x, 0.25*tags.getFieldWidth());
+                else
+                    aim_target = new Translation2d(x, 0.75*tags.getFieldWidth());
+            }
         }
-        else
-        {
-            double x = RED_HUB.getX() + 0.5*(tags.getFieldLength()-RED_HUB.getX());
-            if (last_pose.getTranslation().getY() < 0.5*tags.getFieldWidth())
-                aim_target = new Translation2d(x, 0.25*tags.getFieldWidth());
+        else // Red alliance
+        {   // In home area, aim for hub
+            if (isBetween(last_pose.getTranslation().getX(), RED_HUB.getX(), tags.getFieldLength()))
+                aim_target = RED_HUB;
             else
-                aim_target = new Translation2d(x, 0.75*tags.getFieldWidth());
+            {   // Pass to lower or upper half of home area
+                double x = RED_HUB.getX() + 0.5*(tags.getFieldLength()-RED_HUB.getX());
+                if (last_pose.getTranslation().getY() < 0.5*tags.getFieldWidth())
+                    aim_target = new Translation2d(x, 0.25*tags.getFieldWidth());
+                else
+                    aim_target = new Translation2d(x, 0.75*tags.getFieldWidth());
+            }
         }
 
         // Profiled PID needs to start with current measurement (robot heading)
