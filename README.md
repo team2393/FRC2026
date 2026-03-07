@@ -69,7 +69,6 @@ Timeline
  * Test/tune combined game piece handling
  * Mar 7: On practice field, test cameras, relative vs. abs. drive,
           auto (back, shoot, shoot & go to trench for blue side)
- * Lower hood when close to trench?
  * Tune spinner spood
  * Combine aming and shooting
  * Auto ideas
