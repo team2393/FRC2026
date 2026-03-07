@@ -207,7 +207,7 @@
           },
           {
             "title": "SpinnerRPM",
-            "x": 350.0,
+            "x": 475.0,
             "y": 500.0,
             "width": 125.0,
             "height": 100.0,
@@ -221,7 +221,7 @@
           },
           {
             "title": "AutoDelay",
-            "x": 200.0,
+            "x": 350.0,
             "y": 500.0,
             "width": 125.0,
             "height": 100.0,
@@ -237,7 +237,7 @@
             "title": "Auto",
             "x": 0.0,
             "y": 500.0,
-            "width": 200.0,
+            "width": 325.0,
             "height": 125.0,
             "type": "ComboBox Chooser",
             "properties": {
