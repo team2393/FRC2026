@@ -77,19 +77,19 @@ public class AutoNoMouse
         }
 
         {   // Start with nose at red hub, drive back, shoot, then move to trench
-            SequentialCommandGroup auto = new SequenceWithStart("Nose@red,shoot,trench", 13.01, 4.02, 180);
+            SequentialCommandGroup auto = new SequenceWithStart("Nose@red,shoot,trench", 13.03, 4.0, 180);
             auto.addCommands(new VariableWaitCommand());
 
             // Drive back
-            auto.addCommands(new SwerveToPositionCommand(drivetrain, 14.03, 4.07).asProxy());
+            auto.addCommands(new SwerveToPositionCommand(drivetrain, 14.20, 4.0).asProxy());
             // Shoot
             auto.addCommands(fuel_handler.openIntake());
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().withTimeout(5));
             // Move to trench
-            Trajectory path = createTrajectory(true, 14.03, 4.07,  90,
-                                                                      13.88, 6.73, 135,
-                                                                      13.01, 7.36, 180);
+            Trajectory path = createTrajectory(true, 14.20, 4.00,  90,
+                                                                      13.68, 6.90, 135,
+                                                                      12.92, 7.43, 180);
             auto.addCommands(drivetrain.followTrajectory(path, 180).asProxy());
 
             autos.add(auto);
