@@ -94,7 +94,7 @@ public class Robot extends CommandRobotBase
         RobotOI.joystick.y().onTrue(fuel_handler.toggleShooter());
 
         ApplySettingsCommand trench = new ApplySettingsCommand("Trench");
-        trench.add("HoodSetpoint", 0);
+        trench.add("HoodSetpoint", 1);
         SmartDashboard.putData(trench);
 
         SmartDashboard.putData("Pass", pass);

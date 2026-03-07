@@ -349,8 +349,8 @@
           },
           {
             "title": "AlwaysSpin",
-            "x": 475.0,
-            "y": 500.0,
+            "x": 1275.0,
+            "y": 400.0,
             "width": 125.0,
             "height": 100.0,
             "type": "Toggle Switch",
@@ -403,45 +403,17 @@
             }
           },
           {
-            "title": "Pass",
-            "x": 975.0,
-            "y": 375.0,
+            "title": "Trench",
+            "x": 1000.0,
+            "y": 400.0,
             "width": 275.0,
             "height": 125.0,
             "type": "Command",
             "properties": {
-              "topic": "/SmartDashboard/Pass",
+              "topic": "/SmartDashboard/Trench",
               "period": 0.06,
               "show_type": false,
               "maximize_button_space": true
-            }
-          },
-          {
-            "title": "PassHood",
-            "x": 1100.0,
-            "y": 500.0,
-            "width": 100.0,
-            "height": 100.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/PassHood",
-              "period": 0.06,
-              "data_type": "double",
-              "show_submit_button": true
-            }
-          },
-          {
-            "title": "PassSpinner",
-            "x": 975.0,
-            "y": 500.0,
-            "width": 125.0,
-            "height": 100.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/PassSpinner",
-              "period": 0.06,
-              "data_type": "double",
-              "show_submit_button": true
             }
           }
         ]
