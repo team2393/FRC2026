@@ -82,7 +82,7 @@ public class Robot extends CommandRobotBase
         RobotOI.MAX_METERS_PER_SEC = 2.0;
         RobotOI.MAX_ROTATION_DEG_PER_SEC = 180.0;
         // Max speed used in auto
-        AutoTools.config = new TrajectoryConfig(2.5, 2.0);
+        AutoTools.config = new TrajectoryConfig(1.5, 2.0);
         AutoTools.config.addConstraint(new SwerveDriveKinematicsConstraint(drivetrain.getKinematics(),
                                                                            SwerveDrivetrain.MAX_METERS_PER_SEC));
 
