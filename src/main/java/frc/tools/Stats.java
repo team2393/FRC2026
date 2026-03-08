@@ -3,9 +3,12 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.tools;
 
+/** Helper for computing statistics */
 public class Stats
 {
+    /** Number of samples */
     private long n;
+    /** Stats */
     private double min, max, avg;
 
     public Stats()
@@ -46,12 +49,11 @@ public class Stats
         {
             if (x < min)
                 min = x;
-
             if (x > max)
                 max = x;
         }
 
-        // average over n values is defined as
+        // Average over n values is defined as
         //     avg_n = sum(x_i, i=1..n) / n
         // but computed that way, the sum can get too large
         // to fit into a variable.
