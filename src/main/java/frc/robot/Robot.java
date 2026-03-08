@@ -7,8 +7,6 @@ import java.util.List;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -53,18 +51,7 @@ public class Robot extends CommandRobotBase
     private final Command pass = new ApplyAdjustableSettingCommand("", "PassHood", 30, "HoodSetpoint")
                         .andThen(new ApplyAdjustableSettingCommand("", "PassSpinner", 2000, "SpinnerSetpoint"))
                         .withName("Pass");
-    private final Command auto_retract_hood = new Command()
-    {   // Retract hood when robot is close to trench
-        private static final double blue_zone = 4.63, red_zone = 11.92;
-        public void execute()
-        {
-            Translation2d pos = drivetrain.getPose().getTranslation();
-            boolean near_trench_y = pos.getY() < 1  ||  pos.getY() > 7;
-            if (near_trench_y  && (MathUtil.isNear(blue_zone, pos.getX(), 1.0) ||
-                                   MathUtil.isNear(red_zone,  pos.getX(), 1.0)))
-                SmartDashboard.putNumber("HoodSetpoint", 1);
-        }
-    };
+    private final Command auto_retract_hood = new AutoRetractHood(drivetrain);
 
     private final FuelHandler fuel_handler = new FuelHandler();
     private final Hood hood = new Hood();
