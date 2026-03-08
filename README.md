@@ -149,3 +149,39 @@ From https://docs.limelightvision.io/docs/docs-limelight/pipeline-apriltag/april
     - Reducing the brightness and contrast of the image will generally improve pipeline framerate and reduce range.
     - Increasing Sensor gain allows you to increase brightness without increasing exposure. It may reduce 3D stability, and it may reduce tracking stability.
 
+Profiling
+---------
+
+'VisualVM', available from https://visualvm.github.io,
+allows you to see how much CPU and memory the code is using on the RoboRIO,
+and where it spends its time.
+
+Assuming you unpacked it to \Users\Public\wpilib,
+start it from a command prompt to pass the JDK location like this:
+
+```
+cd \Users\Public\wpilib\visualvm\bin
+visualvm --jdkhome \Users\Public\wpilib\2026\jdk
+```
+
+In `build.gradle`, this addition to the FRCJavaArtifact section
+allows VisualVM to access the JVM running on the robot:
+
+```
+frcJava(getArtifactTypeClass('FRCJavaArtifact')) {
+    // Enable VisualVM connection
+    jvmArgs.add("-Dcom.sun.management.jmxremote=true")
+    jvmArgs.add("-Dcom.sun.management.jmxremote.port=1198")
+    jvmArgs.add("-Dcom.sun.management.jmxremote.local.only=false")
+    jvmArgs.add("-Dcom.sun.management.jmxremote.ssl=false")
+    jvmArgs.add("-Dcom.sun.management.jmxremote.authenticate=false")
+    jvmArgs.add("-Djava.rmi.server.hostname=10.23.93.2")
+}
+```
+
+To connect to the program running on the robot:
+ * File, Add JMX Connection
+ * 'Connection:' 172.22.11.2:1198 respectively 10.23.93.2:1198
+ * Check 'Do not require SSL connection'
+ * A new entry with a 'pid' should appear under the 'Remote' list.
+   Double-click, then check 'Monitor', 'Sample.. CPU' etc.
