@@ -4,6 +4,8 @@
 
 package frc.camera;
 
+import static frc.tools.RangeUtil.isBetween;
+
 import java.util.Optional;
 
 import org.photonvision.PhotonCamera;
@@ -96,11 +98,11 @@ public class CameraHelper
                     if (target.poseAmbiguity > 0.6)
                         continue;
 
-                    // TODO Vary stddev with distance etc, see
+                    // Vary stddev with distance etc, see
                     // https://www.chiefdelphi.com/t/global-pose-with-ll/513848
                     double fuzzyness = 1.0;
-                    // if (distance > 1)
-                    //     fuzzyness = distance;
+                    if (distance > 1)
+                        fuzzyness = 3*distance;
                     // Check drive speed?
 
                     // Where is that tag on the field?
@@ -127,13 +129,13 @@ public class CameraHelper
                     // ... then from camera to center of robot
                     pose = pose.transformBy(robotToCam.inverse());
 
-                    // TODO Check for sensible robot height
+                    // Check for sensible robot height
                     SmartDashboard.putNumber("Pose Z", pose.getZ());
-                    // if (! MathUtil.isNear(0.5, pose.getZ(), 1.0))
-                    // {
-                    //     // System.out.println("Ignoring robot Z " + pose.getZ());
-                    //     continue;
-                    // }
+                    if (! isBetween(pose.getZ(), -0.7, 1.3))
+                    {
+                        // System.out.println("Ignoring robot Z " + pose.getZ());
+                        continue;
+                    }
 
                     // Map from 3D down to 2D
                     Pose2d position = pose.toPose2d();

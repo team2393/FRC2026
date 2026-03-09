@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import static frc.tools.RangeUtil.isBetween;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -91,18 +92,6 @@ public class AutoAim extends Command
         pid.setIZone(2.0);
         pid.setTolerance(1.0);
         // SmartDashboard.putData("AimToHubPID", pid);
-    }
-
-    /** @param coord Position to check
-     *  @param low Low end of range
-     *  @param high High end of range
-     *  @return Is coordinate within the range?
-     */
-    private boolean isBetween(double coord, double low, double high)
-    {
-        if (low > high)
-            throw new RuntimeException("Invalid range");
-        return low <= coord  &&  coord <= high;
     }
 
     @Override
