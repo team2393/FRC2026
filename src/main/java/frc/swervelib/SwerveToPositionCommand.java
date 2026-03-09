@@ -22,7 +22,7 @@ public class SwerveToPositionCommand extends Command
   }
 
   /** Max. speed */
-  public static double MAX_SPEED = 2.0;
+  public static double MAX_SPEED = 2.5;
 
   /** Max. acceleration */
   public static double ACCEL = 3.0;

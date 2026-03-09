@@ -114,6 +114,36 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
+        {   // Start with nose at blue hub, drive back, shoot, then move to trench, pickup more from center
+            SequentialCommandGroup auto = new SequenceWithStart("Nose@blue,shoot,trench, center", 3.5, 4.0, 0);
+            auto.addCommands(new VariableWaitCommand());
+
+            // Drive back
+            auto.addCommands(new SwerveToPositionCommand(drivetrain, 2.25, 4.0).asProxy());
+            // Shoot
+            auto.addCommands(fuel_handler.openIntake());
+            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(3).asProxy());
+            auto.addCommands(fuel_handler.shoot().withTimeout(3));
+            // Move to trench and through
+            Trajectory path = createTrajectory(true,  2.25, 4.00,  90,
+                                                                       2.85, 6.90,  45,
+                                                                       3.60, 7.43,   0,
+                                                                       6.42, 7.30,   0);
+            auto.addCommands(drivetrain.followTrajectory(path, 0).asProxy());
+            // Sweep the center
+            path = createTrajectory(true,  6.42, 7.30,   0,
+                                                            7.30, 6.14, -45,
+                                                            7.30, 4.06, -90,
+                                                            7.30, 2.30, -90);
+            auto.addCommands(drivetrain.followTrajectory(path, -90).asProxy());
+            // Back via bump
+            path = createTrajectory(true,  7.30, 2.30, 180,
+                                                            2.62, 2.30, 180);
+            auto.addCommands(drivetrain.followTrajectory(path, 45).asProxy());
+
+            autos.add(auto);
+        }
+
         {   // Drive inverted L and back
             SequentialCommandGroup auto = new SequentialCommandGroup();
             auto.setName("Inverted L");
