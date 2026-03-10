@@ -45,15 +45,8 @@ public class HubTimer extends Command
         Alliance inactive_first;
         if ("R".equalsIgnoreCase(message))
             inactive_first = Alliance.Red;
-        else if ("B".equalsIgnoreCase(message))
-            inactive_first = Alliance.Blue;
         else
-        {
-            // We don't have game data, assume we're in transition period
-            // were hub is active, or in practice run were it's always active
-            nt_active.setBoolean(true);
-            return;
-        }
+            inactive_first = Alliance.Blue;
 
         // How much time has elapsed in teleop?
         double elapsed = timer.get();
