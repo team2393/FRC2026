@@ -49,7 +49,10 @@ public class AutoAim extends Command
                  2.0,  1850,   70,         0,
                  2.5,  1800,   90,         0,
                  3.5,  2050,   85,         0,
-                 4.0,  2250,   90,         0);
+                 4.0,  2140,   90,         0,
+                 4.7,  2300,   90,         0,
+                 7.0,  2400,   90,         0,
+                 8.0,  2500,   90,         0);
 
     /** @param tags {@link AprilTagFieldLayout}
      *  @param drivetrain {@link SwerveDrivetrain}

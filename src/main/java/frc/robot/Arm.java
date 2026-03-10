@@ -42,7 +42,7 @@ public class Arm
     // Rotate at a max speed of ... deg/sec, accel ... deg/s/s
     // Chain chattered/oscillated using 180, 180
     // chain snapped with 100, 180
-    private final TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(45, 45);
+    private final TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(90, 90);
     private final ProfiledPIDController pid = new ProfiledPIDController(0.5, 0.0, 0.0, constraints);
     private final NetworkTableEntry nt_angle         = SmartDashboard.getEntry("Arm Angle"),
                                     nt_kg            = SmartDashboard.getEntry("Arm kg"),
