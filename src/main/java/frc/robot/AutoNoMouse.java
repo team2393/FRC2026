@@ -105,10 +105,35 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
+        {   // Start with nose at blue bottom trench, sweep center, bump, shoot
+            SequentialCommandGroup auto = new SequenceWithStart("Nose@blue buttom trench, center, bump", 3.57, 0.63, 0);
 
+            // Through trench, sweep center
+            Trajectory path = createTrajectory(true,  3.57, 0.63,  0,
+                                                                       6.37, 0.69,  0,
+                                                                       7.94, 1.75, 96,
+                                                                       7.50, 3.60, 96);
+            Supplier<Rotation2d> angle = () ->
+            {   // In trench, head to zero, otherwise 100
+                if (drivetrain.getPose().getX() < 6  &&
+                    drivetrain.getPose().getY() < 1)
+                    return Rotation2d.fromDegrees(0);
+               return Rotation2d.fromDegrees(100);
+            };
+            auto.addCommands(fuel_handler.openIntake()
+                .alongWith(drivetrain.followTrajectory(path, angle).asProxy()));
 
+            // From center across bump
+            path = createTrajectory(true, 7.50, 3.60, -135,
+                                                           5.60, 2.41,  180,
+                                                           2.66, 3.28,  131);
+            auto.addCommands(drivetrain.followTrajectory(path, 25).asProxy());
+            // Shoot
+            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(fuel_handler.shoot().withTimeout(5));
 
-
+            autos.add(auto);
+        }
 
         {   // Start with nose at red hub, drive back, shoot, then move to trench
             SequentialCommandGroup auto = new SequenceWithStart("Nose@red,shoot,trench", 13.03, 4.0, 180);
