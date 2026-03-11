@@ -8,10 +8,13 @@ import static frc.tools.AutoTools.followPathWeaver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -297,6 +300,26 @@ public class AutoNoMouse
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain, 4.04, 7.44, -180));
             auto.addCommands(followPathWeaver(drivetrain, "Tour", 0).asProxy());
             auto.addCommands(new PrintCommand("Done."));
+            autos.add(auto);
+        }
+
+        {   // Drive by
+            SequentialCommandGroup auto = new SequenceWithStart("Drive By", 3.3, 1, 0);
+            auto.addCommands(new VariableWaitCommand());
+
+            auto.addCommands(new SwerveToPositionCommand(drivetrain, 3.3, 1.0).asProxy());
+
+            AutoAim aim = new AutoAim(tags, drivetrain);
+            Supplier<Rotation2d> angle = () -> aim.computeAngle(drivetrain.getPose());
+
+            auto.addCommands(new InstantCommand(aim::initialize));
+            Trajectory path = createTrajectory(true, 3.3, 1, 90,
+                                                                      3.3, 7, 90);
+            auto.addCommands(drivetrain.followTrajectory(path, angle).asProxy());
+            path = createTrajectory(true, 3.3, 7, -90,
+                                                           3.3, 1, -90);
+            auto.addCommands(drivetrain.followTrajectory(path, angle).asProxy());
+
             autos.add(auto);
         }
 

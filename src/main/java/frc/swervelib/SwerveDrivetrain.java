@@ -333,15 +333,15 @@ abstract public class SwerveDrivetrain extends SubsystemBase
    */
   public Command followTrajectory(Trajectory trajectory, double end_angle)
   {
-    return followTrajectory(trajectory, end_angle, true);
+    Supplier<Rotation2d> desiredRotation = () -> Rotation2d.fromDegrees(end_angle);
+    return followTrajectory(trajectory, desiredRotation);
   }
 
   /** @param trajectory Trajectory to follow
-   *  @param end_angle Final heading angle
-   *  @param require_drivetrain Command should require drivetrain unless it's inside a proxy that already holds the drivetrain
+   *  @param desiredRotation Called by SwerveControllerCommand to check at what angle we want to be
    *  @return Command that follows the trajectory
    */
-  public Command followTrajectory(Trajectory trajectory, double end_angle, boolean require_drivetrain)
+  public Command followTrajectory(Trajectory trajectory, Supplier<Rotation2d> desiredRotation)
   {
     // SwerveControllerCommand will basically send the speed at each point of the
     // trajectory to the serve modules, using many little helpers
@@ -386,15 +386,11 @@ abstract public class SwerveDrivetrain extends SubsystemBase
                             .toList());
     };
 
-    // Called by SwerveControllerCommand to check at what angle we want to be
-    Supplier<Rotation2d> desiredRotation = () -> Rotation2d.fromDegrees(end_angle);
-
     // Create command that follows the trajectory
     SwerveControllerCommand follower =  new SwerveControllerCommand(trajectory, pose_getter, kinematics,
                                                                     x_pid, y_pid, angle_pid,
                                                                     desiredRotation, module_setter);
-    if (require_drivetrain)
-      follower.addRequirements(this);
+    follower.addRequirements(this);
     // Command print_last_states = new InstantCommand(() ->
     // {
     //   System.out.println("Last swerve states vs. actual heading:");

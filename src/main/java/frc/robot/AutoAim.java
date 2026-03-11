@@ -133,11 +133,10 @@ public class AutoAim extends Command
         pid.reset(last_pose.getRotation().getDegrees());
     }
 
-    @Override
-    public void execute()
+    /** @return Angle to target */
+    public Rotation2d computeAngle(Pose2d robot_pose)
     {
-        // Where are we, how fast are we?
-        Pose2d robot_pose = drivetrain.getPose();
+        // How fast are we?
         Translation2d robot_speed = robot_pose.getTranslation()
                                               .minus(last_pose.getTranslation())
                                               .div(TimedRobot.kDefaultPeriod);
@@ -146,16 +145,28 @@ public class AutoAim extends Command
         // Direction from where we are to hub
         Translation2d direction = aim_target.minus(robot_pose.getTranslation());
         double distance = direction.getNorm();
-        // Estimate time for ball to travel that distance
-        double shot_time = distance / BALL_SPEED;
-        // Determine how far robot travels in that time,
-        Translation2d robot_travel = robot_speed.times(shot_time);
-        // Estimate where hub will appear to be ...
-        Translation2d perceived_hub = aim_target.minus(robot_travel);
-        // .. and aim for that
-        direction = perceived_hub.minus(robot_pose.getTranslation());
+
+        // TODO Correct for robot movement
+        // // Estimate time for ball to travel that distance
+        // double shot_time = distance / BALL_SPEED;
+        // // Determine how far robot travels in that time,
+        // Translation2d robot_travel = robot_speed.times(shot_time);
+        // // Estimate where hub will appear to be ...
+        // Translation2d perceived_hub = aim_target.minus(robot_travel);
+        // // .. and aim for that
+        // direction = perceived_hub.minus(robot_pose.getTranslation());
+
+        nt_distance.setDouble(distance);
+
         // Where do we have to point?
-        double hub_angle = direction.getAngle().getDegrees();
+        return direction.getAngle();
+    }
+
+    @Override
+    public void execute()
+    {
+        Pose2d robot_pose = drivetrain.getPose();
+        double hub_angle = computeAngle(robot_pose).getDegrees();
 
         // Swerve speeds from controller
         double vx = SwerveOI.getForwardSpeed();
@@ -179,10 +190,8 @@ public class AutoAim extends Command
 
         drivetrain.swerve(vx, vy, Math.toRadians(vr));
 
-        nt_distance.setDouble(distance);
-
         // Set spinner speed, hood angle, .. based on distance using LookupTable
-        Entry settings = settings_table.lookup(distance);
+        Entry settings = settings_table.lookup(nt_distance.getDouble(2.0));
         SmartDashboard.putNumber("SpinnerSetpoint", settings.speed());
         SmartDashboard.putNumber("HoodSetpoint", settings.hood());
     }
