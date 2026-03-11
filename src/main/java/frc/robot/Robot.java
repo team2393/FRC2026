@@ -4,12 +4,14 @@
 package frc.robot;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -85,6 +87,8 @@ public class Robot extends CommandRobotBase
         // Max speed used in auto
         AutoTools.config = new TrajectoryConfig(1.0, 3.0);
         // AutoTools.config = new TrajectoryConfig(2.5, 3.0);
+        if (RobotBase.isSimulation())
+            AutoTools.config = new TrajectoryConfig(2.0, 3.0);
         AutoTools.config.addConstraint(new SwerveDriveKinematicsConstraint(drivetrain.getKinematics(),
                                                                            SwerveDrivetrain.MAX_METERS_PER_SEC));
 
@@ -101,10 +105,12 @@ public class Robot extends CommandRobotBase
 
         SmartDashboard.putData("Pass", pass);
         // Helper for creating auto paths: Print X, Y, Heading on button press
+        AtomicInteger pos_index = new AtomicInteger();
         RobotOI.joystick.b().onTrue(new InstantCommand(() ->
         {
             var pose = drivetrain.getPose();
-            System.out.format("%.2f, %.2f, %.0f,\n",
+            System.out.format("%2d) %.2f, %.2f, %.0f,\n",
+                         pos_index.incrementAndGet(),
                          pose.getTranslation().getX(),
                          pose.getTranslation().getY(),
                          pose.getRotation().getDegrees());

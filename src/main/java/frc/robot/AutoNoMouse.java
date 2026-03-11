@@ -135,6 +135,51 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
+        {   // Start with nose at blue top trench, sweep center, bump, shoot, depot
+            SequentialCommandGroup auto = new SequenceWithStart("Nose@blue top trench, center, bump, depot", 3.58, 7.40, 0);
+
+            // Through trench, sweep center
+            Trajectory path = createTrajectory(true,  3.58, 7.40,    0,
+                                                                       5.95, 7.40,    0,
+                                                                       7.96, 6.36,  -90,
+                                                                       7.71, 4.27, -112);
+            Supplier<Rotation2d> angle = () ->
+            {   // In trench, head to zero, otherwise -100
+                if (drivetrain.getPose().getX() < 6  &&
+                    drivetrain.getPose().getY() > 7)
+                    return Rotation2d.fromDegrees(0);
+               return Rotation2d.fromDegrees(-100);
+            };
+            auto.addCommands(fuel_handler.openIntake()
+                .alongWith(drivetrain.followTrajectory(path, angle).asProxy()));
+
+            // From center across bump
+            path = createTrajectory(true, 7.71, 4.27,  133,
+                                                           5.40, 5.57, -180,
+                                                           2.60, 5.36, -180);
+            auto.addCommands(drivetrain.followTrajectory(path, -34).asProxy());
+            // Shoot
+            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+
+            // To depot
+            auto.addCommands(new RotateToHeadingCommand(drivetrain, 143).asProxy());
+            path = createTrajectory(true, 2.60, 5.36, 143,
+                                                           0.82, 5.91, 178);
+            auto.addCommands(drivetrain.followTrajectory(path, 180).asProxy());
+
+            // Back off depot
+            path = createTrajectory(true, 0.82, 5.91, -40,
+                                                           2.38, 5.61, -39);
+            auto.addCommands(drivetrain.followTrajectory(path, 180).asProxy());
+
+            // Shoot
+            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+
+            autos.add(auto);
+        }
+
         {   // Start with nose at red hub, drive back, shoot, then move to trench
             SequentialCommandGroup auto = new SequenceWithStart("Nose@red,shoot,trench", 13.03, 4.0, 180);
             auto.addCommands(new VariableWaitCommand());
