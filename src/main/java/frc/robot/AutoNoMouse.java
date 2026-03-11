@@ -193,8 +193,8 @@ public class AutoNoMouse
                                                                        0.68, 0.66,  180);
             Supplier<Rotation2d> angle = () ->
             {   // In trench, head to base, otherwise -100
-                if (drivetrain.getPose().getX() < 7.4  &&
-                    drivetrain.getPose().getY() < 1.5)
+                if (drivetrain.getPose().getX() < 8.1  &&
+                    drivetrain.getPose().getY() < 2.0)
                     return Rotation2d.fromDegrees(180);
                return Rotation2d.fromDegrees(-100);
             };
