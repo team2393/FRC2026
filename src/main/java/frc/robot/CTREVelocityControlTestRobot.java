@@ -33,15 +33,15 @@ public class CTREVelocityControlTestRobot extends CommandRobotBase
 
         var pid = new Slot0Configs();
         pid.kS = 0;
-        pid.kV = 0; // 0.00213
+        pid.kV = 0; // kV(rpm) = 0.00213, 2000 rpm = 33.33 r/s need 4.26 V --> kV(rps) = 4.26/33.333 = 0.12780127801278013
         pid.kP = 0; // 0.005
         pid.kI = 0; // 0.04
         pid.kD = 0;
         motor.getConfigurator().apply(pid);
 
         nt_setpoint.setDefaultDouble(0);
-        nt_setpoint1.setDefaultDouble(1800);
-        nt_setpoint2.setDefaultDouble(2250);
+        nt_setpoint1.setDefaultDouble(1800.0/60.0);
+        nt_setpoint2.setDefaultDouble(2250.0/60.0);
     }
 
     @Override
