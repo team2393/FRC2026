@@ -80,6 +80,36 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
+        {   // Start with nose at blue hub, drive back, shoot, pick up from outpost, shoot
+            SequentialCommandGroup auto = new SequenceWithStart("Nose@blue,outpost", 3.54, 4.00, 0);
+
+            // Drive back
+            auto.addCommands(new SwerveToPositionCommand(drivetrain, 2.5, 4.0).asProxy());
+            // Shoot
+            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+            // Move to outpost
+            Trajectory path = createTrajectory(true,  2.5, 4.00,  -90,
+                                                                       0.81, 0.64,  180);
+            auto.addCommands(fuel_handler.openIntake()
+                .alongWith(drivetrain.followTrajectory(path, 180).asProxy()));
+
+            // Back off outpost
+            path = createTrajectory(true, 0.81, 0.64,  45,
+                                                           2.08, 2.01,  45);
+            auto.addCommands(drivetrain.followTrajectory(path, 45).asProxy());
+            // Shoot
+            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+
+            autos.add(auto);
+        }
+
+
+
+
+
+
         {   // Start with nose at red hub, drive back, shoot, then move to trench
             SequentialCommandGroup auto = new SequenceWithStart("Nose@red,shoot,trench", 13.03, 4.0, 180);
             auto.addCommands(new VariableWaitCommand());
