@@ -351,12 +351,15 @@ abstract public class SwerveDrivetrain extends SubsystemBase
     // perfectly placing us on the trajectory
     PIDController x_pid = new PIDController(nt_xy_p.getDouble(0), 0, 0);
     PIDController y_pid = new PIDController(nt_xy_p.getDouble(0), 0, 0);
-    // Angle controller is 'profiled', allowing up to 90 deg/sec (and 90 deg/sec/sec acceleration)
+    // Angle controller is 'profiled', allowing up to 180 deg/sec (and 180 deg/sec/sec acceleration)
     ProfiledPIDController angle_pid = new ProfiledPIDController(
       nt_angle_p.getDouble(0), 0, 0,
       new TrapezoidProfile.Constraints(Math.toRadians(180), Math.toRadians(180)));
     // ..and 'continuous' because angle wraps around
     angle_pid.enableContinuousInput(-Math.PI, Math.PI);
+
+    // ProfiledPID needs reset
+    Command reset_angle_pid = new InstantCommand(() -> angle_pid.reset(getPose().getRotation().getRadians()));
 
     // Called by SwerveControllerCommand to check where we are.
     // We return our position relative to a 'trajectory origin'
@@ -391,16 +394,8 @@ abstract public class SwerveDrivetrain extends SubsystemBase
                                                                     x_pid, y_pid, angle_pid,
                                                                     desiredRotation, module_setter);
     follower.addRequirements(this);
-    // Command print_last_states = new InstantCommand(() ->
-    // {
-    //   System.out.println("Last swerve states vs. actual heading:");
-    //   for (int i=0; i<last_states.get().size(); ++i)
-    //     System.out.println(last_states.get().get(i) + " vs. " + modules[i].getAngle().getDegrees());
-    //   var pose = getPose();
-    //   System.out.println("Position: X=" + pose.getX() + ", Y=" + pose.getY());
-    // });
     Command do_stop = new InstantCommand(this::stop);
-    return follower.andThen(do_stop);
-                  //  .andThen(print_last_states);
+
+    return reset_angle_pid.andThen(follower).andThen(do_stop);
   }
 }
