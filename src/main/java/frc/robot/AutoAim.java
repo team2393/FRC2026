@@ -147,14 +147,14 @@ public class AutoAim extends Command
         double distance = direction.getNorm();
 
         // TODO Correct for robot movement
-        // // Estimate time for ball to travel that distance
-        // double shot_time = distance / BALL_SPEED;
-        // // Determine how far robot travels in that time,
-        // Translation2d robot_travel = robot_speed.times(shot_time);
-        // // Estimate where hub will appear to be ...
-        // Translation2d perceived_hub = aim_target.minus(robot_travel);
-        // // .. and aim for that
-        // direction = perceived_hub.minus(robot_pose.getTranslation());
+        // Estimate time for ball to travel that distance
+        double shot_time = distance / BALL_SPEED;
+        // Determine how far robot travels in that time,
+        Translation2d robot_travel = robot_speed.times(shot_time);
+        // Estimate where hub will appear to be ...
+        Translation2d perceived_hub = aim_target.minus(robot_travel);
+        // .. and aim for that
+        direction = perceived_hub.minus(robot_pose.getTranslation());
 
         nt_distance.setDouble(distance);
 

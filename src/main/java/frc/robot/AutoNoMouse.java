@@ -16,6 +16,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -307,18 +308,28 @@ public class AutoNoMouse
             SequentialCommandGroup auto = new SequenceWithStart("Drive By", 3.3, 1, 0);
             auto.addCommands(new VariableWaitCommand());
 
+            // Move to start
             auto.addCommands(new SwerveToPositionCommand(drivetrain, 3.3, 1.0).asProxy());
 
+            // Use AutoAim as angle supplier
             AutoAim aim = new AutoAim(tags, drivetrain);
             Supplier<Rotation2d> angle = () -> aim.computeAngle(drivetrain.getPose());
-
             auto.addCommands(new InstantCommand(aim::initialize));
+
+            // Trajectory for driving, always angling to hub
             Trajectory path = createTrajectory(true, 3.3, 1, 90,
                                                                       3.3, 7, 90);
-            auto.addCommands(drivetrain.followTrajectory(path, angle).asProxy());
+            Command drive_out = drivetrain.followTrajectory(path, angle).asProxy();
             path = createTrajectory(true, 3.3, 7, -90,
                                                            3.3, 1, -90);
-            auto.addCommands(drivetrain.followTrajectory(path, angle).asProxy());
+            Command drive_back = drivetrain.followTrajectory(path, angle).asProxy();
+            Command drive_and_aim = drive_out.andThen(drive_back);
+
+            // After 1 sec, enable shooter and keep it on
+            Command shoot = new WaitCommand(1.0).andThen( fuel_handler.shoot().repeatedly() );
+
+            // Do this while driving, end when done driving
+            auto.addCommands(new ParallelDeadlineGroup(drive_and_aim, shoot));
 
             autos.add(auto);
         }
