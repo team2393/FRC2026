@@ -180,6 +180,39 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
+        {   // Start with nose at blue bottom bump, sweep center, trench, outpost
+            SequentialCommandGroup auto = new SequenceWithStart("Nose@blue bottom bump, center, outpost", 3.55, 2.36, 0);
+
+            // Through trench, sweep center
+            Trajectory path = createTrajectory(true,  3.55, 2.36,    0,
+                                                                       6.21, 2.39,    0,
+                                                                       7.24, 4.07,   -2,
+                                                                       7.69, 2.08, -100,
+                                                                       5.90, 0.62,  180,
+                                                                       3.19, 0.64,  180,
+                                                                       0.68, 0.66,  180);
+            Supplier<Rotation2d> angle = () ->
+            {   // In trench, head to base, otherwise -100
+                if (drivetrain.getPose().getX() < 7.4  &&
+                    drivetrain.getPose().getY() < 1.5)
+                    return Rotation2d.fromDegrees(180);
+               return Rotation2d.fromDegrees(-100);
+            };
+            auto.addCommands(fuel_handler.openIntake()
+                .alongWith(drivetrain.followTrajectory(path, angle).asProxy()));
+
+            // Back off outpost
+            path = createTrajectory(true, 0.67, 0.66, 36,
+                                                           2.63, 2.38, 40);
+            auto.addCommands(drivetrain.followTrajectory(path, 40).asProxy());
+
+            // Shoot
+            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+
+            autos.add(auto);
+        }
+
         {   // Start with nose at red hub, drive back, shoot, then move to trench
             SequentialCommandGroup auto = new SequenceWithStart("Nose@red,shoot,trench", 13.03, 4.0, 180);
             auto.addCommands(new VariableWaitCommand());
