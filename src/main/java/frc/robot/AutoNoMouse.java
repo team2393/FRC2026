@@ -28,6 +28,17 @@ import frc.tools.SequenceWithStart;
 /** Auto-no-mouse routines */
 public class AutoNoMouse
 {
+    // Field size:
+    // "Welded"   length 16.541, width 8.069
+    // "Andymark" length 16.518, width 8.043
+    //  Average          16.530        8.056
+    //
+    // To mirror red <-> blue coordinates:
+    //
+    // x     ->   16.53 - x
+    // y     ->           y
+    // angle ->     180 - angle
+
     /** Create all our auto-no-mouse commands */
     public static List<Command> createAutoCommands(AprilTagFieldLayout tags, SwerveDrivetrain drivetrain, FuelHandler fuel_handler)
     {
@@ -51,6 +62,7 @@ public class AutoNoMouse
         {   // Start with nose at blue hub, drive back, shoot
             SequentialCommandGroup auto = new SequenceWithStart("@blue,shoot", 3.54, 4.00, 0);
             auto.addCommands(new VariableWaitCommand());
+            auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Drive back
             auto.addCommands(new SwerveToPositionCommand(drivetrain, 2.24, 4.02).asProxy());
@@ -65,6 +77,7 @@ public class AutoNoMouse
         {   // Start with nose at red hub, drive back, shoot
             SequentialCommandGroup auto = new SequenceWithStart("@red,shoot", 13.01, 4.02, 180);
             auto.addCommands(new VariableWaitCommand());
+            auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Drive back
             auto.addCommands(new SwerveToPositionCommand(drivetrain, 14.03, 4.07).asProxy());
@@ -78,6 +91,7 @@ public class AutoNoMouse
 
         {   // TODO Test Start with nose at blue hub, drive back, shoot, pick up from outpost, shoot
             SequentialCommandGroup auto = new SequenceWithStart("@blue,outpost", 3.54, 4.00, 0);
+            auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Drive back
             auto.addCommands(new SwerveToPositionCommand(drivetrain, 2.5, 4.0).asProxy());
@@ -103,6 +117,7 @@ public class AutoNoMouse
 
         {   // TODO Test Start with nose at blue bottom trench, sweep center, bump, shoot
             SequentialCommandGroup auto = new SequenceWithStart("@blue buttom trench, center, bump", 3.57, 0.63, 0);
+            auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Through trench, sweep center
             Trajectory path = createTrajectory(true,  3.57, 0.63,  0,
@@ -133,6 +148,7 @@ public class AutoNoMouse
 
         {   // TODO Test Start with nose at blue top trench, sweep center, bump, shoot, depot
             SequentialCommandGroup auto = new SequenceWithStart("@blue top trench, center, bump, depot", 3.58, 7.40, 0);
+            auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Through trench, sweep center
             Trajectory path = createTrajectory(true,  3.58, 7.40,    0,
@@ -178,6 +194,7 @@ public class AutoNoMouse
 
         {   // TODO Test Start with nose at blue bottom bump, sweep center, trench, outpost
             SequentialCommandGroup auto = new SequenceWithStart("@blue bottom bump, center, outpost", 3.55, 2.36, 0);
+            auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Through trench, sweep center
             Trajectory path = createTrajectory(true,  3.55, 2.36,    0,
@@ -212,6 +229,7 @@ public class AutoNoMouse
         {   // TODO Test Start with nose at red hub, drive back, shoot, then move to trench
             SequentialCommandGroup auto = new SequenceWithStart("@red,shoot,trench", 13.03, 4.0, 180);
             auto.addCommands(new VariableWaitCommand());
+            auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Drive back
             auto.addCommands(new SwerveToPositionCommand(drivetrain, 14.20, 4.0).asProxy());
@@ -231,6 +249,7 @@ public class AutoNoMouse
         {   // Start with nose at blue hub, drive back, shoot, then move to trench
             SequentialCommandGroup auto = new SequenceWithStart("@blue,shoot,trench", 3.5, 4.0, 0);
             auto.addCommands(new VariableWaitCommand());
+            auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Drive back
             auto.addCommands(new SwerveToPositionCommand(drivetrain, 2.25, 4.0).asProxy());
@@ -250,7 +269,6 @@ public class AutoNoMouse
         {   // Drive by
             SequentialCommandGroup auto = new SequenceWithStart("Drive By", 3.3, 1, 0);
             auto.addCommands(new VariableWaitCommand());
-
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain, 3.30, 1, 0));
 
             // Use AutoAim as angle supplier
