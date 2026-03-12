@@ -159,6 +159,31 @@ public class FuelHandler extends SubsystemBase
         };
     }
 
+    /** @return Command that keeps shooting */
+    public Command keepShooting()
+    {
+        return new Command()
+        {
+            @Override
+            public void initialize()
+            {
+                shooter_state = ShooterState.PrepShooting;
+            }
+
+            @Override
+            public boolean isFinished()
+            {
+                return false;
+            }
+
+            @Override
+            public void end(boolean interrupted)
+            {
+                shooter_state = ShooterState.Storing;
+            }
+        };
+    }
+
     /** @return Command that stops shooting */
     public Command store()
     {
