@@ -61,7 +61,13 @@ public class Hood extends SubsystemBase
     /** @return Position in 0-100 percent */
     public double getPosition()
     {
-        return (hood.getPosition().getValueAsDouble() - zero_offset) / STEPS_PER_PERC;
+        double pos = (hood.getPosition().getValueAsDouble() - zero_offset) / STEPS_PER_PERC;
+        if (pos < 0)
+        {   // Auto-reset at bottom
+            reset();
+            pos = 0;
+        }
+        return pos;
     }
 
     /** @param voltage Motor voltage -12..+12 */
