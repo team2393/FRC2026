@@ -97,7 +97,7 @@ public class AutoNoMouse
             auto.addCommands(new SwerveToPositionCommand(drivetrain, 2.5, 4.0).asProxy());
             // Shoot
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
-            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+            auto.addCommands(fuel_handler.shoot().withTimeout(5).andThen(fuel_handler.store()));
             // Move to outpost
             Trajectory path = createTrajectory(true,  2.5, 4.00,  -90,
                                                                        0.81, 0.64,  180);
@@ -172,7 +172,7 @@ public class AutoNoMouse
             auto.addCommands(drivetrain.followTrajectory(path, -34).asProxy());
             // Shoot
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
-            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+            auto.addCommands(fuel_handler.shoot().withTimeout(5).andThen(fuel_handler.store()));
 
             // To depot
             auto.addCommands(new RotateToHeadingCommand(drivetrain, 143).asProxy());
@@ -236,7 +236,7 @@ public class AutoNoMouse
             // Shoot
             auto.addCommands(fuel_handler.openIntake());
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
-            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+            auto.addCommands(fuel_handler.shoot().withTimeout(5).andThen(fuel_handler.store()));
             // Move to trench
             Trajectory path = createTrajectory(true, 14.20, 4.00,  90,
                                                                       13.68, 6.90, 135,
@@ -256,7 +256,7 @@ public class AutoNoMouse
             // Shoot
             auto.addCommands(fuel_handler.openIntake());
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
-            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+            auto.addCommands(fuel_handler.shoot().withTimeout(5).andThen(fuel_handler.store()));
             // Move to trench
             Trajectory path = createTrajectory(true,  2.25, 4.00,  90,
                                                                        2.85, 6.90,  45,
