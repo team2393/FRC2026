@@ -267,9 +267,9 @@ public class AutoNoMouse
         }
 
         {   // Drive by
-            SequentialCommandGroup auto = new SequenceWithStart("Drive By", 3.3, 1, 0);
+            SequentialCommandGroup auto = new SequenceWithStart("Drive By", 2.8, 1, 0);
             auto.addCommands(new VariableWaitCommand());
-            auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain, 3.30, 1, 0));
+            auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain, 2.8, 1, 0));
 
             // Use AutoAim as angle supplier
             AutoAim aim = new AutoAim(tags, drivetrain);
@@ -277,11 +277,11 @@ public class AutoNoMouse
             auto.addCommands(new InstantCommand(aim::initialize));
 
             // Trajectory for driving, always angling to hub
-            Trajectory path = createTrajectory(true, 3.3, 1, 90,
-                                                                      3.3, 7, 90);
+            Trajectory path = createTrajectory(true, 2.8, 1, 90,
+                                                                      2.8, 7, 90);
             Command drive_out = drivetrain.followTrajectory(path, angle).asProxy();
-            path = createTrajectory(true, 3.3, 7, -90,
-                                                           3.3, 1, -90);
+            path = createTrajectory(true, 2.8, 7, -90,
+                                                           2.8, 1, -90);
             Command drive_back = drivetrain.followTrajectory(path, angle).asProxy();
             Command drive_and_aim = drive_out.andThen(drive_back);
 
