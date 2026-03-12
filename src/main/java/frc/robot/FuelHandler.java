@@ -200,10 +200,11 @@ public class FuelHandler extends SubsystemBase
         }
         if (shooter_state == ShooterState.PrepShooting)
         {
-            // todo rUN INTAKE
             run_storage = true;
             if (!feeder_full)
-                 Feeder.Mode.FEED;
+            {
+                feeder_mode = Feeder.Mode.FEED;
+            }
             run_spinner = true;
             if (spinner.isAtSetpoint())
             {

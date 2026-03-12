@@ -145,6 +145,7 @@ public class Robot extends CommandRobotBase
     @Override
     public void disabledPeriodic()
     {
+        hub_timer.cancel();
         AutoTools.indicateStart(drivetrain, autos.getSelected());
     }
 

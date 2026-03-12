@@ -22,7 +22,7 @@ public class HubTimer extends Command
 
     public HubTimer()
     {
-        nt_active.setBoolean(true);
+        nt_active.setBoolean(false);
     }
 
     // Command should be started with teleop
@@ -31,7 +31,7 @@ public class HubTimer extends Command
     {
         // On which side are we playing?
         alliance = DriverStation.getAlliance().orElse(Alliance.Red);
-        timer.start();
+        timer.restart();
     }
 
     @Override
