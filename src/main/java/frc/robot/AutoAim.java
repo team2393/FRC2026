@@ -133,8 +133,10 @@ public class AutoAim extends Command
         pid.reset(last_pose.getRotation().getDegrees());
     }
 
-    /** @return Angle to target */
-    public Rotation2d computeAngle(Pose2d robot_pose)
+    /** Computes angle to target, sets hood and spinner
+     *  @return Angle to target
+     */
+    public Rotation2d computeSettings(Pose2d robot_pose)
     {
         // How fast are we?
         Translation2d robot_speed = robot_pose.getTranslation()
@@ -156,6 +158,11 @@ public class AutoAim extends Command
         // .. and aim for that
         direction = perceived_hub.minus(robot_pose.getTranslation());
 
+        // Set spinner speed, hood angle, .. based on distance using LookupTable
+        Entry settings = settings_table.lookup(distance);
+        SmartDashboard.putNumber("SpinnerSetpoint", settings.speed());
+        SmartDashboard.putNumber("HoodSetpoint", settings.hood());
+
         nt_distance.setDouble(distance);
 
         // Where do we have to point?
@@ -166,7 +173,7 @@ public class AutoAim extends Command
     public void execute()
     {
         Pose2d robot_pose = drivetrain.getPose();
-        double hub_angle = computeAngle(robot_pose).getDegrees();
+        double hub_angle = computeSettings(robot_pose).getDegrees();
 
         // Swerve speeds from controller
         double vx = SwerveOI.getForwardSpeed();
@@ -189,11 +196,6 @@ public class AutoAim extends Command
         //                    " rot: " + vr);
 
         drivetrain.swerve(vx, vy, Math.toRadians(vr));
-
-        // Set spinner speed, hood angle, .. based on distance using LookupTable
-        Entry settings = settings_table.lookup(nt_distance.getDouble(2.0));
-        SmartDashboard.putNumber("SpinnerSetpoint", settings.speed());
-        SmartDashboard.putNumber("HoodSetpoint", settings.hood());
     }
 
     @Override

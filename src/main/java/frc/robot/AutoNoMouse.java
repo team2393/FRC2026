@@ -272,9 +272,8 @@ public class AutoNoMouse
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain, 3.30, 1, 0));
 
             // Use AutoAim as angle supplier
-            // TODO Also update hood& spinner speed
             AutoAim aim = new AutoAim(tags, drivetrain);
-            Supplier<Rotation2d> angle = () -> aim.computeAngle(drivetrain.getPose());
+            Supplier<Rotation2d> angle = () -> aim.computeSettings(drivetrain.getPose());
             auto.addCommands(new InstantCommand(aim::initialize));
 
             // Trajectory for driving, always angling to hub
