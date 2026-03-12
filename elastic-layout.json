@@ -349,7 +349,7 @@
           },
           {
             "title": "AlwaysSpin",
-            "x": 1275.0,
+            "x": 1075.0,
             "y": 400.0,
             "width": 125.0,
             "height": 100.0,
@@ -403,17 +403,20 @@
             }
           },
           {
-            "title": "Trench",
-            "x": 1000.0,
+            "title": "BallInFeeder",
+            "x": 975.0,
             "y": 400.0,
-            "width": 275.0,
-            "height": 125.0,
-            "type": "Command",
+            "width": 100.0,
+            "height": 100.0,
+            "type": "Boolean Box",
             "properties": {
-              "topic": "/SmartDashboard/Trench",
+              "topic": "/SmartDashboard/BallInFeeder",
               "period": 0.06,
-              "show_type": false,
-              "maximize_button_space": true
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
             }
           }
         ]

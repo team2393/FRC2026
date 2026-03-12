@@ -69,7 +69,7 @@ public class AutoNoMouse
             // Shoot
             auto.addCommands(fuel_handler.openIntake());
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
-            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+            auto.addCommands(fuel_handler.shoot().repeatedly());
 
             autos.add(auto);
         }
@@ -84,7 +84,7 @@ public class AutoNoMouse
             // Shoot
             auto.addCommands(fuel_handler.openIntake());
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
-            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+            auto.addCommands(fuel_handler.shoot().repeatedly());
 
             autos.add(auto);
         }
@@ -110,13 +110,13 @@ public class AutoNoMouse
             auto.addCommands(drivetrain.followTrajectory(path, 45).asProxy());
             // Shoot
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
-            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+            auto.addCommands(fuel_handler.shoot().repeatedly());
 
             autos.add(auto);
         }
 
-        {   // TODO Test Start with nose at blue bottom trench, sweep center, bump, shoot
-            SequentialCommandGroup auto = new SequenceWithStart("@blue buttom trench, center, bump", 3.57, 0.63, 0);
+        {   // Test Start with nose at blue bottom trench, sweep center, bump, shoot
+            SequentialCommandGroup auto = new SequenceWithStart("@blue bottom trench, center, bump", 3.57, 0.63, 0);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Through trench, sweep center
@@ -141,7 +141,7 @@ public class AutoNoMouse
             auto.addCommands(drivetrain.followTrajectory(path, 25).asProxy());
             // Shoot
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
-            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+            auto.addCommands(fuel_handler.shoot().repeatedly());
 
             autos.add(auto);
         }
@@ -187,7 +187,7 @@ public class AutoNoMouse
 
             // Shoot
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
-            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+            auto.addCommands(fuel_handler.shoot().repeatedly());
 
             autos.add(auto);
         }
@@ -221,7 +221,7 @@ public class AutoNoMouse
 
             // Shoot
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
-            auto.addCommands(fuel_handler.shoot().withTimeout(5));
+            auto.addCommands(fuel_handler.shoot().repeatedly());
 
             autos.add(auto);
         }
