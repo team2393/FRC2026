@@ -37,10 +37,16 @@ public class Intake
 
     public void open(boolean yes_no)
     {
+        open(yes_no, false);
+    }
+
+    public void open(boolean yes_no, boolean force_run)
+    {
         arm.setAngle(yes_no ? nt_open_angle.getDouble(100) : nt_closed_angle.getDouble(100));
         arm.hold();
 
         // Turn on when arm is low enough
-        mover.setVoltage(arm.getAngle() < 20 ? nt_volt_set.getDouble(0) : 0);
+        boolean auto_run = arm.getAngle() < 20;
+        mover.setVoltage((auto_run ||force_run)? nt_volt_set.getDouble(0) : 0);
     }
 }

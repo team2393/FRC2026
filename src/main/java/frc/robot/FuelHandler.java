@@ -244,7 +244,7 @@ public class FuelHandler extends SubsystemBase
         }
         else
         {
-            intake.open(false);
+            intake.open(false, shooter_state == ShooterState.PrepShooting  ||  shooter_state == ShooterState.Shoot);
             vis_intake.setAngle(90);
             vis_intake.setColor(MOVE_OFF);
         }
