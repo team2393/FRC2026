@@ -202,9 +202,7 @@ public class FuelHandler extends SubsystemBase
         {
             run_storage = true;
             if (!feeder_full)
-            {
                 feeder_mode = Feeder.Mode.FEED;
-            }
             run_spinner = true;
             if (spinner.isAtSetpoint())
             {
