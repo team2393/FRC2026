@@ -108,7 +108,7 @@ public class SwerveToPositionCommand extends Command
   @Override
   public boolean isFinished()
   {
-    // Within 0.5 cm?
+    // TODO Within 0.5 cm?
     return distance < 0.005;
   }
 

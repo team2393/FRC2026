@@ -4,7 +4,6 @@
 package frc.robot;
 
 import static frc.tools.AutoTools.createTrajectory;
-import static frc.tools.AutoTools.followPathWeaver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +14,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.swervelib.ResetPositionCommand;
 import frc.swervelib.SelectAbsoluteTrajectoryCommand;
 import frc.swervelib.SelectRelativeTrajectoryCommand;
 import frc.swervelib.RotateToHeadingCommand;
@@ -80,7 +76,7 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
-        {   // Start with nose at blue hub, drive back, shoot, pick up from outpost, shoot
+        {   // TODO Test Start with nose at blue hub, drive back, shoot, pick up from outpost, shoot
             SequentialCommandGroup auto = new SequenceWithStart("@blue,outpost", 3.54, 4.00, 0);
 
             // Drive back
@@ -105,7 +101,7 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
-        {   // Start with nose at blue bottom trench, sweep center, bump, shoot
+        {   // TODO Test Start with nose at blue bottom trench, sweep center, bump, shoot
             SequentialCommandGroup auto = new SequenceWithStart("@blue buttom trench, center, bump", 3.57, 0.63, 0);
 
             // Through trench, sweep center
@@ -135,7 +131,7 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
-        {   // Start with nose at blue top trench, sweep center, bump, shoot, depot
+        {   // TODO Test Start with nose at blue top trench, sweep center, bump, shoot, depot
             SequentialCommandGroup auto = new SequenceWithStart("@blue top trench, center, bump, depot", 3.58, 7.40, 0);
 
             // Through trench, sweep center
@@ -180,7 +176,7 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
-        {   // Start with nose at blue bottom bump, sweep center, trench, outpost
+        {   // TODO Test Start with nose at blue bottom bump, sweep center, trench, outpost
             SequentialCommandGroup auto = new SequenceWithStart("@blue bottom bump, center, outpost", 3.55, 2.36, 0);
 
             // Through trench, sweep center
@@ -213,7 +209,7 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
-        {   // Start with nose at red hub, drive back, shoot, then move to trench
+        {   // TODO Test Start with nose at red hub, drive back, shoot, then move to trench
             SequentialCommandGroup auto = new SequenceWithStart("@red,shoot,trench", 13.03, 4.0, 180);
             auto.addCommands(new VariableWaitCommand());
 
@@ -258,6 +254,7 @@ public class AutoNoMouse
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain, 3.30, 1, 0));
 
             // Use AutoAim as angle supplier
+            // TODO Also update hood& spinner speed
             AutoAim aim = new AutoAim(tags, drivetrain);
             Supplier<Rotation2d> angle = () -> aim.computeAngle(drivetrain.getPose());
             auto.addCommands(new InstantCommand(aim::initialize));
