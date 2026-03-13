@@ -49,7 +49,6 @@ public class Robot extends CommandRobotBase
     private final Command reset_heading = new ResetHeadingCommand(drivetrain);
     private final Command joydrive = new RelativeSwerveCommand(drivetrain);
     private final Command absdrive = new AbsoluteSwerveCommand(drivetrain);
-    private final Command aim = new AutoAim(tags, drivetrain);
     private final Command pass = new ApplyAdjustableSettingCommand("", "PassHood", 30, "HoodSetpoint")
                         .andThen(new ApplyAdjustableSettingCommand("", "PassSpinner", 2000, "SpinnerSetpoint"))
                         .withName("Pass");
@@ -95,11 +94,10 @@ public class Robot extends CommandRobotBase
         hood.reset();
 
         // Bind controller buttons
-        RobotOI.joystick.x().whileTrue(aim.repeatedly());
+        RobotOI.joystick.x().whileTrue(new AutoAim(tags, drivetrain).repeatedly());
         RobotOI.joystick.a().onTrue(fuel_handler.toggleIntake());
-        // TODO RobotOI.joystick.y().whileTrue(fuel_handler.keepShooting());
-        // TODO RobotOI.joystick.rightTrigger().whileTrue(aim.andThen(fuel_handler.keepShooting()));
-        RobotOI.joystick.rightTrigger().whileTrue(fuel_handler.keepShooting());
+        RobotOI.joystick.y().whileTrue(fuel_handler.keepShooting());
+        RobotOI.joystick.rightTrigger().whileTrue(new AutoAim(tags, drivetrain).andThen(fuel_handler.keepShooting()));
 
         ApplySettingsCommand trench = new ApplySettingsCommand("Trench");
         trench.add("HoodSetpoint", 1);
