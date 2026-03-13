@@ -89,7 +89,7 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
-        {   // TODO Test Start with nose at blue hub, drive back, shoot, pick up from outpost, shoot
+        {   // Test Start with nose at blue hub, drive back, shoot, pick up from outpost, shoot
             SequentialCommandGroup auto = new SequenceWithStart("@blue,outpost", 3.54, 4.00, 0);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
@@ -196,23 +196,32 @@ public class AutoNoMouse
             SequentialCommandGroup auto = new SequenceWithStart("@blue bottom bump, center, outpost", 3.55, 2.36, 0);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
-            // Through trench, sweep center
-            Trajectory path = createTrajectory(true,  3.55, 2.36,    0,
-                                                                       6.21, 2.39,    0,
-                                                                       7.24, 4.07,   -2,
-                                                                       7.69, 2.08, -100,
-                                                                       5.90, 0.62,  180,
-                                                                       3.19, 0.64,  180,
-                                                                       0.68, 0.66,  180);
+            // Back off from bump and get to 45 degree to then cross the bump
+            Trajectory path = createTrajectory(true,  3.55, 2.36,    180,
+                                                                       2.50, 2.36,    180);
+            auto.addCommands(fuel_handler.openIntake()
+                .alongWith(drivetrain.followTrajectory(path, -45).asProxy()));
+
+            // Cross bump, sweep center, move to outpost
+            path = createTrajectory(true,  2.50, 2.36,    0,
+                                                            6.21, 2.39,    0,
+                                                            7.24, 4.07,   -2,
+                                                            7.69, 2.08, -100,
+                                                            5.90, 0.62,  180,
+                                                            3.19, 0.64,  180,
+                                                            0.68, 0.66,  180);
             Supplier<Rotation2d> angle = () ->
-            {   // In trench, head to base, otherwise -100
+            {   // In trench, head to base
                 if (drivetrain.getPose().getX() < 8.1  &&
                     drivetrain.getPose().getY() < 2.0)
                     return Rotation2d.fromDegrees(180);
+                // Still on bump?
+                if (drivetrain.getPose().getX() < 5)
+                    return Rotation2d.fromDegrees(-45);
+                // Sweep center
                return Rotation2d.fromDegrees(-100);
             };
-            auto.addCommands(fuel_handler.openIntake()
-                .alongWith(drivetrain.followTrajectory(path, angle).asProxy()));
+            auto.addCommands(drivetrain.followTrajectory(path, angle).asProxy());
 
             // Back off outpost
             path = createTrajectory(true, 0.67, 0.66, 36,
