@@ -53,7 +53,8 @@ public class Spinner extends SubsystemBase
         pid.kS = 0.1;
         pid.kV = 0.117;
         pid.kP = 0.2;
-        pid.kI = 0.1;
+        // I gain results in initial overshoot
+        pid.kI = 0.0;
         pid.kD = 0;
         motor.getConfigurator().apply(pid);
     }
