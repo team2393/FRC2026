@@ -143,9 +143,16 @@ public class Robot extends CommandRobotBase
     }
 
     @Override
-    public void disabledPeriodic()
+    public void disabledInit()
     {
         hub_timer.cancel();
+        // Directly run command
+        fuel_handler.stopShooting().initialize();
+    }
+
+    @Override
+    public void disabledPeriodic()
+    {
         AutoTools.indicateStart(drivetrain, autos.getSelected());
     }
 
