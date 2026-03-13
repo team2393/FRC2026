@@ -32,10 +32,10 @@ public class CTREVelocityControlTestRobot extends CommandRobotBase
         motor2.setControl(new Follower(motor.getDeviceID(), MotorAlignmentValue.Opposed));
 
         var pid = new Slot0Configs();
-        pid.kS = 0;
-        pid.kV = 0; // kV(rpm) = 0.00213, 2000 rpm = 33.33 r/s need 4.26 V --> kV(rps) = 4.26/33.333 = 0.12780127801278013
-        pid.kP = 0; // 0.005
-        pid.kI = 0; // 0.04
+        pid.kS = 0.1;
+        pid.kV = 0.117;
+        pid.kP = 0.2;
+        pid.kI = 0.1;
         pid.kD = 0;
         motor.getConfigurator().apply(pid);
 
