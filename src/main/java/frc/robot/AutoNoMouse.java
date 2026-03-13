@@ -36,8 +36,8 @@ public class AutoNoMouse
     // To mirror red <-> blue coordinates:
     //
     // x     ->   16.53 - x
-    // y     ->           y
-    // angle ->     180 - angle
+    // y     ->   8.056 - y
+    // angle ->     180 + angle
 
     /** Create all our auto-no-mouse commands */
     public static List<Command> createAutoCommands(AprilTagFieldLayout tags, SwerveDrivetrain drivetrain, FuelHandler fuel_handler)
@@ -108,6 +108,32 @@ public class AutoNoMouse
             path = createTrajectory(true, 0.81, 0.64,  45,
                                                            2.08, 2.01,  45);
             auto.addCommands(drivetrain.followTrajectory(path, 45).asProxy());
+            // Shoot
+            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(fuel_handler.shoot().repeatedly());
+
+            autos.add(auto);
+        }
+
+        {   // TODO Test Start with nose at red hub, drive back, shoot, pick up from outpost, shoot
+            SequentialCommandGroup auto = new SequenceWithStart("@red,outpost", 16.53-3.54, 8.056-4.00, 180);
+            auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
+
+            // Drive back
+            auto.addCommands(new SwerveToPositionCommand(drivetrain, 16.53-2.5, 8.056-4.0).asProxy());
+            // Shoot
+            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(fuel_handler.shoot().withTimeout(5).andThen(fuel_handler.store()));
+            // Move to outpost
+            Trajectory path = createTrajectory(true,  16.53-2.5, 8.056-4.00,  180-90,
+                                                              16.53-0.81, 8.056-0.64,  0);
+            auto.addCommands(fuel_handler.openIntake()
+                .alongWith(drivetrain.followTrajectory(path, 0).asProxy()));
+
+            // Back off outpost
+            path = createTrajectory(true, 16.53-0.81, 8.056-0.64,  180+45,
+                                                  16.53-2.08, 8.056-2.01,  180+45);
+            auto.addCommands(drivetrain.followTrajectory(path, 180+45).asProxy());
             // Shoot
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().repeatedly());
