@@ -141,7 +141,7 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
-        {   // Test Start with nose at blue bottom trench, sweep center, bump, shoot
+        {   // Start with nose at blue bottom trench, sweep center, bump, shoot
             SequentialCommandGroup auto = new SequenceWithStart("@blue bottom trench, center, bump", 3.57, 0.63, 0);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
@@ -165,6 +165,37 @@ public class AutoNoMouse
                                                            5.60, 2.41,  180,
                                                            2.66, 3.28,  131);
             auto.addCommands(drivetrain.followTrajectory(path, 25).asProxy());
+            // Shoot
+            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(fuel_handler.shoot().repeatedly());
+
+            autos.add(auto);
+        }
+
+        {   // TODO Test Start with nose at red bottom trench, sweep center, bump, shoot
+            SequentialCommandGroup auto = new SequenceWithStart("@red bottom trench, center, bump", 16.53-3.57, 0.63, 180);
+            auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
+
+            // Through trench, sweep center
+            Trajectory path = createTrajectory(true,  16.53-3.57, 0.63, 180,
+                                                              16.53-6.37, 0.69, 180,
+                                                              16.53-7.94, 1.75, 180-96,
+                                                              16.53-7.50, 3.60, 180-96);
+            Supplier<Rotation2d> angle = () ->
+            {   // In trench, head to zero, otherwise 100
+                if (drivetrain.getPose().getX() > 16.53-6  &&
+                    drivetrain.getPose().getY() < 1)
+                    return Rotation2d.fromDegrees(180);
+               return Rotation2d.fromDegrees(180-100);
+            };
+            auto.addCommands(fuel_handler.openIntake()
+                .alongWith(drivetrain.followTrajectory(path, angle).asProxy()));
+
+            // From center across bump
+            path = createTrajectory(true, 16.53-7.50, 3.60, 180+135,
+                                                  16.53-5.60, 2.41,  0,
+                                                  16.53-2.66, 3.28,  180-131);
+            auto.addCommands(drivetrain.followTrajectory(path, 158).asProxy());
             // Shoot
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().repeatedly());
