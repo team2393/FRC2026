@@ -177,6 +177,7 @@ public class Robot extends CommandRobotBase
     @Override
     public void autonomousInit()
     {
+        CommandScheduler.getInstance().schedule(auto_retract_hood);
         CommandScheduler.getInstance().schedule(autos.getSelected());
     }
 }
