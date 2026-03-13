@@ -97,6 +97,8 @@ public class Robot extends CommandRobotBase
         // Bind controller buttons
         RobotOI.joystick.x().whileTrue(aim.repeatedly());
         RobotOI.joystick.a().onTrue(fuel_handler.toggleIntake());
+        // TODO RobotOI.joystick.y().whileTrue(fuel_handler.keepShooting());
+        // TODO RobotOI.joystick.rightTrigger().whileTrue(aim.andThen(fuel_handler.keepShooting()));
         RobotOI.joystick.rightTrigger().whileTrue(fuel_handler.keepShooting());
 
         ApplySettingsCommand trench = new ApplySettingsCommand("Trench");
