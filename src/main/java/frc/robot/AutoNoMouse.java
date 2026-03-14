@@ -203,7 +203,7 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
-        {   // TODO Test Start with nose at blue top trench, sweep center, bump, shoot, depot
+        {   // Start with nose at blue top trench, sweep center, bump, shoot, depot
             SequentialCommandGroup auto = new SequenceWithStart("@blue top trench, center, bump, depot", 3.58, 7.40, 0);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
