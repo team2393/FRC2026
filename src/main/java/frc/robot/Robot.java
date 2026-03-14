@@ -52,10 +52,11 @@ public class Robot extends CommandRobotBase
     private final Command pass = new ApplyAdjustableSettingCommand("", "PassHood", 30, "HoodSetpoint")
                         .andThen(new ApplyAdjustableSettingCommand("", "PassSpinner", 2000, "SpinnerSetpoint"))
                         .withName("Pass");
-    private final Command auto_retract_hood = new AutoRetractHood(drivetrain);
+
 
     private final FuelHandler fuel_handler = new FuelHandler();
     private final Hood hood = new Hood();
+    private final Command auto_retract_hood = new AutoRetractHood(drivetrain);
 
     /** Handle cameras */
     private final List<CameraHelper> cameras = List.of(
@@ -98,6 +99,8 @@ public class Robot extends CommandRobotBase
         RobotOI.joystick.a().onTrue(fuel_handler.toggleIntake());
         RobotOI.joystick.y().whileTrue(fuel_handler.keepShooting());
         RobotOI.joystick.rightTrigger().whileTrue(new AutoAim(tags, drivetrain).andThen(fuel_handler.keepShooting()));
+        RobotOI.buttonboard.button(4).onTrue(fuel_handler.openIntake());
+        RobotOI.buttonboard.button(9).onTrue(fuel_handler.closeIntake());
 
         ApplySettingsCommand trench = new ApplySettingsCommand("Trench");
         trench.add("HoodSetpoint", 1);

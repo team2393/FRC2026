@@ -3,9 +3,12 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.swervelib.SwerveOI;
 
 /** FRC2026 robot operator interface */
 public class RobotOI extends SwerveOI
 {
+    public static final CommandGenericHID buttonboard = new CommandGenericHID(1);
 }
+
