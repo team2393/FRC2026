@@ -98,7 +98,7 @@ public class Robot extends CommandRobotBase
         RobotOI.joystick.x().whileTrue(new AutoAim(tags, drivetrain).repeatedly());
         RobotOI.joystick.a().onTrue(fuel_handler.toggleIntake());
         RobotOI.joystick.y().whileTrue(fuel_handler.keepShooting());
-        RobotOI.joystick.rightTrigger().whileTrue(new AutoAim(tags, drivetrain).andThen(fuel_handler.keepShooting()));
+        RobotOI.joystick.rightTrigger().whileTrue(new AutoAim(tags, drivetrain).asProxy().andThen(fuel_handler.keepShooting()));
         RobotOI.buttonboard.button(4).onTrue(fuel_handler.openIntake());
         RobotOI.buttonboard.button(9).onTrue(fuel_handler.closeIntake());
 
