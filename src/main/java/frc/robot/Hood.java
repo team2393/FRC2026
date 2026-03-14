@@ -32,7 +32,7 @@ public class Hood extends SubsystemBase
 
     /** Maximum speed [mm/s] */
     // About half the actual max speed is a good setting
-    private final double MAX_PERC_PER_SEC = 500.0;
+    private final double MAX_PERC_PER_SEC = 1000.0;
     private final ProfiledPIDController pid = new ProfiledPIDController(.1, 0.1, 0,
                            new TrapezoidProfile.Constraints(MAX_PERC_PER_SEC, MAX_PERC_PER_SEC));
     // private final PIDController pid = new PIDController(0.1, 0.1, 0);
