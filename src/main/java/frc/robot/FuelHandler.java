@@ -97,7 +97,7 @@ public class FuelHandler extends SubsystemBase
         right.append(vis_intake  = new MechanismLigament2d("intake",  0.2,  90, 10, MOVE_OFF));
         right.append(vis_storage = new MechanismLigament2d("storage", 0.6, 170, 10, MOVE_OFF));
 
-        vis_storage.append(vis_feeder = new MechanismLigament2d("feeder", 0.1, -70, 10, MOVE_OFF));
+        vis_storage.append(vis_feeder = new MechanismLigament2d("feeder", 0.15, -90, 10, MOVE_OFF));
         vis_feeder.append(vis_shooter = new MechanismLigament2d("shooter", 0.1, 0, 10, SPINNER_OFF));
 
         SmartDashboard.putData("FuelHandler", mech);
@@ -156,6 +156,12 @@ public class FuelHandler extends SubsystemBase
             {
                 return shooter_state == ShooterState.Storing;
             }
+
+            @Override
+            public void end(boolean interrupted)
+            {   // Might have been aborted, assert shooting stops
+                shooter_state = ShooterState.Storing;
+            }
         };
     }
 
@@ -171,12 +177,6 @@ public class FuelHandler extends SubsystemBase
             }
 
             @Override
-            public boolean isFinished()
-            {
-                return false;
-            }
-
-            @Override
             public void end(boolean interrupted)
             {
                 shooter_state = ShooterState.Storing;
@@ -186,29 +186,18 @@ public class FuelHandler extends SubsystemBase
 
     public Command stopShooting()
     {
-        return new InstantCommand()
+        return new InstantCommand(() ->
         {
-            @Override
-            public void initialize()
-            {
-                if (shooter_state == ShooterState.PrepShooting  ||
-                    shooter_state == ShooterState.Shoot)
-                    shooter_state = ShooterState.Storing;
-            }
-        };
+            if (shooter_state == ShooterState.PrepShooting  ||
+                shooter_state == ShooterState.Shoot)
+                shooter_state = ShooterState.Storing;
+        });
     }
 
     /** @return Command that stops shooting */
     public Command store()
     {
-        return new InstantCommand()
-        {
-            @Override
-            public void initialize()
-            {
-                shooter_state = ShooterState.Storing;
-            }
-        };
+        return new InstantCommand(() -> shooter_state = ShooterState.Storing);
     }
 
     @Override
