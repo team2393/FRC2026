@@ -224,7 +224,7 @@ public class AutoNoMouse
 
             // From center across bump
             path = createTrajectory(true, 7.71, 4.27,  133,
-                                                           5.40, 5.57, -180,
+                                                           5.40, 5.50, -180,
                                                            2.60, 5.36, -180);
             auto.addCommands(drivetrain.followTrajectory(path, -34).asProxy());
             // Shoot
