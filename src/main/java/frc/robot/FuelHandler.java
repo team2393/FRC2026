@@ -171,9 +171,11 @@ public class FuelHandler extends SubsystemBase
         return new Command()
         {
             @Override
-            public void initialize()
+            public void execute()
             {
-                shooter_state = ShooterState.PrepShooting;
+                if (shooter_state != ShooterState.PrepShooting  &&
+                    shooter_state != ShooterState.Shoot)
+                    shooter_state = ShooterState.PrepShooting;
             }
 
             @Override
@@ -306,5 +308,8 @@ public class FuelHandler extends SubsystemBase
             spinner.setVoltage(0);
             vis_shooter.setColor(SPINNER_OFF);
         }
+
+        // SmartDashboard.putString("Fuel Feeder", feeder_mode.toString());
+        // SmartDashboard.putString("Fuel Shooter", shooter_state.toString());
     }
 }
