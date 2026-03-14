@@ -91,14 +91,14 @@ public class FuelHandler extends SubsystemBase
         // Visualization
         Mechanism2d mech = new Mechanism2d(1.0, 1.0);
 
-        mech.getRoot("left", 0, 0.2).append(new MechanismLigament2d("base", 0.8, 0, 10, new Color8Bit(100, 100, 100)));
+        mech.getRoot("left", 0.2, 0.2).append(new MechanismLigament2d("base", 0.6, 0, 10, new Color8Bit(100, 100, 100)));
 
-        MechanismRoot2d right = mech.getRoot("right", 0.8, 0.2);
+        MechanismRoot2d right = mech.getRoot("right", 0.8, 0.25);
         right.append(vis_intake  = new MechanismLigament2d("intake",  0.2,  90, 10, MOVE_OFF));
-        right.append(vis_storage = new MechanismLigament2d("storage", 0.6, 170, 10, MOVE_OFF));
+        right.append(vis_storage = new MechanismLigament2d("storage", 0.6, 185, 10, MOVE_OFF));
 
-        vis_storage.append(vis_feeder = new MechanismLigament2d("feeder", 0.15, -90, 10, MOVE_OFF));
-        vis_feeder.append(vis_shooter = new MechanismLigament2d("shooter", 0.1, 0, 10, SPINNER_OFF));
+        vis_storage.append(vis_feeder = new MechanismLigament2d("feeder", 0.15, -110, 10, MOVE_OFF));
+        vis_feeder.append(vis_shooter = new MechanismLigament2d("shooter", 0.1, -10, 10, SPINNER_OFF));
 
         SmartDashboard.putData("FuelHandler", mech);
     }
@@ -270,9 +270,10 @@ public class FuelHandler extends SubsystemBase
         }
         else
         {
-            intake.open(false, shooter_state == ShooterState.PrepShooting  ||  shooter_state == ShooterState.Shoot);
+            boolean force_run = shooter_state == ShooterState.PrepShooting  ||  shooter_state == ShooterState.Shoot;
+            intake.open(false, force_run);
             vis_intake.setAngle(90);
-            vis_intake.setColor(MOVE_OFF);
+            vis_intake.setColor(force_run && blink_on_off ? MOVE_ON : MOVE_OFF);
         }
 
         // Run storage?
