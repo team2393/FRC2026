@@ -33,8 +33,8 @@ public class AutoRetractHood extends Command
         {
             Translation2d pos = drivetrain.getPose().getTranslation();
             boolean near_trench_y = pos.getY() < 1  ||  pos.getY() > 7;
-            if (near_trench_y  && (MathUtil.isNear(blue_zone, pos.getX(), 1.0) ||
-                                MathUtil.isNear(red_zone,  pos.getX(), 1.0)))
+            if (near_trench_y  && (MathUtil.isNear(blue_zone, pos.getX(), 1.5) ||
+                                MathUtil.isNear(red_zone,  pos.getX(), 1.5)))
                 nt_hood_setpoint.setDouble(1);
         }
     }

@@ -100,6 +100,7 @@ public class AutoAim extends Command
     @Override
     public void initialize()
     {
+        // TODO SmartDashboard.putBoolean("AutoRetractHood", false);
         last_pose = drivetrain.getPose();
 
         if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue)
