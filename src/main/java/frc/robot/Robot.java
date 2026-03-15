@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.tools.ApplyAdjustableSettingCommand;
 import frc.tools.ApplySettingsCommand;
@@ -98,7 +99,17 @@ public class Robot extends CommandRobotBase
         RobotOI.joystick.x().whileTrue(new AutoAim(tags, drivetrain).repeatedly());
         RobotOI.joystick.a().onTrue(fuel_handler.toggleIntake());
         RobotOI.joystick.y().whileTrue(fuel_handler.keepShooting());
-        RobotOI.joystick.rightTrigger().whileTrue(new AutoAim(tags, drivetrain).asProxy().andThen(fuel_handler.keepShooting()));
+
+        // Aim (which allows driving), then shoot (staying put)
+        // RobotOI.joystick.rightTrigger().whileTrue(new AutoAim(tags, drivetrain).asProxy().andThen(fuel_handler.keepShooting()));
+
+        // Aim (which allows driving), then continue to aim (..and drive) while shooting,
+        Command aim_while_shooting = new ParallelCommandGroup(
+            new AutoAim(tags, drivetrain).repeatedly(),
+            fuel_handler.keepShooting());
+        RobotOI.joystick.rightTrigger().whileTrue(
+            new AutoAim(tags, drivetrain).withTimeout(1.0).andThen(aim_while_shooting));
+
         RobotOI.buttonboard.button(4).onTrue(fuel_handler.openIntake());
         RobotOI.buttonboard.button(9).onTrue(fuel_handler.closeIntake());
 

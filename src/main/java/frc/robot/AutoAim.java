@@ -28,8 +28,10 @@ import frc.tools.LookupTable.Entry;
  */
 public class AutoAim extends Command
 {
-    /** Estimated ball speed [m/s] */
-    private final double BALL_SPEED = 3.0;
+    /** Estimated ball speed [m/s]
+     *  This is the 'horizontal' component
+     */
+    private final double BALL_SPEED = 6.0;
     private final AprilTagFieldLayout tags;
     private final Translation2d BLUE_HUB;
     private final Translation2d RED_HUB;
