@@ -207,4 +207,10 @@ public class AutoAim extends Command
         // We're done once the error is small enough
         return pid.atGoal();
     }
+
+    @Override
+    public void end(boolean interrupted)
+    {
+        drivetrain.stop();
+    }
 }

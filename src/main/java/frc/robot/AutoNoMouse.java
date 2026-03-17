@@ -59,6 +59,18 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
+        {   // Drive back, shoot
+            SequentialCommandGroup auto = new SequentialCommandGroup();
+            auto.setName("Back and shoot");
+            auto.addCommands(new VariableWaitCommand());
+            auto.addCommands(new SelectRelativeTrajectoryCommand(drivetrain));
+            Trajectory path = createTrajectory(true, 0, 0, 180,
+                                                   -1.5, 0, 180);
+            auto.addCommands(drivetrain.followTrajectory(path, 0).asProxy());
+            auto.addCommands(new  AutoAim(tags, drivetrain).asProxy().andThen(fuel_handler.keepShooting()));
+            autos.add(auto);
+        }
+
         {   // Start with nose at blue hub, drive back, shoot
             SequentialCommandGroup auto = new SequenceWithStart("@blue,shoot", 3.54, 4.00, 0);
             auto.addCommands(new VariableWaitCommand());
