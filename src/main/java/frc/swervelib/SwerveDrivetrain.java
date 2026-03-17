@@ -358,13 +358,19 @@ abstract public class SwerveDrivetrain extends SubsystemBase
     // ..and 'continuous' because angle wraps around
     angle_pid.enableContinuousInput(-Math.PI, Math.PI);
 
-    // ProfiledPID needs reset
-    Command reset_angle_pid = new InstantCommand(() -> angle_pid.reset(getPose().getRotation().getRadians()));
-
     // Called by SwerveControllerCommand to check where we are.
     // We return our position relative to a 'trajectory origin'
     // which starts out as 0, 0, 0 but may be updated
     Supplier<Pose2d> pose_getter = () -> getPose().relativeTo(trajectory_origin);
+
+    // ProfiledPID needs reset
+    Command reset_pids = new InstantCommand(() ->
+    {
+      // Set angle PID to the current angle, relative to origin as used by pose_getter
+       angle_pid.reset(pose_getter.get().getRotation().getRadians());
+       x_pid.reset();
+       y_pid.reset();
+    });
 
     // Track last state of each swerve module
     AtomicReference<List<String>> last_states = new AtomicReference<>();
@@ -396,6 +402,6 @@ abstract public class SwerveDrivetrain extends SubsystemBase
     follower.addRequirements(this);
     Command do_stop = new InstantCommand(this::stop);
 
-    return reset_angle_pid.andThen(follower).andThen(do_stop);
+    return reset_pids.andThen(follower).andThen(do_stop);
   }
 }
