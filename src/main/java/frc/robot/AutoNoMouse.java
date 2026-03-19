@@ -49,7 +49,7 @@ public class AutoNoMouse
         // Each auto should start with a VariableWaitCommand to allow coordination with other teams
         {   // Drive back, open intake
             SequentialCommandGroup auto = new SequentialCommandGroup();
-            auto.setName("Back 1.5m and Open");
+            auto.setName("Back 1.5m and Open *universal*");
             auto.addCommands(new VariableWaitCommand());
             auto.addCommands(new SelectRelativeTrajectoryCommand(drivetrain));
             Trajectory path = createTrajectory(true, 0, 0, 180,
@@ -61,7 +61,7 @@ public class AutoNoMouse
 
         {   // Drive back, shoot
             SequentialCommandGroup auto = new SequentialCommandGroup();
-            auto.setName("Back and shoot");
+            auto.setName("Back and shoot *universal*");
             auto.addCommands(new VariableWaitCommand());
             auto.addCommands(new SelectRelativeTrajectoryCommand(drivetrain));
             Trajectory path = createTrajectory(true, 0, 0, 180,
@@ -72,7 +72,7 @@ public class AutoNoMouse
         }
 
         {   // Start with nose at blue hub, drive back, shoot
-            SequentialCommandGroup auto = new SequenceWithStart("@blue,shoot", 3.54, 4.00, 0);
+            SequentialCommandGroup auto = new SequenceWithStart("@blue hub,shoot", 3.54, 4.00, 0);
             auto.addCommands(new VariableWaitCommand());
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
@@ -87,7 +87,7 @@ public class AutoNoMouse
         }
 
         {   // Start with nose at red hub, drive back, shoot
-            SequentialCommandGroup auto = new SequenceWithStart("@red,shoot", 13.01, 4.02, 180);
+            SequentialCommandGroup auto = new SequenceWithStart("@red hub,shoot", 13.01, 4.02, 180);
             auto.addCommands(new VariableWaitCommand());
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
@@ -102,7 +102,7 @@ public class AutoNoMouse
         }
 
         {   // Test Start with nose at blue hub, drive back, shoot, pick up from outpost, shoot
-            SequentialCommandGroup auto = new SequenceWithStart("@blue,outpost", 3.54, 4.00, 0);
+            SequentialCommandGroup auto = new SequenceWithStart("@blue hub, outpost", 3.54, 4.00, 0);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Drive back
@@ -128,7 +128,7 @@ public class AutoNoMouse
         }
 
         {   // TODO Test Start with nose at red hub, drive back, shoot, pick up from outpost, shoot
-            SequentialCommandGroup auto = new SequenceWithStart("@red,outpost", 16.53-3.54, 8.056-4.00, 180);
+            SequentialCommandGroup auto = new SequenceWithStart("@red hub, outpost", 16.53-3.54, 8.056-4.00, 180);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Drive back
@@ -154,7 +154,7 @@ public class AutoNoMouse
         }
 
         {   // Start with nose at blue bottom trench, sweep center, bump, shoot
-            SequentialCommandGroup auto = new SequenceWithStart("@blue bottom trench, center, bump", 3.57, 0.63, 0);
+            SequentialCommandGroup auto = new SequenceWithStart("@blue outpostside trench, center, bump", 3.57, 0.63, 0);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Through trench, sweep center
@@ -185,7 +185,7 @@ public class AutoNoMouse
         }
 
         {   // TODO Test Start with nose at red bottom trench, sweep center, bump, shoot
-            SequentialCommandGroup auto = new SequenceWithStart("@red bottom trench, center, bump", 16.53-3.57, 0.63, 180);
+            SequentialCommandGroup auto = new SequenceWithStart("@red depotside trench, center, bump", 16.53-3.57, 0.63, 180);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Through trench, sweep center
@@ -216,7 +216,7 @@ public class AutoNoMouse
         }
 
         {   // Start with nose at blue top trench, sweep center, bump, shoot, depot
-            SequentialCommandGroup auto = new SequenceWithStart("@blue top trench, center, bump, depot", 3.58, 7.40, 0);
+            SequentialCommandGroup auto = new SequenceWithStart("@blue depotside trench, center, bump, depot", 3.58, 7.40, 0);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Through trench, sweep center
@@ -262,7 +262,7 @@ public class AutoNoMouse
         }
 
         {   // TODO Test Start with nose at blue bottom bump, sweep center, trench, outpost
-            SequentialCommandGroup auto = new SequenceWithStart("@blue bottom bump, center, outpost", 3.55, 2.36, 0);
+            SequentialCommandGroup auto = new SequenceWithStart("@blue outpostside bump, center, outpost", 3.55, 2.36, 0);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Back off from bump and get to 45 degree to then cross the bump
@@ -305,7 +305,7 @@ public class AutoNoMouse
         }
 
         {   // TODO Test Start with nose at red hub, drive back, shoot, then move to trench
-            SequentialCommandGroup auto = new SequenceWithStart("@red,shoot,trench", 13.03, 4.0, 180);
+            SequentialCommandGroup auto = new SequenceWithStart("@red outpost,shoot,trench", 13.03, 4.0, 180);
             auto.addCommands(new VariableWaitCommand());
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
@@ -325,7 +325,7 @@ public class AutoNoMouse
         }
 
         {   // Start with nose at blue hub, drive back, shoot, then move to trench
-            SequentialCommandGroup auto = new SequenceWithStart("@blue,shoot,trench", 3.5, 4.0, 0);
+            SequentialCommandGroup auto = new SequenceWithStart("@blue outpost,shoot,trench", 3.5, 4.0, 0);
             auto.addCommands(new VariableWaitCommand());
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
@@ -345,7 +345,7 @@ public class AutoNoMouse
         }
 
         {   // Drive by
-            SequentialCommandGroup auto = new SequenceWithStart("Drive By", 2.8, 1, 0);
+            SequentialCommandGroup auto = new SequenceWithStart("Drive By *DONT USE*", 2.8, 1, 0);
             auto.addCommands(new VariableWaitCommand());
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain, 2.8, 1, 0));
 
