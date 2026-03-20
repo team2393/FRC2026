@@ -179,10 +179,42 @@ public class AutoNoMouse
             auto.addCommands(drivetrain.followTrajectory(path, 25).asProxy());
             // Shoot
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
-            auto.addCommands(fuel_handler.shoot().repeatedly());
+            auto.addCommands(fuel_handler.keepShooting());
 
             autos.add(auto);
         }
+
+        {
+            SequentialCommandGroup auto = new SequenceWithStart("NEW @red outpostside trench, center, bump", 16.53-3.57, 8-0.63-0.1, 180);
+            auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
+
+            // Through trench, sweep center
+            Trajectory path = createTrajectory(true,  16.53-3.57, 8-0.63-0.1,  180,
+                                                                       16.53-6.37, 8-0.69, 180,
+                                                                       16.53-7.94, 8-1.75, 180+96,
+                                                                       16.53-7.50, 8-3.60, 180+96);
+            Supplier<Rotation2d> angle = () ->
+            {   // In trench, head to zero, otherwise 100
+                if (drivetrain.getPose().getX() >16.53-6  &&
+                    drivetrain.getPose().getY() > 7)
+                    return Rotation2d.fromDegrees(180);
+               return Rotation2d.fromDegrees(180+100);
+            };
+            auto.addCommands(fuel_handler.openIntake()
+                .alongWith(drivetrain.followTrajectory(path, angle).asProxy()));
+
+            // From center across bump
+            path = createTrajectory(true, 16.53-7.50, 8-3.60, 180-135,
+                                                           16.53-5.60, 8-2.41,  0,
+                                                           16.53-2.66, 8-3.28,  180+131);
+            auto.addCommands(drivetrain.followTrajectory(path, 180+25).asProxy());
+            // Shoot
+            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(fuel_handler.keepShooting());
+
+            autos.add(auto);
+        }
+
 
         {   // TODO Test Start with nose at red bottom trench, sweep center, bump, shoot
             SequentialCommandGroup auto = new SequenceWithStart("@red depotside trench, center, bump", 16.53-3.57, 0.63, 180);
