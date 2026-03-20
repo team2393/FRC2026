@@ -46,12 +46,12 @@ public class AutoAim extends Command
     private final static LookupTable settings_table = new LookupTable(
         // distance, speed, hood, deviation
         //       [m], [rpm],  [%], deviation
-         1.3,  1800,   55,         0,
+         1.3,  1785,   55,         0,
                  1.5,  1780,   70,         0,
-                 2.0,  1820,   70,         0,
-                 2.5,  1780,   85,         0,
-                 3.5,  2040,   85,         0,
-                 4.0,  2140,   90,         0,
+                 2.0,  1815,   70,         0,
+                 2.5,  1775,   85,         0,
+                 3.5,  2035,   85,         0,
+                 4.0,  2130,   90,         0,
                  4.7,  2250,   90,         0,
                  7.0,  2400,   90,         0,
                  8.0,  2500,   90,         0);
