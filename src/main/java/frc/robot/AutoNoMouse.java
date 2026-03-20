@@ -216,12 +216,12 @@ public class AutoNoMouse
         }
 
         {   // Start with nose at blue top trench, sweep center, bump, shoot, depot
-            SequentialCommandGroup auto = new SequenceWithStart("@blue depotside trench, center, bump, depot", 3.58, 7.40, 0);
+            SequentialCommandGroup auto = new SequenceWithStart("@blue depotside trench, center, bump, depot", 3.58, 7.30, 0);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Through trench, sweep center
-            Trajectory path = createTrajectory(true,  3.58, 7.40,    0,
-                                                                       5.95, 7.40,    0,
+            Trajectory path = createTrajectory(true,  3.58, 7.30,    0,
+                                                                       5.95, 7.30,    0,
                                                                        7.96, 6.36,  -90,
                                                                        7.71, 4.27, -112);
             Supplier<Rotation2d> angle = () ->
