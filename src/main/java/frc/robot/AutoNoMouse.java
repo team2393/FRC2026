@@ -238,8 +238,8 @@ public class AutoNoMouse
             // From center across bump
             path = createTrajectory(true, 16.53-7.50, 3.60, 180+135,
                                                   16.53-5.60, 2.41,  0,
-                                                  16.53-2.66, 3.28,  180-131);
-            auto.addCommands(drivetrain.followTrajectory(path, 158).asProxy());
+                                                   14.83, 2.93, 10);
+            auto.addCommands(drivetrain.followTrajectory(path, 159).asProxy());
             // Shoot
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().repeatedly());
