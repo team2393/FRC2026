@@ -75,7 +75,7 @@ public class FuelHandler extends SubsystemBase
     private ShooterState shooter_state = ShooterState.Idle;
 
     /** Keep spinner running a little longer after last game piece has been detected */
-    private final Debouncer after_shot_delay = new Debouncer(1.0);
+    private final Debouncer after_shot_delay = new Debouncer(2.25);
 
     /** Visualization */
     private final static Color8Bit MOVE_OFF = new Color8Bit(100, 100, 0);
