@@ -177,6 +177,8 @@ public class AutoNoMouse
                                                            5.60, 2.41,  180,
                                                            1.95, 3.35,  131);
             auto.addCommands(drivetrain.followTrajectory(path, 15).asProxy());
+            //wait 1s
+            auto.addCommands(new WaitCommand(1.0));
             // Shoot
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.keepShooting());
@@ -208,6 +210,8 @@ public class AutoNoMouse
                                                            16.53-5.60, 8-2.41,  0,
                                                            14.65, 4.98,  180+131);
             auto.addCommands(drivetrain.followTrajectory(path, 180+25).asProxy());
+            //wait 1s
+            auto.addCommands(new WaitCommand(1.0));
             // Shoot
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.keepShooting());
@@ -240,6 +244,8 @@ public class AutoNoMouse
                                                   16.53-5.60, 2.41,  0,
                                                    14.83, 2.93, 10);
             auto.addCommands(drivetrain.followTrajectory(path, 159).asProxy());
+            //wait 1s
+            auto.addCommands(new WaitCommand(1.0));
             // Shoot
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().repeatedly());
@@ -271,6 +277,8 @@ public class AutoNoMouse
                                                            5.40, 5.50, -180,
                                                            2.00, 5.36, -180);
             auto.addCommands(drivetrain.followTrajectory(path, -34).asProxy());
+            //wait 1s
+            auto.addCommands(new WaitCommand(1.0));
             // Shoot
             auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().withTimeout(5).andThen(fuel_handler.store()));
