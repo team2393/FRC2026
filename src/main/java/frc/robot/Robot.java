@@ -174,10 +174,26 @@ public class Robot extends CommandRobotBase
         fuel_handler.stopShooting().initialize();
     }
 
+    /** While disabled, we like to show the start position of the currently selected auto.
+     *  During a match, the sequence is this:
+     *  1) Disabled - Show the auto start pos!
+     *  2) Auto
+     *  3) Briefly disabled - Leave position alone!!
+     *  4) Teleop
+     *
+     *  In step 1, and also after later teleop test runs,
+     *  we want to show the auto start position.
+     *  In step 3, however, we MUST NOT change the actual
+     *  robot position into the auto start pos.
+     *  This flag tells us if we're coming out of auto (2) into step 3.
+     */
+    private boolean was_in_teleop = true;
+
     @Override
     public void disabledPeriodic()
     {
-        AutoTools.indicateStart(drivetrain, autos.getSelected());
+        if (was_in_teleop)
+            AutoTools.indicateStart(drivetrain, autos.getSelected());
     }
 
     @Override
@@ -191,6 +207,7 @@ public class Robot extends CommandRobotBase
     @Override
     public void teleopInit()
     {
+        was_in_teleop = true;
         // Start tracking the hub state
         CommandScheduler.getInstance().schedule(hub_timer);
         CommandScheduler.getInstance().schedule(auto_retract_hood);
@@ -199,6 +216,7 @@ public class Robot extends CommandRobotBase
     @Override
     public void autonomousInit()
     {
+        was_in_teleop = false;
         CommandScheduler.getInstance().schedule(auto_retract_hood);
         CommandScheduler.getInstance().schedule(autos.getSelected());
     }
