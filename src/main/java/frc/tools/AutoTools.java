@@ -68,7 +68,16 @@ public class AutoTools
     return new PrintCommand("Error loading '" + pathname + "'");
   }
 
-  /** To be called from `disabledPeriodic` to show start of selected auto option */
+  /** To be used like this:
+   *
+   *  <pre>
+   *  autos.onChange(selected ->
+   *  {
+   *     if (DriverStation.isDisabled())
+   *         AutoTools.indicateStart(drivetrain, selected);
+   *  });
+   *  </pre>
+   */
   public static void indicateStart(SwerveDrivetrain drivetrain, Command auto_option)
   {
     if (auto_option instanceof SequenceWithStart)
