@@ -31,7 +31,7 @@
           {
             "title": "X",
             "x": 0.0,
-            "y": 400.0,
+            "y": 525.0,
             "width": 100.0,
             "height": 100.0,
             "type": "Text Display",
@@ -45,7 +45,7 @@
           {
             "title": "Y",
             "x": 100.0,
-            "y": 400.0,
+            "y": 525.0,
             "width": 100.0,
             "height": 100.0,
             "type": "Text Display",
@@ -59,7 +59,7 @@
           {
             "title": "Heading",
             "x": 200.0,
-            "y": 400.0,
+            "y": 525.0,
             "width": 125.0,
             "height": 100.0,
             "type": "Text Display",
@@ -236,7 +236,7 @@
           {
             "title": "Auto",
             "x": 0.0,
-            "y": 500.0,
+            "y": 400.0,
             "width": 325.0,
             "height": 125.0,
             "type": "ComboBox Chooser",
@@ -404,9 +404,9 @@
           },
           {
             "title": "BallInFeeder",
-            "x": 975.0,
-            "y": 400.0,
-            "width": 100.0,
+            "x": 1075.0,
+            "y": 500.0,
+            "width": 125.0,
             "height": 100.0,
             "type": "Boolean Box",
             "properties": {
@@ -417,6 +417,32 @@
               "false_color": 4294198070,
               "true_icon": "None",
               "false_icon": "None"
+            }
+          },
+          {
+            "title": "AlwaysConfigShooter",
+            "x": 1200.0,
+            "y": 400.0,
+            "width": 175.0,
+            "height": 100.0,
+            "type": "Toggle Switch",
+            "properties": {
+              "topic": "/SmartDashboard/AlwaysConfigShooter",
+              "period": 0.06,
+              "data_type": "boolean"
+            }
+          },
+          {
+            "title": "AimWhileShooting",
+            "x": 1200.0,
+            "y": 500.0,
+            "width": 175.0,
+            "height": 100.0,
+            "type": "Toggle Switch",
+            "properties": {
+              "topic": "/SmartDashboard/AimWhileShooting",
+              "period": 0.06,
+              "data_type": "boolean"
             }
           }
         ]
