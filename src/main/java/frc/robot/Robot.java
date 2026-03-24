@@ -10,6 +10,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
@@ -17,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
@@ -58,6 +60,7 @@ public class Robot extends CommandRobotBase
     private final FuelHandler fuel_handler = new FuelHandler();
     private final Hood hood = new Hood();
     private final Command auto_retract_hood = new AutoRetractHood(drivetrain);
+    private final AutoAim auto_aim = new AutoAim(tags, drivetrain);
 
     /** Handle cameras */
     private final List<CameraHelper> cameras = List.of(
@@ -96,19 +99,26 @@ public class Robot extends CommandRobotBase
         hood.reset();
 
         // Bind controller buttons
-        RobotOI.joystick.x().whileTrue(new AutoAim(tags, drivetrain).repeatedly());
+        RobotOI.joystick.x().whileTrue(auto_aim.aimContinuously());
         RobotOI.joystick.a().onTrue(fuel_handler.toggleIntake());
         RobotOI.joystick.y().whileTrue(fuel_handler.keepShooting());
 
-        // Aim (which allows driving), then shoot (falling back to default drive command)
-        RobotOI.joystick.rightTrigger().whileTrue(new AutoAim(tags, drivetrain).asProxy().andThen(fuel_handler.keepShooting()));
+        // Aim, then shoot (falling back to default drive command)
+        Command aim_then_shoot = auto_aim.aimOnce().asProxy().andThen(fuel_handler.keepShooting());
 
-        // Aim (which allows driving), then continue to aim (..and drive) while shooting,
-        // Command aim_while_shooting = new ParallelCommandGroup(
-        //     new AutoAim(tags, drivetrain).repeatedly(),
-        //     fuel_handler.keepShooting());
-        // RobotOI.joystick.rightTrigger().whileTrue(
-        //     new AutoAim(tags, drivetrain).withTimeout(1.0).andThen(aim_while_shooting));
+        // Aim, then continue to aim (..and drive) while shooting,
+        Command aim_while_shooting =
+            auto_aim.aimOnce().withTimeout(1.0)
+                              .andThen(new ParallelCommandGroup(auto_aim.aimContinuously(),
+                                                                fuel_handler.keepShooting()));
+
+        // Pick one or the other based on "AimWhileShooting" on dashboard
+        NetworkTableEntry do_aim_while_shooting = SmartDashboard.getEntry("AimWhileShooting");
+        do_aim_while_shooting.setDefaultBoolean(true);
+        RobotOI.joystick.rightTrigger().whileTrue(
+            new ConditionalCommand(aim_while_shooting,
+                                   aim_then_shoot,
+                                   () -> do_aim_while_shooting.getBoolean(true)));
 
         RobotOI.buttonboard.button(4).onTrue(fuel_handler.openIntake());
         RobotOI.buttonboard.button(9).onTrue(fuel_handler.closeIntake());
@@ -151,7 +161,7 @@ public class Robot extends CommandRobotBase
 
         // Auto options
         autos.setDefaultOption("Nothing", new PrintCommand("Do nothing"));
-        for (Command auto : AutoNoMouse.createAutoCommands(tags, drivetrain, fuel_handler))
+        for (Command auto : AutoNoMouse.createAutoCommands(drivetrain, fuel_handler, auto_aim))
             autos.addOption(auto.getName(), auto);
         SmartDashboard.putData(autos);
     }

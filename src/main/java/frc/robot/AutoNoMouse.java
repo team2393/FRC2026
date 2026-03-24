@@ -40,7 +40,7 @@ public class AutoNoMouse
     // angle ->     180 + angle
 
     /** Create all our auto-no-mouse commands */
-    public static List<Command> createAutoCommands(AprilTagFieldLayout tags, SwerveDrivetrain drivetrain, FuelHandler fuel_handler)
+    public static List<Command> createAutoCommands(SwerveDrivetrain drivetrain, FuelHandler fuel_handler,AutoAim auto_aim)
     {
         // List of all auto commands
         final List<Command> autos = new ArrayList<>();
@@ -67,7 +67,7 @@ public class AutoNoMouse
             Trajectory path = createTrajectory(true, 0, 0, 180,
                                                    -1.5, 0, 180);
             auto.addCommands(drivetrain.followTrajectory(path, 0).asProxy());
-            auto.addCommands(new  AutoAim(tags, drivetrain).asProxy().andThen(fuel_handler.keepShooting()));
+            auto.addCommands(auto_aim.aimOnce().asProxy().andThen(fuel_handler.keepShooting()));
             autos.add(auto);
         }
 
@@ -80,7 +80,7 @@ public class AutoNoMouse
             auto.addCommands(new SwerveToPositionCommand(drivetrain, 2.24, 4.02).asProxy());
             // Shoot
             auto.addCommands(fuel_handler.openIntake());
-            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().repeatedly());
 
             autos.add(auto);
@@ -95,7 +95,7 @@ public class AutoNoMouse
             auto.addCommands(new SwerveToPositionCommand(drivetrain, 14.03, 4.07).asProxy());
             // Shoot
             auto.addCommands(fuel_handler.openIntake());
-            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().repeatedly());
 
             autos.add(auto);
@@ -108,7 +108,7 @@ public class AutoNoMouse
             // Drive back
             auto.addCommands(new SwerveToPositionCommand(drivetrain, 2.5, 4.0).asProxy());
             // Shoot
-            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().withTimeout(5).andThen(fuel_handler.store()));
             // Move to outpost
             Trajectory path = createTrajectory(true,  2.5, 4.00,  -90,
@@ -121,7 +121,7 @@ public class AutoNoMouse
                                                            2.08, 2.01,  45);
             auto.addCommands(drivetrain.followTrajectory(path, 45).asProxy());
             // Shoot
-            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().repeatedly());
 
             autos.add(auto);
@@ -134,7 +134,7 @@ public class AutoNoMouse
             // Drive back
             auto.addCommands(new SwerveToPositionCommand(drivetrain, 16.53-2.5, 8.056-4.0).asProxy());
             // Shoot
-            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().withTimeout(5).andThen(fuel_handler.store()));
             // Move to outpost
             Trajectory path = createTrajectory(true,  16.53-2.5, 8.056-4.00,  180-90,
@@ -147,7 +147,7 @@ public class AutoNoMouse
                                                   16.53-2.08, 8.056-2.01,  180+45);
             auto.addCommands(drivetrain.followTrajectory(path, 180+45).asProxy());
             // Shoot
-            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().repeatedly());
 
             autos.add(auto);
@@ -180,7 +180,7 @@ public class AutoNoMouse
             //wait 1s
             auto.addCommands(new WaitCommand(1.0));
             // Shoot
-            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.keepShooting());
 
             autos.add(auto);
@@ -213,7 +213,7 @@ public class AutoNoMouse
             //wait 1s
             auto.addCommands(new WaitCommand(1.0));
             // Shoot
-            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.keepShooting());
 
             autos.add(auto);
@@ -247,7 +247,7 @@ public class AutoNoMouse
             //wait 1s
             auto.addCommands(new WaitCommand(1.0));
             // Shoot
-            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().repeatedly());
 
             autos.add(auto);
@@ -280,7 +280,7 @@ public class AutoNoMouse
             //wait 1s
             auto.addCommands(new WaitCommand(1.0));
             // Shoot
-            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().withTimeout(5).andThen(fuel_handler.store()));
 
             // To depot
@@ -295,7 +295,7 @@ public class AutoNoMouse
             auto.addCommands(drivetrain.followTrajectory(path, 180).asProxy());
 
             // Shoot
-            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().repeatedly());
 
             autos.add(auto);
@@ -338,7 +338,7 @@ public class AutoNoMouse
             auto.addCommands(drivetrain.followTrajectory(path, 40).asProxy());
 
             // Shoot
-            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().repeatedly());
 
             autos.add(auto);
@@ -353,7 +353,7 @@ public class AutoNoMouse
             auto.addCommands(new SwerveToPositionCommand(drivetrain, 14.20, 4.0).asProxy());
             // Shoot
             auto.addCommands(fuel_handler.openIntake());
-            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().withTimeout(5).andThen(fuel_handler.store()));
             // Move to trench
             Trajectory path = createTrajectory(true, 14.20, 4.00,  90,
@@ -373,41 +373,13 @@ public class AutoNoMouse
             auto.addCommands(new SwerveToPositionCommand(drivetrain, 2.25, 4.0).asProxy());
             // Shoot
             auto.addCommands(fuel_handler.openIntake());
-            auto.addCommands(new AutoAim(tags, drivetrain).withTimeout(5).asProxy());
+            auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.shoot().withTimeout(5).andThen(fuel_handler.store()));
             // Move to trench
             Trajectory path = createTrajectory(true,  2.25, 4.00,  90,
                                                                        2.85, 6.90,  45,
                                                                        3.60, 7.43,   0);
             auto.addCommands(drivetrain.followTrajectory(path, 0).asProxy());
-
-            autos.add(auto);
-        }
-
-        {   // Drive by
-            SequentialCommandGroup auto = new SequenceWithStart("Drive By *DONT USE*", 2.8, 1, 0);
-            auto.addCommands(new VariableWaitCommand());
-            auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain, 2.8, 1, 0));
-
-            // Use AutoAim as angle supplier
-            AutoAim aim = new AutoAim(tags, drivetrain);
-            Supplier<Rotation2d> angle = () -> aim.computeSettings(drivetrain.getPose());
-            auto.addCommands(new InstantCommand(aim::initialize));
-
-            // Trajectory for driving, always angling to hub
-            Trajectory path = createTrajectory(true, 2.8, 1, 90,
-                                                                      2.8, 7, 90);
-            Command drive_out = drivetrain.followTrajectory(path, angle).asProxy();
-            path = createTrajectory(true, 2.8, 7, -90,
-                                                           2.8, 1, -90);
-            Command drive_back = drivetrain.followTrajectory(path, angle).asProxy();
-            Command drive_and_aim = drive_out.andThen(drive_back);
-
-            // After 1 sec, enable shooter and keep it on
-            Command shoot = new WaitCommand(1.0).andThen( fuel_handler.shoot().repeatedly() );
-
-            // Do this while driving, end when done driving
-            auto.addCommands(new ParallelDeadlineGroup(drive_and_aim, shoot));
 
             autos.add(auto);
         }

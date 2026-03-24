@@ -16,32 +16,40 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.swervelib.SwerveDrivetrain;
 import frc.swervelib.SwerveOI;
 import frc.tools.LookupTable;
 import frc.tools.LookupTable.Entry;
 
-/** Command that aims at hub
- *
- *  Aims robot at hub based on odometry,
- *  which is ideally updated from camera info.
- */
-public class AutoAim extends Command
+/** Subsystem for autimatic aim, spinner and hood adjustment */
+public class AutoAim extends SubsystemBase
 {
-    /** Estimated ball speed [m/s]
+    /** TODO Estimated ball speed [m/s]
      *  This is the 'horizontal' component
      */
     private final double BALL_SPEED = 6.0;
+
+    /** Map of all tags on the field */
     private final AprilTagFieldLayout tags;
-    private final Translation2d BLUE_HUB;
-    private final Translation2d RED_HUB;
+
+    /** Center of each hubs */
+    private final Translation2d BLUE_HUB, RED_HUB;
+
+    /** Drivetrain */
     private final SwerveDrivetrain drivetrain;
-    private final boolean absolute;
+
     private final NetworkTableEntry nt_distance = SmartDashboard.getEntry("HubDistance");
+    private final NetworkTableEntry nt_always_config_shooter = SmartDashboard.getEntry("AlwaysConfigShooter");
+    private final NetworkTableEntry nt_spinner_setpoint = SmartDashboard.getEntry("SpinnerSetpoint");
+    private final NetworkTableEntry nt_hood_setpoint = SmartDashboard.getEntry("HoodSetpoint");
+
     private final ProfiledPIDController pid = new ProfiledPIDController(5, 1, 0,
                                                     new TrapezoidProfile.Constraints(3*360, 3*360));
     private Translation2d aim_target = null;
     private Pose2d last_pose = null;
+    private Translation2d direction_to_target = null;
+    private Entry shooter_settings = null;
 
     private final static LookupTable settings_table = new LookupTable(
         // distance, speed, hood, deviation
@@ -61,16 +69,8 @@ public class AutoAim extends Command
      */
     public AutoAim(AprilTagFieldLayout tags, SwerveDrivetrain drivetrain)
     {
-        this(tags, drivetrain, true);
-    }
-
-    /** @param tags {@link AprilTagFieldLayout}
-     *  @param drivetrain {@link SwerveDrivetrain}
-     *  @param absolute Absolute drive mode?
-     */
-    public AutoAim(AprilTagFieldLayout tags, SwerveDrivetrain drivetrain, boolean absolute)
-    {
         this.tags = tags;
+        this.drivetrain = drivetrain;
 
         // Center of blue, red hub is between tags ... and ...
         // ID,X,Y,Z,Z-Rotation,X-Rotation
@@ -87,22 +87,18 @@ public class AutoAim extends Command
         b = tags.getTagPose(10).get().getTranslation();
         RED_HUB = a.interpolate(b, 0.5).toTranslation2d();
 
-        this.drivetrain = drivetrain;
-        addRequirements(drivetrain);
-
-        this.absolute = absolute;
-
         // Use PID with -180..180 degrees, enable I below 2 deg error, done when within 1 deg
         pid.enableContinuousInput(-180, 180);
         pid.setIZone(2.0);
         pid.setTolerance(1.0);
         // SmartDashboard.putData("AimToHubPID", pid);
+
+        nt_always_config_shooter.setDefaultBoolean(true);
     }
 
-    @Override
-    public void initialize()
+    /** Update last_pose, identify aim_target */
+    private void identifyTarget()
     {
-        // TODO SmartDashboard.putBoolean("AutoRetractHood", false);
         last_pose = drivetrain.getPose();
 
         if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue)
@@ -131,16 +127,12 @@ public class AutoAim extends Command
                     aim_target = new Translation2d(x, 0.75*tags.getFieldWidth());
             }
         }
-
-        // Profiled PID needs to start with current measurement (robot heading)
-        pid.reset(last_pose.getRotation().getDegrees());
     }
 
-    /** Computes angle to target, sets hood and spinner
-     *  @return Angle to target
-     */
-    public Rotation2d computeSettings(Pose2d robot_pose)
+    /** Computes direction_to_target, shooter_settings and optionally applies settings */
+    private void computeSettings()
     {
+        final Pose2d robot_pose = drivetrain.getPose();
         // How fast are we?
         Translation2d robot_speed = robot_pose.getTranslation()
                                               .minus(last_pose.getTranslation())
@@ -148,8 +140,8 @@ public class AutoAim extends Command
         last_pose = robot_pose;
 
         // Direction from where we are to hub
-        Translation2d direction = aim_target.minus(robot_pose.getTranslation());
-        double distance = direction.getNorm();
+        direction_to_target = aim_target.minus(robot_pose.getTranslation());
+        double distance = direction_to_target.getNorm();
 
         // TODO Correct for robot movement
         // Estimate time for ball to travel that distance
@@ -159,58 +151,132 @@ public class AutoAim extends Command
         // Estimate where hub will appear to be ...
         Translation2d perceived_hub = aim_target.minus(robot_travel);
         // .. and aim for that
-        direction = perceived_hub.minus(robot_pose.getTranslation());
+        direction_to_target = perceived_hub.minus(robot_pose.getTranslation());
 
         // Set spinner speed, hood angle, .. based on distance using LookupTable
-        Entry settings = settings_table.lookup(distance);
-        SmartDashboard.putNumber("SpinnerSetpoint", settings.speed());
-        SmartDashboard.putNumber("HoodSetpoint", settings.hood());
+        shooter_settings = settings_table.lookup(distance);
+        if (nt_always_config_shooter.getBoolean(true))
+        {
+            nt_spinner_setpoint.setDouble(shooter_settings.speed());
+            nt_hood_setpoint.setDouble(shooter_settings.hood());
+        }
 
         nt_distance.setDouble(distance);
-
-        // Where do we have to point?
-        return direction.getAngle();
     }
 
-    @Override
-    public void execute()
+    private void startAim()
     {
-        Pose2d robot_pose = drivetrain.getPose();
-        double hub_angle = computeSettings(robot_pose).getDegrees();
+        // Profiled PID needs to start with current measurement (robot heading)
+        pid.reset(last_pose.getRotation().getDegrees());
+    }
+
+    private void aim()
+    {
+        // Were settings already applied, or do we do that now?
+        if (!nt_always_config_shooter.getBoolean(true))
+        {
+            nt_spinner_setpoint.setDouble(shooter_settings.speed());
+            nt_hood_setpoint.setDouble(shooter_settings.hood());
+        }
+
+        double hub_angle = direction_to_target.getAngle().getDegrees();
 
         // Swerve speeds from controller
         double vx = SwerveOI.getForwardSpeed();
         double vy = SwerveOI.getLeftSpeed();
-        if (absolute)
-        {
-            double heading = robot_pose.getRotation().getDegrees();
-            double correction = -heading;
-            if (DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Red)
-                correction += 180;
-            Translation2d absoluteDirection = new Translation2d(vx, vy).rotateBy(Rotation2d.fromDegrees(correction));
-            vx = absoluteDirection.getX();
-            vy = absoluteDirection.getY();
-        }
+        double heading = last_pose.getRotation().getDegrees();
+        double correction = -heading;
+        if (DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Red)
+            correction += 180;
+        Translation2d absoluteDirection = new Translation2d(vx, vy).rotateBy(Rotation2d.fromDegrees(correction));
+        vx = absoluteDirection.getX();
+        vy = absoluteDirection.getY();
 
         // Rotation to aim for hub
-        double vr = pid.calculate(robot_pose.getRotation().getDegrees(), hub_angle);
-        // System.out.println("Heading: " + robot_pose.getRotation().getDegrees() +
+        double vr = pid.calculate(heading, hub_angle);
+        // System.out.println("Heading: " + heading +
         //                    " Goal: " + hub_angle +
         //                    " rot: " + vr);
 
         drivetrain.swerve(vx, vy, Math.toRadians(vr));
     }
 
-    @Override
-    public boolean isFinished()
+    private boolean isDone()
     {
         // We're done once the error is small enough
         return pid.atGoal();
     }
 
+    /** Subsystem continually computes direction and settings,
+     *  optionally also applies shooter_settings.
+     *
+     *  Commands,which run right after subsystem's periodic(),
+     *  aim either once or continually
+     */
     @Override
-    public void end(boolean interrupted)
+    public void periodic()
     {
-        drivetrain.stop();
+        identifyTarget();
+        computeSettings();
+    }
+
+    /** @return Command that aims once */
+    public Command aimOnce()
+    {
+        Command cmd = new Command()
+        {
+            @Override
+            public void initialize()
+            {
+               startAim();
+            }
+
+            @Override
+            public void execute()
+            {
+                aim();
+            }
+
+            @Override
+            public boolean isFinished()
+            {
+                return isDone();
+            }
+
+            @Override
+            public void end(boolean interrupted)
+            {
+                drivetrain.stop();
+            }
+        };
+        cmd.addRequirements(this, drivetrain);
+        return cmd;
+    }
+
+    /** @return Command that aims continually */
+    public Command aimContinuously()
+    {
+        Command cmd = new Command()
+        {
+            @Override
+            public void initialize()
+            {
+               startAim();
+            }
+
+            @Override
+            public void execute()
+            {
+                aim();
+            }
+
+            @Override
+            public void end(boolean interrupted)
+            {
+                drivetrain.stop();
+            }
+        };
+        cmd.addRequirements(this, drivetrain);
+        return cmd;
     }
 }
