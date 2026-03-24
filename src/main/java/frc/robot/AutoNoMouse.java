@@ -127,7 +127,7 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
-        {   // TODO Test Start with nose at red hub, drive back, shoot, pick up from outpost, shoot
+        {   // Start with nose at red hub, drive back, shoot, pick up from outpost, shoot
             SequentialCommandGroup auto = new SequenceWithStart("@red hub, outpost", 16.53-3.54, 8.056-4.00, 180);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
@@ -220,7 +220,7 @@ public class AutoNoMouse
         }
 
 
-        {   // TODO Test Start with nose at red bottom trench, sweep center, bump, shoot
+        {   // Start with nose at red bottom trench, sweep center, bump, shoot
             SequentialCommandGroup auto = new SequenceWithStart("@red depotside trench, center, bump", 16.53-3.57, 0.63, 180);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
@@ -301,7 +301,7 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
-        {   // TODO Test Start with nose at blue bottom bump, sweep center, trench, outpost
+        {   // Start with nose at blue bottom bump, sweep center, trench, outpost
             SequentialCommandGroup auto = new SequenceWithStart("@blue outpostside bump, center, outpost", 3.55, 2.36, 0);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
@@ -344,7 +344,7 @@ public class AutoNoMouse
             autos.add(auto);
         }
 
-        {   // TODO Test Start with nose at red hub, drive back, shoot, then move to trench
+        {   // Start with nose at red hub, drive back, shoot, then move to trench
             SequentialCommandGroup auto = new SequenceWithStart("@red outpost,shoot,trench", 13.03, 4.0, 180);
             auto.addCommands(new VariableWaitCommand());
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
