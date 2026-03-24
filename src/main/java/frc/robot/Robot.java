@@ -53,10 +53,6 @@ public class Robot extends CommandRobotBase
     private final Command reset_heading = new ResetHeadingCommand(drivetrain);
     private final Command joydrive = new RelativeSwerveCommand(drivetrain);
     private final Command absdrive = new AbsoluteSwerveCommand(drivetrain);
-    private final Command pass = new ApplyAdjustableSettingCommand("", "PassHood", 30, "HoodSetpoint")
-                        .andThen(new ApplyAdjustableSettingCommand("", "PassSpinner", 2000, "SpinnerSetpoint"))
-                        .withName("Pass");
-
 
     private final FuelHandler fuel_handler = new FuelHandler();
     private final Hood hood = new Hood();
@@ -128,7 +124,6 @@ public class Robot extends CommandRobotBase
         trench.add("HoodSetpoint", 1);
         SmartDashboard.putData(trench);
 
-        SmartDashboard.putData("Pass", pass);
         // Helper for creating auto paths: Print X, Y, Heading on button press
         AtomicInteger pos_index = new AtomicInteger();
         RobotOI.joystick.b().onTrue(new InstantCommand(() ->
