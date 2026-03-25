@@ -237,7 +237,7 @@
             "title": "Auto",
             "x": 0.0,
             "y": 400.0,
-            "width": 325.0,
+            "width": 350.0,
             "height": 125.0,
             "type": "ComboBox Chooser",
             "properties": {
