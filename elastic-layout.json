@@ -103,9 +103,9 @@
           },
           {
             "title": "IntakeVoltageSet",
-            "x": 1175.0,
-            "y": 100.0,
-            "width": 150.0,
+            "x": 1375.0,
+            "y": 300.0,
+            "width": 125.0,
             "height": 100.0,
             "type": "Text Display",
             "properties": {
@@ -443,6 +443,34 @@
               "topic": "/SmartDashboard/AimWhileShooting",
               "period": 0.06,
               "data_type": "boolean"
+            }
+          },
+          {
+            "title": "FeederShootingVoltage",
+            "x": 1375.0,
+            "y": 400.0,
+            "width": 125.0,
+            "height": 100.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/FeederShootingVoltage",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "StorageVoltage",
+            "x": 1375.0,
+            "y": 500.0,
+            "width": 125.0,
+            "height": 100.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/StorageVoltage",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
             }
           }
         ]
