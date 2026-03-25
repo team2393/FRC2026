@@ -28,7 +28,7 @@ public class AutoAim extends SubsystemBase
     /** TODO Estimated ball speed [m/s]
      *  This is the 'horizontal' component
      */
-    private final double BALL_SPEED = 6.0;
+    private final double BALL_SPEED = 3.0;
 
     /** Map of all tags on the field */
     private final AprilTagFieldLayout tags;
@@ -47,7 +47,7 @@ public class AutoAim extends SubsystemBase
     private final ProfiledPIDController pid = new ProfiledPIDController(5, 1, 0,
                                                     new TrapezoidProfile.Constraints(3*360, 3*360));
     private Translation2d aim_target = null;
-    private Pose2d last_pose = null;
+    private Pose2d robot_pose, last_pose;
     private Translation2d direction_to_target = null;
     private Entry shooter_settings = null;
 
@@ -94,21 +94,23 @@ public class AutoAim extends SubsystemBase
         // SmartDashboard.putData("AimToHubPID", pid);
 
         nt_always_config_shooter.setDefaultBoolean(true);
+
+        last_pose = robot_pose = drivetrain.getPose();
     }
 
-    /** Update last_pose, identify aim_target */
+    /** Update robot_pose, identify aim_target */
     private void identifyTarget()
     {
-        last_pose = drivetrain.getPose();
+        robot_pose = drivetrain.getPose();
 
         if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue)
         {   // In home area, aim for hub
-            if (isBetween(last_pose.getTranslation().getX(), 0, BLUE_HUB.getX()))
+            if (isBetween(robot_pose.getTranslation().getX(), 0, BLUE_HUB.getX()))
                 aim_target = BLUE_HUB;
             else
             {   // Pass to lower or upper half of home area
                 double x = 0.5*BLUE_HUB.getX();
-                if (last_pose.getTranslation().getY() < 0.5*tags.getFieldWidth())
+                if (robot_pose.getTranslation().getY() < 0.5*tags.getFieldWidth())
                     aim_target = new Translation2d(x, 0.25*tags.getFieldWidth());
                 else
                     aim_target = new Translation2d(x, 0.75*tags.getFieldWidth());
@@ -116,12 +118,12 @@ public class AutoAim extends SubsystemBase
         }
         else // Red alliance
         {   // In home area, aim for hub
-            if (isBetween(last_pose.getTranslation().getX(), RED_HUB.getX(), tags.getFieldLength()))
+            if (isBetween(robot_pose.getTranslation().getX(), RED_HUB.getX(), tags.getFieldLength()))
                 aim_target = RED_HUB;
             else
             {   // Pass to lower or upper half of home area
                 double x = RED_HUB.getX() + 0.5*(tags.getFieldLength()-RED_HUB.getX());
-                if (last_pose.getTranslation().getY() < 0.5*tags.getFieldWidth())
+                if (robot_pose.getTranslation().getY() < 0.5*tags.getFieldWidth())
                     aim_target = new Translation2d(x, 0.25*tags.getFieldWidth());
                 else
                     aim_target = new Translation2d(x, 0.75*tags.getFieldWidth());
@@ -132,7 +134,6 @@ public class AutoAim extends SubsystemBase
     /** Computes direction_to_target, shooter_settings and optionally applies settings */
     private void computeSettings()
     {
-        final Pose2d robot_pose = drivetrain.getPose();
         // How fast are we?
         Translation2d robot_speed = robot_pose.getTranslation()
                                               .minus(last_pose.getTranslation())
@@ -143,7 +144,6 @@ public class AutoAim extends SubsystemBase
         direction_to_target = aim_target.minus(robot_pose.getTranslation());
         double distance = direction_to_target.getNorm();
 
-        // TODO Correct for robot movement
         // Estimate time for ball to travel that distance
         double shot_time = distance / BALL_SPEED;
         // Determine how far robot travels in that time,
