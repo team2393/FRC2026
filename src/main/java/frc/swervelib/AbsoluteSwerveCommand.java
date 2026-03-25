@@ -74,7 +74,7 @@ public class AbsoluteSwerveCommand extends Command
     // https://www.chiefdelphi.com/t/field-relative-swervedrive-drift-even-with-simulated-perfect-modules
     // First determine change in heading _per_second_, assuming we run at 50 Hz
     double rotational_speed = (heading - last_heading) / 0.02;
-    SmartDashboard.putNumber("HeadingChange", rotational_speed);
+    // SmartDashboard.putNumber("HeadingChange", rotational_speed);
     last_heading = heading;
     // Basic idea:
     // While rotating,the drivetrain heading is a little old,
