@@ -54,15 +54,17 @@ public class AutoAim extends SubsystemBase
     private final static LookupTable settings_table = new LookupTable(
         // distance, speed, hood, deviation
         //       [m], [rpm],  [%], deviation
-         1.3,  1785,   55,         0,
-                 1.5,  1780,   70,         0,
-                 2.0,  1815,   70,         0,
-                 2.5,  1770,   85,         0,
-                 3.5,  2030,   85,         0,
-                 4.0,  2120,   90,         0,
-                 4.7,  2250,   90,         0,
-                 7.0,  2400,   90,         0,
-                 8.0,  2500,   90,         0);
+         1.0,  1800,   40,         0,
+                 1.5,  1900,   50,         0,
+                 2.0,  2000,   60,         0,
+                 2.5,  2100,   70,         0,
+                 3.0,  2125,   75,         0,
+                 3.5,  2150,   85,         0,
+                 4.0,  2250,   90,         0,
+                 4.5,  2350,   90,         0,
+                 5.0,  2400,   95,         0,
+                 7.0,  2400,   95,         0,
+                 8.0,  2500,   95,         0);
 
     /** @param tags {@link AprilTagFieldLayout}
      *  @param drivetrain {@link SwerveDrivetrain}
