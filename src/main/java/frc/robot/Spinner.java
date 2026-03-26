@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -45,7 +46,17 @@ public class Spinner extends SubsystemBase
 
     public Spinner()
     {
-        motor2.setControl(new Follower(motor.getDeviceID(), MotorAlignmentValue.Opposed));
+        // TODO Try this
+        // Follower reacts to MotorVoltage updates from the leader.
+        // Increase the voltage update rate to get finer control steps,
+        // reduce update rate of everything else to 4 Hz
+        // motor.resetSignalFrequencies();
+        // motor.getMotorVoltage().setUpdateFrequency(200);
+        // motor.getVelocity().setUpdateFrequency(10);
+        // motor.optimizeBusUtilization();
+        motor2.setControl(new Follower(motor.getDeviceID(), MotorAlignmentValue.Opposed)
+                        //   .withUpdateFreqHz(200)
+                          );
 
         nt_setpoint.setDefaultDouble(1000);
 
