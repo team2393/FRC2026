@@ -26,15 +26,23 @@ public class AutoRetractHood extends Command
         nt_auto_retract_hood.setDefaultBoolean(true);
     }
 
+    /** @param pos Position on field
+     *  @return Is that position near the trench?
+     */
+    public static boolean isNearTrench(Translation2d pos)
+    {
+        boolean near_trench_y = pos.getY() < 1  ||  pos.getY() > 7;
+        return near_trench_y  && (MathUtil.isNear(blue_zone, pos.getX(), 1.5) ||
+                                  MathUtil.isNear(red_zone,  pos.getX(), 1.5));
+    }
+
     @Override
     public void execute()
     {
         if (nt_auto_retract_hood.getBoolean(true))
         {
             Translation2d pos = drivetrain.getPose().getTranslation();
-            boolean near_trench_y = pos.getY() < 1  ||  pos.getY() > 7;
-            if (near_trench_y  && (MathUtil.isNear(blue_zone, pos.getX(), 1.5) ||
-                                MathUtil.isNear(red_zone,  pos.getX(), 1.5)))
+            if (isNearTrench(pos))
                 nt_hood_setpoint.setDouble(1);
         }
     }

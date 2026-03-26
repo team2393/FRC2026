@@ -157,6 +157,12 @@ public class AutoAim extends SubsystemBase
 
         // Set spinner speed, hood angle, .. based on distance using LookupTable
         shooter_settings = settings_table.lookup(distance);
+        // Near trench, retract the hood
+        if (AutoRetractHood.isNearTrench(robot_pose.getTranslation()))
+            shooter_settings = new Entry(shooter_settings.distance(),
+                                         shooter_settings.speed(),
+                                         1.0,
+                                         shooter_settings.deviation());
         if (nt_always_config_shooter.getBoolean(true))
         {
             nt_spinner_setpoint.setDouble(shooter_settings.speed());
