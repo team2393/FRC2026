@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /** Feeder */
 public class Feeder
 {
-    private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.FEEDER, false, false, 0, 30.0);
+    private final TalonFX motor = MotorHelper.createTalonFX(RobotMap.FEEDER, false, false, 0, 40.0);
     private final DigitalInput feeder_sensor = new DigitalInput(RobotMap.FEEDER_SENSOR);
     private final NetworkTableEntry nt_have_ball = SmartDashboard.getEntry("BallInFeeder");
     private final NetworkTableEntry nt_intake_voltage = SmartDashboard.getEntry("FeederIntakeVoltage");
