@@ -277,7 +277,7 @@
           {
             "title": "FrontInfo",
             "x": 1175.0,
-            "y": 200.0,
+            "y": 100.0,
             "width": 325.0,
             "height": 75.0,
             "type": "Text Display",
@@ -456,7 +456,7 @@
               "topic": "/SmartDashboard/FeederShootingVoltage",
               "period": 0.06,
               "data_type": "double",
-              "show_submit_button": false
+              "show_submit_button": true
             }
           },
           {
@@ -470,7 +470,7 @@
               "topic": "/SmartDashboard/StorageVoltage",
               "period": 0.06,
               "data_type": "double",
-              "show_submit_button": false
+              "show_submit_button": true
             }
           }
         ]
