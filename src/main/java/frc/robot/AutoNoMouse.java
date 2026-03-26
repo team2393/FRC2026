@@ -9,12 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.swervelib.SelectAbsoluteTrajectoryCommand;
@@ -38,6 +36,16 @@ public class AutoNoMouse
     // x     ->   16.53 - x
     // y     ->   8.056 - y
     // angle ->     180 + angle
+
+    private static Command shootAndWiggle(FuelHandler fuel_handler)
+    {
+        Command close_and_open = new SequentialCommandGroup(new WaitCommand(2),
+                                                            fuel_handler.closeIntake(),
+                                                            new WaitCommand(2),
+                                                            fuel_handler.openIntake());
+        return new ParallelCommandGroup(fuel_handler.keepShooting(),
+                                        close_and_open.repeatedly());
+    }
 
     /** Create all our auto-no-mouse commands */
     public static List<Command> createAutoCommands(SwerveDrivetrain drivetrain, FuelHandler fuel_handler,AutoAim auto_aim)
@@ -296,7 +304,8 @@ public class AutoNoMouse
 
             // Shoot
             auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
-            auto.addCommands(fuel_handler.shoot().repeatedly());
+            auto.addCommands(fuel_handler.keepShooting());
+            // TODO try this: auto.addCommands(shootAndWiggle(fuel_handler));
 
             autos.add(auto);
         }
