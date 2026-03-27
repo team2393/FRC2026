@@ -256,10 +256,10 @@ public class FuelHandler extends SubsystemBase
         boolean blink_on_off = (System.currentTimeMillis()/200) % 2 == 0;
 
         // Open or close intake
+        vis_intake.setAngle(-20 + intake.getAngle());
         if (intake_state == IntakeState.Open)
         {
             intake.open(true);
-            vis_intake.setAngle(-20);
             vis_intake.setColor(blink_on_off ? MOVE_ON : MOVE_OFF);
 
             // When disabled, we tend to move the arm back up into the initial configuration.
@@ -274,7 +274,6 @@ public class FuelHandler extends SubsystemBase
         {
             boolean force_run = shooter_state == ShooterState.PrepShooting  ||  shooter_state == ShooterState.Shoot;
             intake.open(false, force_run);
-            vis_intake.setAngle(90);
             vis_intake.setColor(force_run && blink_on_off ? MOVE_ON : MOVE_OFF);
         }
 

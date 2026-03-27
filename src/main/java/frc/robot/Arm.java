@@ -10,6 +10,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Intake Arm: Motor to rotate out/in
@@ -93,6 +94,8 @@ public class Arm
     /** @return -180..180 degrees, zero means straight forward, 90 vertical */
     public double getAngle()
     {
+        if (RobotBase.isSimulation())
+            return pid.getSetpoint().position;
         final double raw = getRawAngle();
         double angle = Math.IEEEremainder(raw - ZERO_OFFSET, 360.0);
         // Auto-reset: Force readings beyond UP_ANGLE to UP_ANGLE
