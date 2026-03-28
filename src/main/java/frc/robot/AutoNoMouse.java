@@ -39,12 +39,8 @@ public class AutoNoMouse
 
     private static Command shootAndWiggle(FuelHandler fuel_handler)
     {
-        Command close_and_open = new SequentialCommandGroup(new WaitCommand(2),
-                                                            fuel_handler.closeIntake(),
-                                                            new WaitCommand(2),
-                                                            fuel_handler.openIntake());
         return new ParallelCommandGroup(fuel_handler.keepShooting(),
-                                        close_and_open.repeatedly());
+                                        fuel_handler.agitateIntake());
     }
 
     /** Create all our auto-no-mouse commands */

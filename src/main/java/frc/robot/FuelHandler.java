@@ -127,6 +127,41 @@ public class FuelHandler extends SubsystemBase
         });
     }
 
+    /** @return Command that agitates intake open,close,open,close,... */
+    public Command agitateIntake()
+    {
+        return new Command()
+        {
+            boolean was_initially_open;
+
+            @Override
+            public void initialize()
+            {
+                // Was intake open or not when we started?
+                was_initially_open = intake_state == IntakeState.Open;
+            }
+
+            @Override
+            public void execute()
+            {
+                if (intake_state == IntakeState.Open)
+                {
+                    if (intake.getAngle() < 15)
+                        intake_state = IntakeState.Closed;
+                }
+                else if (intake.getAngle() > 100)
+                    intake_state = IntakeState.Open;
+            }
+
+            @Override
+            public void end(boolean interrupted)
+            {
+                // Restore original intake state
+                intake_state = was_initially_open ? IntakeState.Open : IntakeState.Closed;
+            }
+        };
+    }
+
     /** @return Command that starts/stops shooting */
     public Command toggleShooter()
     {
