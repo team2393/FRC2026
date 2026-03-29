@@ -29,6 +29,7 @@ import frc.tools.AutoTools;
 import frc.tools.CommandRobotBase;
 import frc.camera.CameraHelper;
 import frc.swervelib.AbsoluteSwerveCommand;
+import frc.swervelib.LockDrivetrainCommand;
 import frc.swervelib.RelativeSwerveCommand;
 import frc.swervelib.ResetHeadingCommand;
 import frc.swervelib.SwerveDrivetrain;
@@ -115,6 +116,8 @@ public class Robot extends CommandRobotBase
             new ConditionalCommand(aim_while_shooting,
                                    aim_then_shoot,
                                    () -> do_aim_while_shooting.getBoolean(true)));
+
+        RobotOI.joystick.leftTrigger().whileTrue(new LockDrivetrainCommand(drivetrain).repeatedly());
 
         RobotOI.buttonboard.button(4).onTrue(fuel_handler.openIntake());
         RobotOI.buttonboard.button(9).onTrue(fuel_handler.closeIntake());
