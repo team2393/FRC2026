@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Feeder.Mode;
 import frc.tools.KeepOnFilter;
 
@@ -130,7 +131,7 @@ public class FuelHandler extends SubsystemBase
     /** @return Command that agitates intake open,close,open,close,... */
     public Command agitateIntake()
     {
-        return new Command()
+        Command agitate = new Command()
         {
             boolean was_initially_open;
 
@@ -160,6 +161,7 @@ public class FuelHandler extends SubsystemBase
                 intake_state = was_initially_open ? IntakeState.Open : IntakeState.Closed;
             }
         };
+        return new WaitCommand(2).andThen(agitate);
     }
 
     /** @return Command that starts/stops shooting */
