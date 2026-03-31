@@ -13,11 +13,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class ApplySettingsCommand extends Command
 {
   // Record that holds name and value of a setting
-  record Setting(String name, double value)
+  record Setting(String name, Object value)
   {
     public void apply()
     { // Write the value to SmartDashboard
-      SmartDashboard.putNumber(name, value);
+      if (value instanceof Double number)
+        SmartDashboard.putNumber(name, number);
+      else if (value instanceof Boolean flag)
+        SmartDashboard.putBoolean(name, flag);
+      else
+        new Exception("Cannot apply " + value + " to " + name).printStackTrace();
     }
   }
 
@@ -34,6 +39,11 @@ public class ApplySettingsCommand extends Command
    *  @param value Value to write to that setting
    */
   public void add(final String name, final double value)
+  { // Add a setting to the list
+    settings.add(new Setting(name, value));
+  }
+
+  public void add(final String name, final boolean value)
   { // Add a setting to the list
     settings.add(new Setting(name, value));
   }
