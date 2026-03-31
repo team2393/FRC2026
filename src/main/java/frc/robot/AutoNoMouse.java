@@ -218,7 +218,8 @@ public class AutoNoMouse
             auto.addCommands(new WaitCommand(1.0));
             // Shoot
             auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
-            auto.addCommands(fuel_handler.keepShooting());
+            // auto.addCommands(fuel_handler.keepShooting());
+            auto.addCommands(shootAndWiggle(fuel_handler));
 
             autos.add(auto);
         }
