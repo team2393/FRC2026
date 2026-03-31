@@ -117,7 +117,7 @@ public class Robot extends CommandRobotBase
                                    aim_then_shoot,
                                    () -> do_aim_while_shooting.getBoolean(true)));
 
-        RobotOI.joystick.leftTrigger().whileTrue(new LockDrivetrainCommand(drivetrain).repeatedly());
+        RobotOI.buttonboard.button(7).whileTrue(new LockDrivetrainCommand(drivetrain).repeatedly());
 
         RobotOI.buttonboard.button(4).onTrue(fuel_handler.openIntake());
         RobotOI.buttonboard.button(9).onTrue(fuel_handler.closeIntake());
