@@ -17,7 +17,7 @@ public class Storage
 
     public Storage()
     {
-        nt_storage_voltage.setDefaultDouble(6.0);
+        nt_storage_voltage.setDefaultDouble(8.0);
     }
 
     public void run(boolean on_off)
