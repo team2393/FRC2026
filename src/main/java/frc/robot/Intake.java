@@ -25,7 +25,7 @@ public class Intake
 
     public Intake()
     {
-        nt_volt_set.setDefaultDouble(10.0);
+        nt_volt_set.setDefaultDouble(9.0);
         nt_open_angle.setDefaultDouble(5.0);
         nt_closed_angle.setDefaultDouble(120.0);
     }

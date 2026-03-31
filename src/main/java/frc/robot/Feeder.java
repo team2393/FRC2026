@@ -31,7 +31,7 @@ public class Feeder
     public Feeder()
     {
         nt_intake_voltage.setDefaultDouble(5.0);
-        nt_shooting_voltage.setDefaultDouble(6.0);
+        nt_shooting_voltage.setDefaultDouble(7.0);
     }
 
     /** Calling this has side effect of updating the NT indicator
