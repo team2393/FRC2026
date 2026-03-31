@@ -153,6 +153,15 @@ public class Robot extends CommandRobotBase
         // By default, drive, and allow bound buttons to select other modes
         drivetrain.setDefaultCommand(joydrive);
 
+        ApplySettingsCommand shoot_touching_hub = new ApplySettingsCommand("ShootTouchingHub");
+        shoot_touching_hub.add("AlwaysConfigShooter", false);
+        shoot_touching_hub.add("SpinnerSetpoint", 1900);
+        shoot_touching_hub.add("HoodSetpoint", 50);
+        ApplySettingsCommand auto_config_shooter = new ApplySettingsCommand("auto_config_shooter");
+        auto_config_shooter.add("AlwaysConfigShooter", true);
+        RobotOI.buttonboard.button(3).onTrue(shoot_touching_hub);
+        RobotOI.buttonboard.button(3).onFalse(auto_config_shooter);
+
         // Power dist. info
         // power_dist.clearStickyFaults();
         // SmartDashboard.putData("Power", power_dist);
