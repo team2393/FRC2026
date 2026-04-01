@@ -155,8 +155,8 @@ public class Robot extends CommandRobotBase
 
         ApplySettingsCommand shoot_touching_hub = new ApplySettingsCommand("ShootTouchingHub");
         shoot_touching_hub.add("AlwaysConfigShooter", false);
-        shoot_touching_hub.add("SpinnerSetpoint", 1900);
-        shoot_touching_hub.add("HoodSetpoint", 50);
+        shoot_touching_hub.add("SpinnerSetpoint", 1850);
+        shoot_touching_hub.add("HoodSetpoint", 38);
         ApplySettingsCommand auto_config_shooter = new ApplySettingsCommand("auto_config_shooter");
         auto_config_shooter.add("AlwaysConfigShooter", true);
         RobotOI.buttonboard.button(3).onTrue(shoot_touching_hub);
