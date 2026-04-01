@@ -226,11 +226,11 @@ public class AutoNoMouse
 
 
         {   // Start with nose at red bottom trench, sweep center, bump, shoot
-            SequentialCommandGroup auto = new SequenceWithStart("@red depotside trench, center, bump", 16.53-3.57, 0.63, 180);
+            SequentialCommandGroup auto = new SequenceWithStart("@red depotside trench, center, bump", 12.2, 0.63, 180);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Through trench, sweep center
-            Trajectory path = createTrajectory(true,  16.53-3.57, 0.63, 180,
+            Trajectory path = createTrajectory(true,  12.2, 0.63, 180,
                                                               16.53-6.37, 0.69, 180,
                                                               16.53-7.94, 1.75, 180-96,
                                                               16.53-7.50, 3.60, 180-96);
@@ -246,7 +246,7 @@ public class AutoNoMouse
 
             // From center across bump
             path = createTrajectory(true, 16.53-7.50, 3.60, 180+135,
-                                                  16.53-5.60, 2.41,  0,
+                                                  16.53-5.60, 2.60,  0,
                                                    14.83, 2.93, 10);
             auto.addCommands(drivetrain.followTrajectory(path, 159).asProxy());
             //wait 1s
