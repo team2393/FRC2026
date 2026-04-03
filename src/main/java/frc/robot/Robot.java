@@ -5,6 +5,7 @@ package frc.robot;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -60,13 +61,15 @@ public class Robot extends CommandRobotBase
     private final Command auto_retract_hood = new AutoRetractHood(drivetrain);
     private final AutoAim auto_aim = new AutoAim(tags, drivetrain);
 
+    // TODO Which button?
+    private final BooleanSupplier camera_override = RobotOI.buttonboard.button(7)::getAsBoolean;
     /** Handle cameras */
     private final List<CameraHelper> cameras = List.of(
-        new CameraHelper(tags, "Front",
+        new CameraHelper(tags, camera_override, "Front",
                         -0.14, -0.22, 0.465,
                         0.0,
                         -20.0),
-        new CameraHelper(tags, "Back",
+        new CameraHelper(tags, camera_override, "Back",
                          -0.33, 0.00, 0.23,
                         180.0,
                         -10.0)
