@@ -43,6 +43,7 @@ public class AutoAim extends SubsystemBase
     private final NetworkTableEntry nt_always_config_shooter = SmartDashboard.getEntry("AlwaysConfigShooter");
     private final NetworkTableEntry nt_spinner_setpoint = SmartDashboard.getEntry("SpinnerSetpoint");
     private final NetworkTableEntry nt_hood_setpoint = SmartDashboard.getEntry("HoodSetpoint");
+    private final NetworkTableEntry nt_overshoot = SmartDashboard.getEntry("Overshoot");
 
     private final ProfiledPIDController pid = new ProfiledPIDController(5, 1, 0,
                                                     new TrapezoidProfile.Constraints(3*360, 3*360));
@@ -54,14 +55,14 @@ public class AutoAim extends SubsystemBase
     private final static LookupTable settings_table = new LookupTable(
         // distance, speed, hood, deviation
         //       [m], [rpm],  [%], deviation
-         1.0,  1750,   35,         0,
-                 1.5,  1900,   40,         0,
-                 2.0,  2000,   50,         0,
-                 2.5,  2100,   55,         0,
-                 3.0,  2150,   70,         0,
-                 3.5,  2150,   85,         0,
-                 4.0,  2250,   90,         0,
-                 4.5,  2400,   90,         0,
+         1.0,  1700,   40,         0,
+                 1.5,  1750,   55,         0,
+                 2.0,  1850,   65,         0,
+                 2.5,  1900,   75,         0,
+                 3.0,  1975,   85,         0,
+                 3.5,  2025,   95,         0,
+                 4.0,  2150,   95,         0,
+                 4.5,  2265,   95,         0,
                  5.0,  2400,   95,         0,
                  7.0,  2400,   95,         0,
                  8.0,  2500,   95,         0);
@@ -96,6 +97,7 @@ public class AutoAim extends SubsystemBase
         // SmartDashboard.putData("AimToHubPID", pid);
 
         nt_always_config_shooter.setDefaultBoolean(true);
+        nt_overshoot.setDefaultDouble(0);
 
         last_pose = robot_pose = drivetrain.getPose();
     }
@@ -154,6 +156,9 @@ public class AutoAim extends SubsystemBase
         Translation2d perceived_hub = aim_target.minus(robot_travel);
         // .. and aim for that
         direction_to_target = perceived_hub.minus(robot_pose.getTranslation());
+        // Overshoot Correction: Assume we "overshoot" by 0.25,
+        // substract that from the distance so we'll aim 0.25 further in
+        distance -= nt_overshoot.getDouble(0);
 
         // Set spinner speed, hood angle, .. based on distance using LookupTable
         shooter_settings = settings_table.lookup(distance);
