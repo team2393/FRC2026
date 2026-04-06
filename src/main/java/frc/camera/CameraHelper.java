@@ -7,6 +7,7 @@ package frc.camera;
 import static frc.tools.RangeUtil.isBetween;
 
 import java.util.Optional;
+import java.util.function.BooleanSupplier;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -28,6 +29,7 @@ import frc.swervelib.SwerveDrivetrain;
 public class CameraHelper
 {
     private final AprilTagFieldLayout tags;
+    private final BooleanSupplier force_camera;
     private final PhotonCamera camera;
     private final Transform3d robotToCam;
     private final NetworkTableEntry nt_camera, nt_info, nt_distance, nt_tag_period;
@@ -36,6 +38,7 @@ public class CameraHelper
     private double avg_tag_period = 0.02;
 
     /** @param tags Field info
+     *  @param force_camera Force position to camera reading?
      *  @param camera_name Camera name ("Front", "Back") in photonvision network tablee ntries
      *                     Will create tags "FrontCamera" for status, "FrontDist" for distance
      *  @param pos_x Camera pos. relative to center of robot, X
@@ -44,12 +47,15 @@ public class CameraHelper
      *  @param heading Camera heading (yaw)
      *  @param pitch Camera down/up tilt
      */
-    public CameraHelper(AprilTagFieldLayout tags, String camera_name,
+    public CameraHelper(AprilTagFieldLayout tags,
+                        BooleanSupplier force_camera,
+                        String camera_name,
                         double pos_x, double pos_y, double pos_z,
                         double heading,
                         double pitch)
     {
         this.tags = tags;
+        this.force_camera = force_camera;
         camera = new PhotonCamera(camera_name);
 
         nt_camera = SmartDashboard.getEntry(camera_name + "Camera");
@@ -161,11 +167,11 @@ public class CameraHelper
                         }
                     }
 
-                    // For tests, force odometry to camera reading
-                    // drivetrain.setOdometry(position.getX(), position.getY(), position.getRotation().getDegrees());
-
-                    // For operation, smoothly update location with camera info
-                    drivetrain.updateLocationFromCamera(position, result.getTimestampSeconds(), fuzzyness);
+                    // Force odometry to camera reading?
+                    if (force_camera.getAsBoolean())
+                        drivetrain.setOdometry(position.getX(), position.getY(), position.getRotation().getDegrees());
+                    else // Smoothly update location with camera info
+                        drivetrain.updateLocationFromCamera(position, result.getTimestampSeconds(), fuzzyness);
                     successes = 50; // 1 second
                 }
         nt_camera.setBoolean(successes > 0);

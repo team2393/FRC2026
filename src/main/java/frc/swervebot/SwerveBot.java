@@ -77,7 +77,7 @@ public class SwerveBot extends CommandRobotBase
 
   private final AprilTagFieldLayout tags = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
 
-  private final CameraHelper camera = new CameraHelper(tags, "Front",
+  private final CameraHelper camera = new CameraHelper(tags, () -> false, "Front",
                                                        0.32, -0.16, 0.28, 0, -20);
 
   public SwerveBot()
