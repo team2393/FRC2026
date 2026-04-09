@@ -61,7 +61,7 @@ public class Robot extends CommandRobotBase
     private final Command auto_retract_hood = new AutoRetractHood(drivetrain);
     private final AutoAim auto_aim = new AutoAim(tags, drivetrain);
 
-    private final BooleanSupplier force_camera = RobotOI.buttonboard.button(2)::getAsBoolean;
+    private final BooleanSupplier force_camera = RobotOI.buttonboard.button(8)::getAsBoolean;
 
     /** Handle cameras */
     private final List<CameraHelper> cameras = List.of(
