@@ -158,11 +158,11 @@ public class AutoNoMouse
         }
 
         {   // Start with nose at blue bottom trench, sweep center, bump, shoot
-            SequentialCommandGroup auto = new SequenceWithStart("@blue outpostside trench, center, bump", 3.57, 0.63, 0);
+            SequentialCommandGroup auto = new SequenceWithStart("@blue outpostside trench, center, bump", 4.48, 0.63, 0);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Through trench, sweep center
-            Trajectory path = createTrajectory(true,  3.57, 0.63,  0,
+            Trajectory path = createTrajectory(true,  4.48, 0.63,  0,
                                                                        6.37, 0.69,  0,
                                                                        7.94, 1.75, 96,
                                                                        7.50, 3.60, 96);
@@ -191,11 +191,11 @@ public class AutoNoMouse
         }
 
         {
-            SequentialCommandGroup auto = new SequenceWithStart("NEW @red outpostside trench, center, bump", 16.53-3.57, 8-0.63-0.1, 180);
+            SequentialCommandGroup auto = new SequenceWithStart("NEW @red outpostside trench, center, bump", 12.2, 7.37, 180);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Through trench, sweep center
-            Trajectory path = createTrajectory(true,  16.53-3.57, 8-0.63-0.1,  180,
+            Trajectory path = createTrajectory(true,  12.2, 7.37,  180,
                                                                        16.53-6.37, 8-0.69, 180,
                                                                        16.53-7.94, 8-1.75, 180+96,
                                                                        16.53-7.50, 8-3.60, 180+96);
@@ -259,11 +259,12 @@ public class AutoNoMouse
         }
 
         {   // Start with nose at blue top trench, sweep center, bump, shoot, depot
-            SequentialCommandGroup auto = new SequenceWithStart("@blue depotside trench, center, bump, depot", 3.58, 7.30, 0);
+            SequentialCommandGroup auto = new SequenceWithStart("@blue depotside trench, center, bump, depot", 4.48, 7.37, 0);
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
             // Through trench, sweep center
-            Trajectory path = createTrajectory(true,  3.58, 7.30,    0,
+
+            Trajectory path = createTrajectory(true,  4.48, 7.37,    0,
                                                                        5.95, 7.30,    0,
                                                                        7.96, 6.36,  -90,
                                                                        7.71, 4.27, -112);
