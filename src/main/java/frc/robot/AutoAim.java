@@ -150,12 +150,27 @@ public class AutoAim extends SubsystemBase
 
         // Estimate time for ball to travel that distance
         double shot_time = distance / BALL_SPEED;
-        // Determine how far robot travels in that time,
-        Translation2d robot_travel = robot_speed.times(shot_time);
-        // Estimate where hub will appear to be ...
-        Translation2d perceived_hub = aim_target.minus(robot_travel);
-        // .. and aim for that
-        direction_to_target = perceived_hub.minus(robot_pose.getTranslation());
+        System.out.print("Dist:");
+        for (int check=0; check < 4; ++check)
+        {
+            // Determine how far robot travels in that time,
+            Translation2d robot_travel = robot_speed.times(shot_time);
+            // Estimate where hub will appear to be ...
+            Translation2d perceived_hub = aim_target.minus(robot_travel);
+            // .. and aim for that
+            direction_to_target = perceived_hub.minus(robot_pose.getTranslation());
+
+            System.out.format(" %.1f", distance);
+            double updated_distance = direction_to_target.getNorm();
+            if (Math.abs(updated_distance - distance) < 0.1)
+            {
+                break;
+            }
+            distance = updated_distance;
+            shot_time = distance / BALL_SPEED;
+        }
+        System.out.println();
+
         // Overshoot Correction: Assume we "overshoot" by 0.25,
         // substract that from the distance so we'll aim 0.25 further in
         distance -= nt_overshoot.getDouble(0);
