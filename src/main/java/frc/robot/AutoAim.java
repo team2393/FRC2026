@@ -97,7 +97,7 @@ public class AutoAim extends SubsystemBase
         // SmartDashboard.putData("AimToHubPID", pid);
 
         nt_always_config_shooter.setDefaultBoolean(true);
-        nt_overshoot.setDefaultDouble(0);
+        nt_overshoot.setDefaultDouble(0.2);
 
         last_pose = robot_pose = drivetrain.getPose();
     }
@@ -158,7 +158,7 @@ public class AutoAim extends SubsystemBase
         direction_to_target = perceived_hub.minus(robot_pose.getTranslation());
         // Overshoot Correction: Assume we "overshoot" by 0.25,
         // substract that from the distance so we'll aim 0.25 further in
-        distance -= nt_overshoot.getDouble(0);
+        distance -= nt_overshoot.getDouble(0.0);
 
         // Set spinner speed, hood angle, .. based on distance using LookupTable
         shooter_settings = settings_table.lookup(distance);

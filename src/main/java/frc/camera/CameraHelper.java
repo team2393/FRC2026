@@ -157,7 +157,7 @@ public class CameraHelper
 
                     // When disabled we trust any camera estimate,
                     // otherwise ignore camera estimate too far away from odometry position
-                    if (DriverStation.isEnabled())
+                    if (DriverStation.isEnabled() && !force_camera.getAsBoolean())
                     {
                         double jump = drivetrain.getPose().getTranslation().getDistance(position.getTranslation());
                         if (jump > 5)
