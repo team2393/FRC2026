@@ -97,7 +97,7 @@ public class AutoAim extends SubsystemBase
         // SmartDashboard.putData("AimToHubPID", pid);
 
         nt_always_config_shooter.setDefaultBoolean(true);
-        nt_overshoot.setDefaultDouble(0.2);
+        nt_overshoot.setDefaultDouble(0.4);
 
         last_pose = robot_pose = drivetrain.getPose();
     }
