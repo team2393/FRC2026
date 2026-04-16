@@ -102,6 +102,7 @@ Camera (Photon Vision, Pi)
 --------------------------
 
 See https://docs.photonvision.org/en/latest/docs/quick-start/index.html
+and https://docs.limelightvision.io/docs/docs-limelight/getting-started/limelight-4
 
  * Get `photonvision-...-linuxarm64_RaspberryPi.img.xz`
    from https://github.com/PhotonVision/photonvision/releases
