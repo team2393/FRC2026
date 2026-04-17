@@ -95,7 +95,7 @@ Network
 | 10.23.93.12 | "Front" camera         | http                          |
 | 10.23.93.13 | "Back" camera          | http                          |
 | 10.23.93.14 | "Front1" camera        | http://10.23.93.14:5800       |
-| 10.23.93.15 | "Front2" camera        | http                          |
+| 10.23.93.15 | "Front2" camera        | http://10.23.93.15:5800       |
 | 10.23.93.?? | Drive station          | ssh to robot, Network Tables  |
 
 See https://docs.wpilib.org/en/latest/docs/networking/networking-introduction/ip-configurations.html
@@ -107,7 +107,8 @@ See https://docs.photonvision.org/en/latest/docs/quick-start/index.html
 and https://docs.limelightvision.io/docs/docs-limelight/getting-started/limelight-4.
 
 For LL4, power camera on while button is pressed.
-Balena etcher failed to detect "compute module".
+Will show in Windows Device Manager as a "... Boot" device on USB.
+Balena Etcher tends to detect "compute module", but failed with LL4.
 Limelight Hardware Manager was able to detect the camera,
 but needs photonvision-limelight4.img.xz to first be expanded into *.img.
 
