@@ -94,6 +94,8 @@ Network
 | 10.23.93.11 | Default for new camera | http                          |
 | 10.23.93.12 | "Front" camera         | http                          |
 | 10.23.93.13 | "Back" camera          | http                          |
+| 10.23.93.14 | "Front1" camera        | http://10.23.93.14:5800       |
+| 10.23.93.15 | "Front2" camera        | http                          |
 | 10.23.93.?? | Drive station          | ssh to robot, Network Tables  |
 
 See https://docs.wpilib.org/en/latest/docs/networking/networking-introduction/ip-configurations.html
@@ -102,17 +104,21 @@ Camera (Photon Vision, Pi)
 --------------------------
 
 See https://docs.photonvision.org/en/latest/docs/quick-start/index.html
-and https://docs.limelightvision.io/docs/docs-limelight/getting-started/limelight-4
+and https://docs.limelightvision.io/docs/docs-limelight/getting-started/limelight-4.
+
+For LL4, power camera on while button is pressed.
+Balena etcher failed to detect "compute module".
+Limelight Hardware Manager was able to detect the camera,
+but needs photonvision-limelight4.img.xz to first be expanded into *.img.
 
  * Get `photonvision-...-linuxarm64_RaspberryPi.img.xz`
    from https://github.com/PhotonVision/photonvision/releases
  * Use etcher or raspberry tool to write memory card
  * Connect Pi to robot network
- * Access from laptop as http://photonvision.local:5800
+ * Access from laptop as http://photonvision.local:5800 (may take several attempts!)
  * Under "Settings", set Team Number to 2393
  * Change IP Assignment Mode from DHCP to Static,
-   set address to `10.23.93.12` and cameran name to `Front`
-   respectively   `10.23.93.13` and `Back`.
+   set address to `10.23.93.14` and camera name to `Front1` as per table.
    (Static `10.TE.AM.6-19` are general purpose.
     `10.TE.AM.11` is also often used for camera, leave that for Limelight)
  * Leave "Hostname" as `photonvision` for Front,
