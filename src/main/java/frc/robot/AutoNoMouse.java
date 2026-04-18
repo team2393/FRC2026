@@ -164,8 +164,8 @@ public class AutoNoMouse
             // Through trench, sweep center
             Trajectory path = createTrajectory(true,  4.48, 0.63,  0,
                                                                        6.37, 0.69,  0,
-                                                                       7.94, 1.75, 96,
-                                                                       7.50, 3.60, 96);
+                                                                       7.64, 1.75, 96,
+                                                                       7.40, 3.40, 96);
             Supplier<Rotation2d> angle = () ->
             {   // In trench, head to zero, otherwise 100
                 if (drivetrain.getPose().getX() < 6  &&
@@ -177,7 +177,7 @@ public class AutoNoMouse
                 .alongWith(drivetrain.followTrajectory(path, angle).asProxy()));
 
             // From center across bump
-            path = createTrajectory(true, 7.50, 3.60, -135,
+            path = createTrajectory(true, 7.40, 3.60, -135,
                                                            5.60, 2.41,  180,
                                                            1.95, 3.35,  131);
             auto.addCommands(drivetrain.followTrajectory(path, 15).asProxy());
@@ -196,9 +196,9 @@ public class AutoNoMouse
 
             // Through trench, sweep center
             Trajectory path = createTrajectory(true,  12.2, 7.37,  180,
-                                                                       16.53-6.37, 8-0.69, 180,
-                                                                       16.53-7.94, 8-1.75, 180+96,
-                                                                       16.53-7.50, 8-3.60, 180+96);
+                                                                       16.53-6.17, 8-0.69, 180,
+                                                                       16.53-7.64, 8-1.75, 180+96,
+                                                                       16.53-7.40, 8-3.3, 180+96);
             Supplier<Rotation2d> angle = () ->
             {   // In trench, head to zero, otherwise 100
                 if (drivetrain.getPose().getX() >16.53-6  &&
@@ -210,7 +210,7 @@ public class AutoNoMouse
                 .alongWith(drivetrain.followTrajectory(path, angle).asProxy()));
 
             // From center across bump
-            path = createTrajectory(true, 16.53-7.50, 8-3.60, 180-135,
+            path = createTrajectory(true, 16.53-7.40, 8-3.3, 180-135,
                                                            16.53-5.60, 8-2.41,  0,
                                                            14.65, 4.98,  180+131);
             auto.addCommands(drivetrain.followTrajectory(path, 180+25).asProxy());
@@ -232,8 +232,8 @@ public class AutoNoMouse
             // Through trench, sweep center
             Trajectory path = createTrajectory(true,  12.2, 0.63, 180,
                                                               16.53-6.37, 0.69, 180,
-                                                              16.53-7.94, 1.75, 180-96,
-                                                              16.53-7.50, 3.60, 180-96);
+                                                              16.53-7.54, 1.75, 180-96,
+                                                              16.53-7.30, 3.30, 180-96);
             Supplier<Rotation2d> angle = () ->
             {   // In trench, head to zero, otherwise 100
                 if (drivetrain.getPose().getX() > 16.53-6  &&
@@ -245,7 +245,7 @@ public class AutoNoMouse
                 .alongWith(drivetrain.followTrajectory(path, angle).asProxy()));
 
             // From center across bump
-            path = createTrajectory(true, 16.53-7.50, 3.60, 180+135,
+            path = createTrajectory(true, 16.53-7.30, 3.30, 180+135,
                                                   16.53-5.60, 2.60,  0,
                                                    14.83, 2.93, 10);
             auto.addCommands(drivetrain.followTrajectory(path, 159).asProxy());
@@ -266,8 +266,8 @@ public class AutoNoMouse
 
             Trajectory path = createTrajectory(true,  4.48, 7.37,    0,
                                                                        5.95, 7.30,    0,
-                                                                       7.96, 6.36,  -90,
-                                                                       7.71, 4.27, -112);
+                                                                       7.56, 6.26,  -90,
+                                                                       7.51, 4.77, -112);
             Supplier<Rotation2d> angle = () ->
             {   // In trench, head to zero, otherwise -100
                 if (drivetrain.getPose().getX() < 6  &&
@@ -279,7 +279,7 @@ public class AutoNoMouse
                 .alongWith(drivetrain.followTrajectory(path, angle).asProxy()));
 
             // From center across bump
-            path = createTrajectory(true, 7.71, 4.27,  133,
+            path = createTrajectory(true, 7.51, 4.77,  133,
                                                            5.40, 5.50, -180,
                                                            2.00, 5.36, -180);
             auto.addCommands(drivetrain.followTrajectory(path, -34).asProxy());
