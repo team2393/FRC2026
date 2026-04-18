@@ -75,22 +75,53 @@ public class CameraHelper
                                                     Math.toRadians(heading)));
     }
 
+    public static String format(Pose3d pose)
+    {
+        return String.format("X %5.2f, Y %5.2f, Z %5.2f,  %5.1f deg X, %5.1f deg Y, %5.1f deg Z",
+                             pose.getX(), pose.getY(), pose.getZ(),
+                             Math.toDegrees(pose.getRotation().getX()),
+                             Math.toDegrees(pose.getRotation().getY()),
+                             Math.toDegrees(pose.getRotation().getZ()));
+    }
+
     /** Xform sandbox */
     public static void main(String[] args)
     {
         double pos_x = 1, pos_y = 0, pos_z = 0;
-        double pitch = 0, heading = 30;
+        double pitch = 20, heading = 50;
+        // This uses the Rotation3d constructor that applies 'extrinsic' rotations.
+        // The camera is for example tilted 'back' via pitch=-20deg,
+        // also rotated around the original Z axis by 'heading'
         Transform3d robotToCam = new Transform3d(new Translation3d(pos_x, pos_y, pos_z),
-                                                new Rotation3d(0,
+                                                 new Rotation3d(0,
                                                                 Math.toRadians(pitch),
                                                                 Math.toRadians(heading)));
-        Pose3d pose = new Pose3d();
+        Transform3d initial = robotToCam;
+        // This uses 'intrinsic' rotations relative to the changing camera framework.
+        // First rotate by pitch around Y axis,
+        // then rotate around the camera's Z axis (which is now pitched relative to the robot's Z)
+        // ---> This tends to NOT be what we want
+        robotToCam = new Transform3d(pos_x, pos_y, pos_z, Rotation3d.kZero)
+                    .plus(new Transform3d(0, 0, 0, new Rotation3d(0, Math.toRadians(pitch), 0)))
+                    .plus(new Transform3d(0, 0, 0, new Rotation3d(0, 0, Math.toRadians(heading))));
+        if (! robotToCam.equals(initial))
+            System.out.println("Bad use of intrinsic!");
+        // From Rotation3d class doc:
+        // 'A neat property is that applying a series of rotations extrinsically is the same
+        //  as applying the same series in the opposite order intrinsically.'
+        // ---> Same end result as first example
+        robotToCam = new Transform3d(pos_x, pos_y, pos_z, Rotation3d.kZero)
+                    .plus(new Transform3d(0, 0, 0, new Rotation3d(0, 0, Math.toRadians(heading))))
+                    .plus(new Transform3d(0, 0, 0, new Rotation3d(0, Math.toRadians(pitch), 0)));
+        if (robotToCam.equals(initial))
+            System.out.println("Same end result from correct order of intrisic!");
+
+        Pose3d pose = new Pose3d(1, 1, 1, Rotation3d.kZero);
         Pose3d moved = pose.transformBy(robotToCam);
-        System.out.format("X %.2f, Y %.2f, Z %.2f,  %.2f deg X, %.2f deg Y, %.2f degZ \n",
-                          moved.getX(), moved.getY(), moved.getZ(),
-                          Math.toDegrees(moved.getRotation().getX()),
-                          Math.toDegrees(moved.getRotation().getY()),
-                          Math.toDegrees(moved.getRotation().getZ()));
+        System.out.println(format(moved));
+        pose = new Pose3d(1, 1, 2, Rotation3d.kZero);
+        moved = pose.transformBy(robotToCam);
+        System.out.println(format(moved));
     }
 
     /** Call periodically to update drivetrain with camera info */
