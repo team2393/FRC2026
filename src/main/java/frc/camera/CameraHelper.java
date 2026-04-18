@@ -20,6 +20,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -72,6 +73,24 @@ public class CameraHelper
                                      new Rotation3d(0,
                                                     Math.toRadians(pitch),
                                                     Math.toRadians(heading)));
+    }
+
+    /** Xform sandbox */
+    public static void main(String[] args)
+    {
+        double pos_x = 1, pos_y = 0, pos_z = 0;
+        double pitch = 0, heading = 30;
+        Transform3d robotToCam = new Transform3d(new Translation3d(pos_x, pos_y, pos_z),
+                                                new Rotation3d(0,
+                                                                Math.toRadians(pitch),
+                                                                Math.toRadians(heading)));
+        Pose3d pose = new Pose3d();
+        Pose3d moved = pose.transformBy(robotToCam);
+        System.out.format("X %.2f, Y %.2f, Z %.2f,  %.2f deg X, %.2f deg Y, %.2f degZ \n",
+                          moved.getX(), moved.getY(), moved.getZ(),
+                          Math.toDegrees(moved.getRotation().getX()),
+                          Math.toDegrees(moved.getRotation().getY()),
+                          Math.toDegrees(moved.getRotation().getZ()));
     }
 
     /** Call periodically to update drivetrain with camera info */
