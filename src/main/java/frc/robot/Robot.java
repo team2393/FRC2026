@@ -71,6 +71,12 @@ public class Robot extends CommandRobotBase
                          -0.14, -0.22, 0.465,
                          0.0,
                          -20.0),
+        // new CameraHelper(tags,
+        //                  force_camera,
+        //                  "Front2",
+        //                  -0.14, -0.22, 0.465,
+        //                  0.0,
+        //                  -20.0),
         new CameraHelper(tags,
                          force_camera,
                          "Back",
@@ -156,7 +162,7 @@ public class Robot extends CommandRobotBase
             drivetrain.setDefaultCommand(absdrive);
             CommandScheduler.getInstance().schedule(absdrive);
         }));
-        SmartDashboard.putData("Reset", reset_heading);
+        SmartDashboard.putData("ResetHeading", reset_heading);
         // By default, drive, and allow bound buttons to select other modes
         drivetrain.setDefaultCommand(joydrive);
 
