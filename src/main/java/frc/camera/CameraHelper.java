@@ -26,7 +26,22 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.swervelib.SwerveDrivetrain;
 
-/** Helper for using a camera */
+/** Helper for using a camera
+ *
+ *  Note that camera setup involves three names.
+ *
+ *  'hostname' in settings:
+ *  Defaults to photonvision, used to access
+ *  camera's web iterface via http://THATNAME.local:5800
+ *
+ *  Network table name:
+ *  Can't be changed, always 'photonvision'
+ *
+ *  'camera name' on main dashboard:
+ *  This name shows up below the 'photonvision' network table.
+ *
+ *  Both the hostname and the camera name must be unique!
+ */
 public class CameraHelper
 {
     private final AprilTagFieldLayout tags;
@@ -40,8 +55,8 @@ public class CameraHelper
 
     /** @param tags Field info
      *  @param force_camera Force position to camera reading?
-     *  @param camera_name Camera name ("Front", "Back") in photonvision network tablee ntries
-     *                     Will create tags "FrontCamera" for status, "FrontDist" for distance
+     *  @param camera_name Camera name ("Front", "Back") in photonvision network table entries.
+     *                     Will create tags "FrontCamera" for status, "FrontDist" for distance.
      *  @param pos_x Camera pos. relative to center of robot, X
      *  @param pos_y Y
      *  @param pos_z Z
