@@ -11,6 +11,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -67,16 +68,16 @@ public class Robot extends CommandRobotBase
     private final List<CameraHelper> cameras = List.of(
         new CameraHelper(tags,
                          force_camera,
-                         "Front",   // Front Left  5.930, -8.957, 17.763 inches
-                         -0.14, -0.22, 0.465,
-                         0.0, // -50
+                         "FrontLeft",
+                         Units.inchesToMeters(-5.930), Units.inchesToMeters(-8.957), Units.inchesToMeters(17.763),
+                         -50.0,
                          -20.0),
-        // new CameraHelper(tags,
-        //                  force_camera,
-        //                  "Front2",
-        //                  -0.14, -0.22, 0.465, // Front Right: -5.933, -8.958, 17.771 inches
-        //                  0.0, // 50
-        //                  -20.0),
+        new CameraHelper(tags,
+                         force_camera,
+                         "FrontRight",
+                         Units.inchesToMeters(-5.933), Units.inchesToMeters(8.958), Units.inchesToMeters(17.771),
+                         50.0,
+                         -20.0),
         new CameraHelper(tags,
                          force_camera,
                          "Back",
