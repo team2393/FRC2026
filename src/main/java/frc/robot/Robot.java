@@ -67,15 +67,15 @@ public class Robot extends CommandRobotBase
     private final List<CameraHelper> cameras = List.of(
         new CameraHelper(tags,
                          force_camera,
-                         "Front",
+                         "Front",   // Front Left  5.930, -8.957, 17.763 inches
                          -0.14, -0.22, 0.465,
-                         0.0,
+                         0.0, // -50
                          -20.0),
         // new CameraHelper(tags,
         //                  force_camera,
         //                  "Front2",
-        //                  -0.14, -0.22, 0.465,
-        //                  0.0,
+        //                  -0.14, -0.22, 0.465, // Front Right: -5.933, -8.958, 17.771 inches
+        //                  0.0, // 50
         //                  -20.0),
         new CameraHelper(tags,
                          force_camera,
