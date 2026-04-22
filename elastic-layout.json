@@ -71,23 +71,6 @@
             }
           },
           {
-            "title": "FrontCam",
-            "x": 625.0,
-            "y": 0.0,
-            "width": 75.0,
-            "height": 100.0,
-            "type": "Boolean Box",
-            "properties": {
-              "topic": "/SmartDashboard/FrontCamera",
-              "period": 0.06,
-              "data_type": "boolean",
-              "true_color": 4283215696,
-              "false_color": 4294198070,
-              "true_icon": "None",
-              "false_icon": "None"
-            }
-          },
-          {
             "title": "HubDist",
             "x": 1175.0,
             "y": 0.0,
@@ -104,7 +87,7 @@
           {
             "title": "IntakeVoltageSet",
             "x": 1375.0,
-            "y": 300.0,
+            "y": 0.0,
             "width": 125.0,
             "height": 100.0,
             "type": "Text Display",
@@ -117,10 +100,10 @@
           },
           {
             "title": "BackCamera",
-            "x": 900.0,
+            "x": 1025.0,
             "y": 0.0,
-            "width": 75.0,
-            "height": 100.0,
+            "width": 100.0,
+            "height": 75.0,
             "type": "Boolean Box",
             "properties": {
               "topic": "/SmartDashboard/BackCamera",
@@ -130,62 +113,6 @@
               "false_color": 4294198070,
               "true_icon": "None",
               "false_icon": "None"
-            }
-          },
-          {
-            "title": "FrontDist",
-            "x": 700.0,
-            "y": 0.0,
-            "width": 100.0,
-            "height": 100.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/FrontDist",
-              "period": 0.06,
-              "data_type": "double",
-              "show_submit_button": false
-            }
-          },
-          {
-            "title": "BackDist",
-            "x": 975.0,
-            "y": 0.0,
-            "width": 100.0,
-            "height": 100.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/BackDist",
-              "period": 0.06,
-              "data_type": "double",
-              "show_submit_button": false
-            }
-          },
-          {
-            "title": "photonvision2_Port_1182_Output_MJPEG_Server",
-            "x": 625.0,
-            "y": 100.0,
-            "width": 275.0,
-            "height": 275.0,
-            "type": "Camera Stream",
-            "properties": {
-              "topic": "/CameraPublisher/photonvision2_Port_1182_Output_MJPEG_Server",
-              "period": 0.06,
-              "rotation_turns": 0,
-              "fps": 10
-            }
-          },
-          {
-            "title": "photonvision_Port_1182_Output_MJPEG_Server",
-            "x": 900.0,
-            "y": 100.0,
-            "width": 275.0,
-            "height": 275.0,
-            "type": "Camera Stream",
-            "properties": {
-              "topic": "/CameraPublisher/photonvision_Port_1182_Output_MJPEG_Server",
-              "period": 0.06,
-              "rotation_turns": 0,
-              "fps": 10
             }
           },
           {
@@ -247,48 +174,6 @@
             }
           },
           {
-            "title": "FrontTagPeriod",
-            "x": 800.0,
-            "y": 0.0,
-            "width": 100.0,
-            "height": 100.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/FrontTagPeriod",
-              "period": 0.033,
-              "data_type": "double",
-              "show_submit_button": false
-            }
-          },
-          {
-            "title": "BackTagPeriod",
-            "x": 1075.0,
-            "y": 0.0,
-            "width": 100.0,
-            "height": 100.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/BackTagPeriod",
-              "period": 0.033,
-              "data_type": "double",
-              "show_submit_button": false
-            }
-          },
-          {
-            "title": "FrontInfo",
-            "x": 1175.0,
-            "y": 100.0,
-            "width": 325.0,
-            "height": 75.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/FrontInfo",
-              "period": 0.06,
-              "data_type": "string",
-              "show_submit_button": false
-            }
-          },
-          {
             "title": "SpinnerSetpoint",
             "x": 350.0,
             "y": 400.0,
@@ -321,10 +206,10 @@
           },
           {
             "title": "Hood",
-            "x": 625.0,
+            "x": 600.0,
             "y": 500.0,
             "width": 125.0,
-            "height": 100.0,
+            "height": 75.0,
             "type": "Text Display",
             "properties": {
               "topic": "/SmartDashboard/Hood",
@@ -335,7 +220,7 @@
           },
           {
             "title": "HoodSetpoint",
-            "x": 625.0,
+            "x": 600.0,
             "y": 400.0,
             "width": 125.0,
             "height": 100.0,
@@ -362,7 +247,7 @@
           },
           {
             "title": "Arm Angle",
-            "x": 750.0,
+            "x": 725.0,
             "y": 400.0,
             "width": 100.0,
             "height": 100.0,
@@ -376,7 +261,7 @@
           },
           {
             "title": "IntakeClosedAngle",
-            "x": 850.0,
+            "x": 825.0,
             "y": 400.0,
             "width": 125.0,
             "height": 100.0,
@@ -390,10 +275,10 @@
           },
           {
             "title": "IntakeOpenAngle",
-            "x": 850.0,
+            "x": 725.0,
             "y": 500.0,
             "width": 125.0,
-            "height": 100.0,
+            "height": 75.0,
             "type": "Text Display",
             "properties": {
               "topic": "/SmartDashboard/IntakeOpenAngle",
@@ -475,15 +360,116 @@
           },
           {
             "title": "Overshoot",
-            "x": 1175.0,
-            "y": 175.0,
-            "width": 125.0,
+            "x": 975.0,
+            "y": 400.0,
+            "width": 100.0,
             "height": 75.0,
             "type": "Text Display",
             "properties": {
               "topic": "/SmartDashboard/Overshoot",
               "period": 0.06,
               "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "photonvision0_Port_1182_Output_MJPEG_Server",
+            "x": 625.0,
+            "y": 100.0,
+            "width": 275.0,
+            "height": 275.0,
+            "type": "Camera Stream",
+            "properties": {
+              "topic": "/CameraPublisher/photonvision0_Port_1182_Output_MJPEG_Server",
+              "period": 0.06,
+              "rotation_turns": 0
+            }
+          },
+          {
+            "title": "photonvision2_Port_1182_Output_MJPEG_Server",
+            "x": 900.0,
+            "y": 100.0,
+            "width": 275.0,
+            "height": 275.0,
+            "type": "Camera Stream",
+            "properties": {
+              "topic": "/CameraPublisher/photonvision2_Port_1182_Output_MJPEG_Server",
+              "period": 0.06,
+              "rotation_turns": 0
+            }
+          },
+          {
+            "title": "photonvision_Port_1182_Output_MJPEG_Server",
+            "x": 1175.0,
+            "y": 100.0,
+            "width": 300.0,
+            "height": 300.0,
+            "type": "Camera Stream",
+            "properties": {
+              "topic": "/CameraPublisher/photonvision_Port_1182_Output_MJPEG_Server",
+              "period": 0.06,
+              "rotation_turns": 0
+            }
+          },
+          {
+            "title": "FrontLeftCamera",
+            "x": 625.0,
+            "y": 0.0,
+            "width": 100.0,
+            "height": 75.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/SmartDashboard/FrontLeftCamera",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "FrontRightCamera",
+            "x": 825.0,
+            "y": 0.0,
+            "width": 100.0,
+            "height": 75.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/SmartDashboard/FrontRightCamera",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "pipelineIndexRequest",
+            "x": 725.0,
+            "y": 0.0,
+            "width": 100.0,
+            "height": 100.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/photonvision/FrontLeft/pipelineIndexRequest",
+              "period": 0.06,
+              "data_type": "int",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "pipelineIndexRequest",
+            "x": 925.0,
+            "y": 0.0,
+            "width": 100.0,
+            "height": 100.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/photonvision/FrontRight/pipelineIndexRequest",
+              "period": 0.06,
+              "data_type": "int",
               "show_submit_button": true
             }
           }

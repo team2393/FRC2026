@@ -14,6 +14,10 @@ public class Driver extends DriverBase
     //
     // For follow-up adjustment:
     // Drive ~10 m, then multiply by     actual_distance / indicated_distance
+    // Actual / indicated
+    // 5.829  / 5.772
+    // 4.737  / 4.702
+    // 6.058  / 6.038
     private final static double METERS_PER_TURN = 0.04677860840234989;
 
     private final TalonFX motor;
