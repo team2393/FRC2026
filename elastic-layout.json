@@ -103,7 +103,7 @@
             "x": 1025.0,
             "y": 0.0,
             "width": 100.0,
-            "height": 75.0,
+            "height": 100.0,
             "type": "Boolean Box",
             "properties": {
               "topic": "/SmartDashboard/BackCamera",
@@ -360,10 +360,10 @@
           },
           {
             "title": "Overshoot",
-            "x": 975.0,
+            "x": 950.0,
             "y": 400.0,
             "width": 100.0,
-            "height": 75.0,
+            "height": 100.0,
             "type": "Text Display",
             "properties": {
               "topic": "/SmartDashboard/Overshoot",
@@ -416,7 +416,7 @@
             "x": 625.0,
             "y": 0.0,
             "width": 100.0,
-            "height": 75.0,
+            "height": 100.0,
             "type": "Boolean Box",
             "properties": {
               "topic": "/SmartDashboard/FrontLeftCamera",
@@ -433,7 +433,7 @@
             "x": 825.0,
             "y": 0.0,
             "width": 100.0,
-            "height": 75.0,
+            "height": 100.0,
             "type": "Boolean Box",
             "properties": {
               "topic": "/SmartDashboard/FrontRightCamera",
