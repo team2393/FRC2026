@@ -87,7 +87,7 @@ public class FuelHandler extends SubsystemBase
 
     public FuelHandler()
     {
-        nt_always_spin.setDefaultBoolean(false);
+        nt_always_spin.setDefaultBoolean(true);
 
         // Visualization
         Mechanism2d mech = new Mechanism2d(1.0, 1.0);
