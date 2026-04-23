@@ -209,7 +209,7 @@
             "x": 600.0,
             "y": 500.0,
             "width": 125.0,
-            "height": 75.0,
+            "height": 100.0,
             "type": "Text Display",
             "properties": {
               "topic": "/SmartDashboard/Hood",
@@ -278,7 +278,7 @@
             "x": 725.0,
             "y": 500.0,
             "width": 125.0,
-            "height": 75.0,
+            "height": 100.0,
             "type": "Text Display",
             "properties": {
               "topic": "/SmartDashboard/IntakeOpenAngle",
