@@ -368,7 +368,7 @@ public class AutoNoMouse
         }
 
         {   // Start with nose at red hub, drive back, shoot, then move to trench
-            SequentialCommandGroup auto = new SequenceWithStart("@red hub, shoot, trench", 13.03, 4.0, 180);
+            SequentialCommandGroup auto = new SequenceWithStart("@red hub, outpost, shoot, trench", 13.03, 4.0, 180);
             auto.addCommands(new VariableWaitCommand());
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
@@ -379,7 +379,7 @@ public class AutoNoMouse
             // Shoot
             auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
             // auto.addCommands(fuel_handler.keepShooting());
-            auto.addCommands(shootAndWiggle(fuel_handler));
+            auto.addCommands(shootAndWiggle(fuel_handler).withTimeout(5).asProxy());
             auto.addCommands(fuel_handler.store());
             // Move to trench
             Trajectory path = createTrajectory(true, 14.20, 4.00,  90,
@@ -391,7 +391,7 @@ public class AutoNoMouse
         }
 
         {   // Start with nose at blue hub, drive back, shoot, then move to trench
-            SequentialCommandGroup auto = new SequenceWithStart("@blue outpost,shoot,trench", 3.5, 4.0, 0);
+            SequentialCommandGroup auto = new SequenceWithStart("@blue hub outpost,shoot ,trench ", 3.5, 4.0, 0);
             auto.addCommands(new VariableWaitCommand());
             auto.addCommands(new SelectAbsoluteTrajectoryCommand(drivetrain));
 
@@ -402,7 +402,7 @@ public class AutoNoMouse
             // Shoot
             auto.addCommands(auto_aim.aimOnce().withTimeout(5).asProxy());
             // auto.addCommands(fuel_handler.keepShooting());
-            auto.addCommands(shootAndWiggle(fuel_handler));
+            auto.addCommands(shootAndWiggle(fuel_handler).withTimeout(5).asProxy());
             // Move to trench
             Trajectory path = createTrajectory(true,  2.25, 4.00,  90,
                                                                        2.85, 6.90,  45,
