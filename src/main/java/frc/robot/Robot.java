@@ -25,6 +25,8 @@ import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.tools.ApplyAdjustableSettingCommand;
 import frc.tools.ApplySettingsCommand;
 import frc.tools.AutoTools;
@@ -85,6 +87,22 @@ public class Robot extends CommandRobotBase
                          180.0,
                          -10.0)
                         );
+
+    /** Toggle pipeline 0/1 on each camera */
+    private final Command toggle_camera_pipeline =
+       new RunCommand(() ->
+       {
+           for (var camera : cameras)
+                camera.setPipelineIndex(0);
+       })
+       .andThen(new WaitCommand(0.5))
+       .andThen(new RunCommand(() ->
+       {
+           for (var camera : cameras)
+                camera.setPipelineIndex(1);
+       }))
+       .andThen(new WaitCommand(0.5))
+       .repeatedly();
 
     /** Auto-no-mouse options */
     private final SendableChooser<Command> autos = new SendableChooser<>();
@@ -232,6 +250,7 @@ public class Robot extends CommandRobotBase
         // Start tracking the hub state
         CommandScheduler.getInstance().schedule(hub_timer);
         CommandScheduler.getInstance().schedule(auto_retract_hood);
+        CommandScheduler.getInstance().schedule(toggle_camera_pipeline);
     }
 
     @Override
@@ -239,5 +258,6 @@ public class Robot extends CommandRobotBase
     {
         CommandScheduler.getInstance().schedule(auto_retract_hood);
         CommandScheduler.getInstance().schedule(autos.getSelected());
+        CommandScheduler.getInstance().schedule(toggle_camera_pipeline);
     }
 }

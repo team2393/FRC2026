@@ -138,6 +138,12 @@ public class CameraHelper
         System.out.println(format(moved));
     }
 
+    /** @param index Pipeline index 0, 1, .. to use */
+    public void setPipelineIndex(int index)
+    {
+        camera.setPipelineIndex(index);
+    }
+
     /** Call periodically to update drivetrain with camera info */
     public void updatePosition(SwerveDrivetrain drivetrain)
     {
