@@ -150,6 +150,7 @@ public class AutoNoMouse
             // Move to outpost
             Trajectory path = createTrajectory(true,  16.53-2.5, 8.056-4.00,  180-90,
                                                               16.53-0.81, 8.056-0.64,  0);
+                                                            // 15.96, 7.27, 0 new point?
             auto.addCommands(fuel_handler.openIntake()
                 .alongWith(drivetrain.followTrajectory(path, 0).asProxy()));
 
